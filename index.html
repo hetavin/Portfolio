@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hetavin Pokiya — 3D Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@200..800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+      overflow-x: hidden;
+      background: #000;
+      color: #fff;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      cursor: none;
+    }
+
+    * {
+      cursor: none;
+    }
+
+    #loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      transition: opacity 0.5s ease;
+      overflow: hidden;
+    }
+
+    #loader.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .loader-bg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    .loader-particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: #22C55E;
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: float 3s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+      }
+      50% {
+        opacity: 0.6;
+      }
+    }
+
+    .loader-circle {
+      position: absolute;
+      border: 1px solid rgba(34, 197, 94, 0.2);
+      border-radius: 50%;
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.3;
+      }
+      50% {
+        transform: scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    .progress-ring {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      z-index: 2;
+    }
+
+    .progress-ring svg {
+      transform: rotate(-90deg);
+    }
+
+    .progress-ring-circle {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.1);
+      stroke-width: 8;
+    }
+
+    .progress-ring-progress {
+      fill: none;
+      stroke: #22C55E;
+      stroke-width: 8;
+      stroke-linecap: round;
+      stroke-dasharray: 565.48;
+      stroke-dashoffset: 565.48;
+      transition: stroke-dashoffset 0.3s ease;
+      filter: drop-shadow(0 0 10px #22C55E);
+    }
+
+    .progress-percent {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 48px;
+      color: #22C55E;
+      letter-spacing: 0.05em;
+    }
+
+    #cursor {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: #22C55E;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+    }
+
+    #cursorCircle {
+      position: fixed;
+      width: 40px;
+      height: 40px;
+      border: 2px solid rgba(34, 197, 94, 0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+    }
+
+    #canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    .content {
+      position: relative;
+      z-index: 2;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 20px 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    .nav-links {
+      display: flex;
+    }
+
+    .logo {
+      font-size: clamp(20px, 4vw, 24px);
+      font-weight: bold;
+      color: #22C55E;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.1em;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 30px;
+      transition: color 0.3s;
+      font-size: clamp(12px, 2vw, 16px);
+    }
+
+    nav a:hover {
+      color: #22C55E;
+    }
+
+    .hire-btn {
+      padding: clamp(8px, 1.5vh, 10px) clamp(20px, 3vw, 25px);
+      background: #22C55E;
+      color: #000;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: transform 0.3s, background 0.3s;
+      font-size: clamp(12px, 2vw, 16px);
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.1em;
+      margin-left: 0;
+      display: none;
+    }
+
+    .hire-btn:hover {
+      transform: scale(1.05);
+      background: #1ea34b;
+      color: #000;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+      z-index: 101;
+    }
+
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background: #fff;
+      transition: all 0.3s;
+      border-radius: 2px;
+    }
+
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(8px, 8px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -7px);
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 70%;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: -5px 0 30px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      padding: 80px 30px 30px;
+      transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 100;
+    }
+
+    .mobile-menu.active {
+      right: 0;
+    }
+
+    .mobile-menu a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 24px;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+      opacity: 0;
+      transform: translateX(30px);
+    }
+
+    .mobile-menu.active a {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .mobile-menu.active a:nth-child(1) {
+      transition-delay: 0.1s;
+    }
+
+    .mobile-menu.active a:nth-child(2) {
+      transition-delay: 0.15s;
+    }
+
+    .mobile-menu.active a:nth-child(3) {
+      transition-delay: 0.2s;
+    }
+
+    .mobile-menu.active a:nth-child(4) {
+      transition-delay: 0.25s;
+    }
+
+    .mobile-menu.active a:nth-child(5) {
+      transition-delay: 0.3s;
+    }
+
+    .mobile-menu a:hover {
+      color: #22C55E;
+      padding-left: 10px;
+    }
+
+    .menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+      z-index: 99;
+    }
+
+    .menu-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    @media (min-width: 1025px) {
+      .nav-links {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .hire-btn {
+        display: inline-block;
+      }
+    }
+
+    section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(60px, 10vh, 100px) clamp(20px, 5vw, 50px);
+    }
+
+    .hero {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(40px, 10vw, 140px);
+      margin-bottom: 20px;
+      animation: fadeIn 1s;
+      font-family: 'Bebas Neue', sans-serif;
+      line-height: 0.88;
+      letter-spacing: 0.02em;
+    }
+
+    .mobile-break {
+      display: none;
+    }
+
+    .hero .highlight {
+      color: transparent;
+      -webkit-text-stroke: 2px #22C55E;
+    }
+
+    .contact-heading {
+      font-size: clamp(40px, 10vw, 140px);
+      margin-bottom: 20px;
+      animation: fadeIn 1s;
+      font-family: 'Bebas Neue', sans-serif;
+      line-height: 0.88;
+      letter-spacing: 0.02em;
+    }
+
+    .contact-heading .highlight {
+      color: transparent;
+      -webkit-text-stroke: 2px #22C55E;
+    }
+
+    .hero p {
+      font-size: clamp(16px, 2.5vw, 20px);
+      max-width: 600px;
+      margin: 20px auto;
+      opacity: 0.8;
+      font-family: 'Manrope', sans-serif;
+      line-height: 1.6;
+    }
+
+    .cta {
+      display: inline-block;
+      margin-top: 30px;
+      padding: clamp(12px, 2vh, 15px) clamp(30px, 5vw, 40px);
+      background: #22C55E;
+      color: #000;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: transform 0.3s;
+      font-size: clamp(14px, 2vw, 16px);
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.1em;
+      font-size: clamp(16px, 2.5vw, 20px);
+    }
+
+    .cta i {
+      color: #22C55E;
+      margin-right: 8px;
+    }
+
+    .cta.email-btn i {
+      color: #000;
+    }
+
+    .cta:hover {
+      transform: scale(1.05);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(20px, 3vw, 30px);
+      max-width: 1200px;
+      width: 100%;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      padding: clamp(20px, 4vw, 30px);
+      border-radius: 10px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      border-color: #22C55E;
+    }
+
+    .card h3 {
+      color: #22C55E;
+      margin-bottom: 15px;
+      font-size: clamp(20px, 3vw, 24px);
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.05em;
+    }
+
+    .card p {
+      opacity: 0.8;
+      line-height: 1.6;
+      font-size: clamp(14px, 2vw, 16px);
+    }
+
+    .project {
+      background: rgba(255, 255, 255, 0.05);
+      padding: clamp(25px, 5vw, 40px);
+      border-radius: 10px;
+      margin-bottom: clamp(20px, 3vw, 30px);
+      border-left: 4px solid #22C55E;
+    }
+
+    .project h3 {
+      font-size: clamp(22px, 4vw, 28px);
+      margin-bottom: 10px;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.05em;
+    }
+
+    .project p {
+      font-size: clamp(14px, 2vw, 16px);
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+
+    .project .tags {
+      display: flex;
+      gap: clamp(8px, 1.5vw, 10px);
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      background: rgba(34, 197, 94, 0.2);
+      padding: clamp(4px, 1vw, 5px) clamp(12px, 2vw, 15px);
+      border-radius: 20px;
+      font-size: clamp(10px, 1.5vw, 12px);
+      border: 1px solid #22C55E;
+    }
+
+    h2 {
+      font-size: clamp(35px, 6vw, 50px) !important;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.05em;
+    }
+
+    .section-header {
+      margin-bottom: clamp(40px, 5vw, 60px);
+    }
+
+    .s-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: clamp(10px, 1.2vw, 12px);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #22C55E;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .s-eyebrow::before {
+      content: '';
+      width: 28px;
+      height: 1px;
+      background: #22C55E;
+    }
+
+    .s-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 7vw, 6rem);
+      letter-spacing: 0.03em;
+      line-height: 0.95;
+      color: #fff;
+    }
+
+    .s-title em {
+      font-style: normal;
+      color: #22C55E;
+    }
+
+    .education-container {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(20px, 3vw, 30px);
+    }
+
+    .education-card {
+      background: rgba(255, 255, 255, 0.05);
+      padding: clamp(25px, 4vw, 35px);
+      border-radius: 10px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-left: 4px solid #22C55E;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .education-card:hover {
+      transform: translateY(-5px);
+      border-color: #22C55E;
+    }
+
+    .education-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: clamp(10px, 2vw, 15px);
+      margin-bottom: clamp(12px, 2vw, 15px);
+    }
+
+    .education-title {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .education-title h3 {
+      font-size: clamp(18px, 3vw, 22px);
+      color: #22C55E;
+      margin-bottom: clamp(6px, 1vw, 8px);
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.05em;
+    }
+
+    .education-institution {
+      font-size: clamp(14px, 2vw, 16px);
+      opacity: 0.9;
+      margin-bottom: 5px;
+      line-height: 1.5;
+    }
+
+    .education-board {
+      font-size: clamp(13px, 1.8vw, 15px);
+      opacity: 0.7;
+      line-height: 1.4;
+    }
+
+    .education-date {
+      text-align: right;
+      min-width: 150px;
+    }
+
+    .education-year {
+      font-size: clamp(13px, 1.8vw, 15px);
+      color: #22C55E;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .education-status {
+      font-size: clamp(12px, 1.6vw, 14px);
+      opacity: 0.8;
+      margin-top: 5px;
+    }
+
+    .education-description {
+      margin-top: clamp(12px, 2vw, 15px);
+      font-size: clamp(13px, 1.8vw, 15px);
+      line-height: 1.7;
+      opacity: 0.85;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      nav {
+        justify-content: space-between;
+      }
+
+      .nav-links {
+        position: static;
+        transform: none;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        padding: 15px 20px;
+      }
+
+      nav a {
+        margin-left: 15px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        line-height: 1.1;
+        font-size: clamp(60px, 15vw, 140px);
+      }
+
+      .contact-heading {
+        line-height: 1.1;
+        font-size: clamp(60px, 15vw, 140px);
+      }
+
+      .mobile-break {
+        display: block;
+      }
+
+      .project {
+        padding: 20px;
+      }
+
+      .card {
+        padding: 25px;
+      }
+
+      .card h3 {
+        font-size: 22px;
+        margin-bottom: 12px;
+      }
+
+      .card p {
+        font-size: 15px;
+        line-height: 1.7;
+      }
+
+      .education-header {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .education-date {
+        text-align: left;
+      }
+
+      .education-title {
+        min-width: 100%;
+      }
+
+      section {
+        padding: clamp(50px, 8vh, 80px) clamp(25px, 4vw, 40px);
+      }
+    }
+
+    @media (max-width: 480px) {
+      nav a {
+        margin-left: 10px;
+        font-size: 12px;
+      }
+
+      .hero {
+        padding: 20px;
+      }
+
+      .hero h1 {
+        line-height: 1.1;
+        font-size: clamp(70px, 18vw, 140px);
+      }
+
+      .contact-heading {
+        line-height: 1.1;
+        font-size: clamp(70px, 18vw, 140px);
+      }
+
+      .mobile-break {
+        display: block;
+      }
+
+      .cta {
+        width: 100%;
+        max-width: 100%;
+        text-align: center;
+        padding: 15px 30px;
+        font-size: 16px;
+        margin-top: 0;
+      }
+
+      #contact > div > div {
+        flex-direction: column;
+        gap: 15px !important;
+        width: 100%;
+        padding: 0 20px;
+        margin-top: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="loader">
+    <div class="loader-bg" id="loaderBg"></div>
+    <div class="progress-ring">
+      <svg width="200" height="200">
+        <circle class="progress-ring-circle" cx="100" cy="100" r="90"></circle>
+        <circle class="progress-ring-progress" id="progressRing" cx="100" cy="100" r="90"></circle>
+      </svg>
+      <div class="progress-percent" id="progressPercent">0%</div>
+    </div>
+  </div>
+
+  <div id="cursor"></div>
+  <div id="cursorCircle"></div>
+  <canvas id="canvas"></canvas>
+
+  <nav>
+    <a href="#hero" class="logo">HP</a>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#education">Education</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <a href="#contact" class="hire-btn">Hire Me</a>
+  </nav>
+
+  <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about" onclick="toggleMenu()">About</a>
+    <a href="#education" onclick="toggleMenu()">Education</a>
+    <a href="#skills" onclick="toggleMenu()">Skills</a>
+    <a href="#projects" onclick="toggleMenu()">Projects</a>
+    <a href="#contact" onclick="toggleMenu()">Contact</a>
+  </div>
+
+  <div class="content">
+    <section class="hero" id="hero">
+      <h1>HETAVIN <br class="mobile-break"><span class="highlight">POKIYA</span></h1>
+      <p>Computer Engineering student building real-time computer vision systems & full-stack web applications that
+        solve real problems.</p>
+      <a href="#contact" class="cta">Let's Connect</a>
+    </section>
+
+    <section id="about">
+      <div style="max-width: 1200px;">
+        <div class="section-header">
+          <div class="s-eyebrow">Who I Am</div>
+          <h2 class="s-title">Who am <em>I?</em></h2>
+        </div>
+        <div class="grid">
+          <div class="card">
+            <h3>🎓 Education</h3>
+            <p>B.E. Computer Engineering (6th Sem)<br>LFRP – ITR, Gandhinagar<br>Kadi Sarva Vishwavidhyalaya</p>
+            <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px);">Currently maintaining strong academic performance while
+              actively working on real-world projects. Focused on bridging theoretical knowledge with practical
+              implementation.</p>
+          </div>
+          <div class="card">
+            <h3>💡 Passion</h3>
+            <p>Deeply passionate about software development and machine learning, especially computer vision and AI
+              applications.</p>
+            <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px);">I believe technology should solve real problems. Every project
+              I build has a clear purpose — from automating attendance to streamlining gym operations.</p>
+          </div>
+          <div class="card">
+            <h3>🎯 Goal</h3>
+            <p>Actively seeking internship opportunities to bridge academic knowledge with industry experience.</p>
+            <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px);">Looking to contribute to innovative teams where I can learn
+              from experienced professionals while bringing fresh perspectives and strong work ethic.</p>
+          </div>
+          <div class="card">
+            <h3>⚡ Strengths</h3>
+            <p>Quick learner who rapidly adapts to new technologies and frameworks with minimal guidance.</p>
+            <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px);">Strong problem-solving skills, excellent team collaboration,
+              and consistent dedication to delivering quality results on every project.</p>
+          </div>
+          <div class="card">
+            <h3>🌟 Values</h3>
+            <p>Committed to writing clean, maintainable code and following best practices in software development.</p>
+            <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px);">Believe in continuous learning, open communication, and
+              building solutions that make a meaningful impact.</p>
+          </div>
+          <div class="card">
+            <h3>🚀 Vision</h3>
+            <p>Aspiring to become a skilled ML engineer specializing in computer vision and AI-driven solutions.</p>
+            <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px);">Excited about the future of AI and its potential to transform
+              industries. Eager to be part of that transformation.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="education">
+      <div style="max-width: 1200px; width: 100%;">
+        <div class="section-header">
+          <div class="s-eyebrow">Academic Background</div>
+          <h2 class="s-title">My <em>Journey</em></h2>
+        </div>
+        <div class="education-container">
+          <div class="education-card">
+            <div class="education-header">
+              <div class="education-title">
+                <h3>Bachelor of Engineering - Computer Engineering</h3>
+                <p class="education-institution">LFRP – ITR, Gandhinagar</p>
+                <p class="education-board">Kadi Sarva Vishwavidhyalaya (KSV)</p>
+              </div>
+              <div class="education-date">
+                <p class="education-year">2023 - Present</p>
+                <p class="education-status">Currently in 6th Semester</p>
+              </div>
+            </div>
+            <p class="education-description">
+              Pursuing comprehensive education in computer science fundamentals, software engineering, data structures, algorithms, and modern development practices. Actively engaged in hands-on projects combining theoretical knowledge with practical implementation.
+            </p>
+          </div>
+
+          <div class="education-card">
+            <div class="education-header">
+              <div class="education-title">
+                <h3>Higher Secondary Certificate (HSC) - Science</h3>
+                <p class="education-institution">Alpha Vidhya Sankul, Junagadh</p>
+                <p class="education-board">Gujarat Secondary and Higher Secondary Education Board (GSEB)</p>
+              </div>
+              <div class="education-date">
+                <p class="education-year">Completed 2023</p>
+                <p class="education-status">12th Grade</p>
+              </div>
+            </div>
+            <p class="education-description">
+              Completed higher secondary education with focus on Science stream, building strong foundation in Mathematics, Physics, and Chemistry. Developed analytical thinking and problem-solving skills that laid the groundwork for engineering studies.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div style="max-width: 1200px; width: 100%;">
+        <div class="section-header">
+          <div class="s-eyebrow">Technical Stack</div>
+          <h2 class="s-title">Tools I <em>Wield</em></h2>
+        </div>
+        <div class="grid">
+          <div class="card">
+            <h3>Languages</h3>
+            <p>Python, JavaScript, C</p>
+            <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px);">Proficient in Python for backend development and ML
+              applications. Experienced with JavaScript for interactive web interfaces and C for foundational
+              programming concepts.</p>
+          </div>
+          <div class="card">
+            <h3>Web Development</h3>
+            <p>HTML5, CSS3, Bootstrap, Flask</p>
+            <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px);">Building responsive, modern web applications with clean UI/UX.
+              Experienced in creating full-stack solutions from frontend to backend.</p>
+          </div>
+          <div class="card">
+            <h3>Computer Vision</h3>
+            <p>OpenCV, Face Recognition</p>
+            <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px);">Hands-on experience with real-time video processing, facial
+              recognition systems, and image manipulation techniques for practical applications.</p>
+          </div>
+          <div class="card">
+            <h3>Data & ML</h3>
+            <p>NumPy, Pandas</p>
+            <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px);">Data manipulation, analysis, and preprocessing for machine
+              learning workflows. Comfortable working with large datasets and statistical operations.</p>
+          </div>
+          <div class="card">
+            <h3>Database</h3>
+            <p>MySQL</p>
+            <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px);">Designing and managing relational databases, writing optimized
+              queries, and implementing secure data storage solutions for web applications.</p>
+          </div>
+          <div class="card">
+            <h3>Tools & Version Control</h3>
+            <p>Git, GitHub, VS Code</p>
+            <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px);">Version control best practices, collaborative development
+              workflows, and efficient code editing with modern IDE features and extensions.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div style="max-width: 1200px; width: 100%;">
+        <div class="section-header">
+          <div class="s-eyebrow">Selected Projects</div>
+          <h2 class="s-title">Things I've <em>Built</em></h2>
+        </div>
+
+        <div class="project">
+          <h3>EduSync</h3>
+          <p>Real-time face recognition system using Python & OpenCV with live webcam feed. Flask web interface for
+            student registration, facial data management, and admin control — backed by MySQL for profiles, encodings &
+            session logs.</p>
+          <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px); opacity: 0.9;"><strong>Key Features:</strong> Automated
+            attendance tracking, real-time facial detection and recognition, secure admin dashboard, student profile
+            management, attendance history and analytics, and MySQL database integration for reliable data storage.</p>
+          <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px); opacity: 0.9;"><strong>Impact:</strong> Eliminates manual
+            attendance processes, reduces time spent on roll calls, and provides accurate attendance records with
+            timestamp verification.</p>
+          <div class="tags">
+            <span class="tag">Python</span>
+            <span class="tag">OpenCV</span>
+            <span class="tag">Flask</span>
+            <span class="tag">MySQL</span>
+            <span class="tag">Face Recognition</span>
+            <span class="tag">Real-time Processing</span>
+          </div>
+        </div>
+
+        <div class="project">
+          <h3>Iron Hub</h3>
+          <p>Full-stack gym management web application handling member registration, subscription plans & payment
+            tracking. Bootstrap admin dashboard for managing members, assigning trainers & monitoring daily check-ins.
+          </p>
+          <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px); opacity: 0.9;"><strong>Key Features:</strong> Member registration
+            and profile management, flexible subscription plans, payment tracking and history, trainer assignment
+            system, daily check-in monitoring, and responsive Bootstrap UI for seamless user experience.</p>
+          <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px); opacity: 0.9;"><strong>Planned Enhancements:</strong> Automated
+            renewal reminders via email/SMS, detailed payment history reports, workout plan management, and member
+            progress tracking dashboard.</p>
+          <div class="tags">
+            <span class="tag">Python</span>
+            <span class="tag">Flask</span>
+            <span class="tag">MySQL</span>
+            <span class="tag">Bootstrap</span>
+            <span class="tag">Admin Dashboard</span>
+            <span class="tag">Payment System</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div style="text-align: center;">
+        <h1 class="contact-heading">LET'S <span class="highlight">CONNECT</span></h1>
+        <p style="font-size: clamp(15px, 2.2vw, 18px); margin-bottom: 20px; opacity: 0.8;">Actively looking for internship opportunities in
+          software development or ML engineering.</p>
+        <p
+          style="font-size: clamp(13px, 2vw, 16px); margin-bottom: 40px; opacity: 0.7; max-width: 600px; margin-left: auto; margin-right: auto;">
+          I'm eager to contribute to innovative projects, learn from experienced professionals, and grow as a developer.
+          Whether you have an opportunity or just want to discuss technology, feel free to reach out!</p>
+        <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+          <a href="mailto:hetavinpokiya4672@gmail.com" class="cta email-btn"><i class="fas fa-envelope"></i>Email Me</a>
+          <a href="tel:+919773293841" class="cta"
+            style="background: transparent; border: 2px solid #22C55E; color: #22C55E;"><i class="fas fa-phone"></i>Call Me</a>
+          <a href="https://linkedin.com/in/hetavin-pokiya-66352b2b4" target="_blank" class="cta"
+            style="background: transparent; border: 2px solid #22C55E; color: #22C55E;"><i class="fab fa-linkedin"></i>LinkedIn</a>
+        </div>
+        <p style="font-size: clamp(11px, 1.8vw, 14px); margin-top: 40px; opacity: 0.6;">📍 Based in Ahmedabad, Gujarat | Open to remote and
+          on-site opportunities</p>
+      </div>
+    </section>
+  </div>
+
+  <audio id="bgMusic" loop>
+    <source src="Fireflies.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="clickSound" preload="auto">
+    <source src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3" type="audio/mpeg">
+  </audio>
+  <button id="musicToggle" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; background: #22C55E; border: none; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; color: white; font-size: 20px; box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4); transition: all 0.3s;">
+    <i class="fas fa-play"></i>
+  </button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    // Loader background animation
+    const loaderBg = document.getElementById('loaderBg');
+    
+    // Create floating particles
+    for (let i = 0; i < 30; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'loader-particle';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.top = Math.random() * 100 + '%';
+      particle.style.animationDelay = Math.random() * 3 + 's';
+      particle.style.animationDuration = (Math.random() * 2 + 2) + 's';
+      loaderBg.appendChild(particle);
+    }
+    
+    // Create pulsing circles
+    for (let i = 0; i < 1; i++) {
+      const circle = document.createElement('div');
+      circle.className = 'loader-circle';
+      const size = 300 + (i * 100);
+      circle.style.width = size + 'px';
+      circle.style.height = size + 'px';
+      circle.style.left = '50%';
+      circle.style.top = '50%';
+      circle.style.transform = 'translate(-50%, -50%)';
+      circle.style.animationDelay = (i * 0.5) + 's';
+      loaderBg.appendChild(circle);
+    }
+
+    // Loading screen
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('loader');
+      const progressRing = document.getElementById('progressRing');
+      const progressPercent = document.getElementById('progressPercent');
+      const circumference = 2 * Math.PI * 90;
+      let progress = 0;
+
+      const interval = setInterval(() => {
+        progress += Math.random() * 15;
+        if (progress > 100) progress = 100;
+        
+        const offset = circumference - (progress / 100) * circumference;
+        progressRing.style.strokeDashoffset = offset;
+        progressPercent.textContent = Math.floor(progress) + '%';
+        
+        if (progress >= 100) {
+          clearInterval(interval);
+          setTimeout(() => {
+            loader.classList.add('fade-out');
+            setTimeout(() => {
+              loader.style.display = 'none';
+            }, 500);
+          }, 300);
+        }
+      }, 100);
+    });
+
+
+    // Three.js 3D Background
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas'), alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.position.z = 5;
+
+    // Create particles
+    const geometry = new THREE.BufferGeometry();
+    const vertices = [];
+    for (let i = 0; i < 5000; i++) {
+      vertices.push(
+        Math.random() * 2000 - 1000,
+        Math.random() * 2000 - 1000,
+        Math.random() * 2000 - 1000
+      );
+    }
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+    const material = new THREE.PointsMaterial({ color: 0x22C55E, size: 2 });
+    const particles = new THREE.Points(geometry, material);
+    scene.add(particles);
+
+    // Create floating geometric shapes
+    const shapes = [];
+
+    // Add cubes
+    for (let i = 0; i < 3; i++) {
+      const cubeGeometry = new THREE.BoxGeometry(2, 2, 2);
+      const cubeMaterial = new THREE.MeshBasicMaterial({
+        color: 0x22C55E,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.3
+      });
+      const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+      cube.position.set(
+        Math.random() * 20 - 10,
+        Math.random() * 20 - 10,
+        Math.random() * 20 - 10
+      );
+      shapes.push(cube);
+      scene.add(cube);
+    }
+
+    // Add octahedrons
+    for (let i = 0; i < 3; i++) {
+      const octaGeometry = new THREE.OctahedronGeometry(1.5);
+      const octaMaterial = new THREE.MeshBasicMaterial({
+        color: 0x22C55E,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.4
+      });
+      const octa = new THREE.Mesh(octaGeometry, octaMaterial);
+      octa.position.set(
+        Math.random() * 20 - 10,
+        Math.random() * 20 - 10,
+        Math.random() * 20 - 10
+      );
+      shapes.push(octa);
+      scene.add(octa);
+    }
+
+    // Add tetrahedrons
+    for (let i = 0; i < 2; i++) {
+      const tetraGeometry = new THREE.TetrahedronGeometry(1.2);
+      const tetraMaterial = new THREE.MeshBasicMaterial({
+        color: 0x22C55E,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.35
+      });
+      const tetra = new THREE.Mesh(tetraGeometry, tetraMaterial);
+      tetra.position.set(
+        Math.random() * 20 - 10,
+        Math.random() * 20 - 10,
+        Math.random() * 20 - 10
+      );
+      shapes.push(tetra);
+      scene.add(tetra);
+    }
+
+    // Mouse movement
+    let mouseX = 0, mouseY = 0;
+    document.addEventListener('mousemove', (e) => {
+      mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+      mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+    });
+
+    // Animation
+    function animate() {
+      requestAnimationFrame(animate);
+      particles.rotation.x += 0.0005;
+      particles.rotation.y += 0.0005;
+
+      // Animate each shape with different speeds and directions
+      shapes.forEach((shape, index) => {
+        shape.rotation.x += 0.005 + (index * 0.002);
+        shape.rotation.y += 0.003 + (index * 0.001);
+        shape.rotation.z += 0.004 + (index * 0.0015);
+
+        // Float up and down
+        shape.position.y += Math.sin(Date.now() * 0.001 + index) * 0.01;
+      });
+
+      camera.position.x += (mouseX * 2 - camera.position.x) * 0.05;
+      camera.position.y += (mouseY * 2 - camera.position.y) * 0.05;
+      camera.lookAt(scene.position);
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // Resize handler
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // Smooth scroll with easing - works on all devices
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+          // Check if device supports smooth scrolling
+          const supportsNativeSmoothScroll = 'scrollBehavior' in document.documentElement.style;
+          
+          if (supportsNativeSmoothScroll && !(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent))) {
+            // Use custom smooth scroll for desktop
+            const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+            const startPosition = window.pageYOffset;
+            const distance = targetPosition - startPosition;
+            const duration = 1200;
+            let start = null;
+
+            function easeInOutCubic(t) {
+              return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+            }
+
+            function animation(currentTime) {
+              if (start === null) start = currentTime;
+              const timeElapsed = currentTime - start;
+              const progress = Math.min(timeElapsed / duration, 1);
+              const ease = easeInOutCubic(progress);
+              
+              window.scrollTo(0, startPosition + distance * ease);
+              
+              if (timeElapsed < duration) {
+                requestAnimationFrame(animation);
+              }
+            }
+
+            requestAnimationFrame(animation);
+          } else {
+            // Use native smooth scroll for mobile devices
+            targetElement.scrollIntoView({ 
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        }
+      });
+    });
+
+    // Prevent scroll issues on mobile
+    let isScrolling = false;
+    window.addEventListener('scroll', () => {
+      window.clearTimeout(isScrolling);
+      isScrolling = setTimeout(() => {
+        isScrolling = false;
+      }, 66);
+    }, { passive: true });
+
+    // Mobile menu toggle
+    function toggleMenu() {
+      const hamburger = document.querySelector('.hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const menuOverlay = document.getElementById('menuOverlay');
+      hamburger.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+      menuOverlay.classList.toggle('active');
+    }
+
+    // Background music
+    const bgMusic = document.getElementById('bgMusic');
+    const musicToggle = document.getElementById('musicToggle');
+    const clickSound = document.getElementById('clickSound');
+    bgMusic.volume = 0.3;
+
+    function playClick() {
+      clickSound.currentTime = 0;
+      clickSound.play();
+    }
+
+    musicToggle.addEventListener('click', () => {
+      playClick();
+      if (bgMusic.paused) {
+        bgMusic.play();
+        musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
+      } else {
+        bgMusic.pause();
+        musicToggle.innerHTML = '<i class="fas fa-play"></i>';
+      }
+    });
+
+    document.querySelectorAll('nav a, .cta, .hamburger').forEach(el => {
+      el.addEventListener('click', playClick);
+    });
+
+    // Custom cursor
+    const cursor = document.getElementById('cursor');
+    const cursorCircle = document.getElementById('cursorCircle');
+    let cursorX = 0, cursorY = 0;
+    let circleX = 0, circleY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      cursorX = e.clientX;
+      cursorY = e.clientY;
+    });
+
+    function animateCursor() {
+      const dx = cursorX - circleX;
+      const dy = cursorY - circleY;
+      circleX += dx * 0.15;
+      circleY += dy * 0.15;
+
+      cursor.style.left = cursorX + 'px';
+      cursor.style.top = cursorY + 'px';
+      cursorCircle.style.left = circleX + 'px';
+      cursorCircle.style.top = circleY + 'px';
+
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+  </script>
+</body>
+
+</html>
