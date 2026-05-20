@@ -1,5 +1,5 @@
 <html lang="en">
-  <!DOCTYPE html>
+<!DOCTYPE html>
 
 <head>
   <meta charset="UTF-8">
@@ -24,26 +24,26 @@
     :root {
       --bg: #000;
       --text: #fff;
-      --text-muted: rgba(255,255,255,0.8);
-      --text-dim: rgba(255,255,255,0.45);
-      --card-bg: rgba(255,255,255,0.05);
-      --card-border: rgba(255,255,255,0.1);
-      --nav-bg: rgba(0,0,0,0.3);
-      --mobile-menu-bg: rgba(0,0,0,0.7);
-      --overlay-bg: rgba(0,0,0,0.5);
+      --text-muted: rgba(255, 255, 255, 0.8);
+      --text-dim: rgba(255, 255, 255, 0.45);
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --nav-bg: rgba(0, 0, 0, 0.3);
+      --mobile-menu-bg: rgba(0, 0, 0, 0.7);
+      --overlay-bg: rgba(0, 0, 0, 0.5);
       --loader-bg: #000;
     }
 
     body.light {
       --bg: #f0f4f8;
       --text: #0f172a;
-      --text-muted: rgba(15,23,42,0.8);
-      --text-dim: rgba(15,23,42,0.55);
-      --card-bg: rgba(255,255,255,0.7);
-      --card-border: rgba(15,23,42,0.12);
-      --nav-bg: rgba(240,244,248,0.7);
-      --mobile-menu-bg: rgba(240,244,248,0.95);
-      --overlay-bg: rgba(15,23,42,0.3);
+      --text-muted: rgba(15, 23, 42, 0.8);
+      --text-dim: rgba(15, 23, 42, 0.55);
+      --card-bg: rgba(255, 255, 255, 0.7);
+      --card-border: rgba(15, 23, 42, 0.12);
+      --nav-bg: rgba(240, 244, 248, 0.7);
+      --mobile-menu-bg: rgba(240, 244, 248, 0.95);
+      --overlay-bg: rgba(15, 23, 42, 0.3);
       --loader-bg: #f0f4f8;
     }
 
@@ -103,10 +103,13 @@
     }
 
     @keyframes float {
-      0%, 100% {
+
+      0%,
+      100% {
         transform: translateY(0) translateX(0);
         opacity: 0;
       }
+
       50% {
         opacity: 0.6;
       }
@@ -120,10 +123,13 @@
     }
 
     @keyframes pulse {
-      0%, 100% {
+
+      0%,
+      100% {
         transform: scale(1);
         opacity: 0.3;
       }
+
       50% {
         transform: scale(1.5);
         opacity: 0;
@@ -152,18 +158,32 @@
     .loader-tagline {
       font-family: 'Manrope', sans-serif;
       font-size: clamp(9px, 1.8vw, 15px);
-      color: rgba(255,255,255,0.45);
+      color: rgba(255, 255, 255, 0.45);
       letter-spacing: 0.18em;
       text-transform: uppercase;
       margin-bottom: clamp(16px, 4vh, 36px);
       white-space: nowrap;
     }
 
-    body.light .loader-tagline { color: rgba(15,23,42,0.5); }
-    body.light .loader-bar-wrap { background: rgba(15,23,42,0.12); }
-    body.light .loader-percent  { color: rgba(15,23,42,0.45); }
-    body.light .loader-particle { background: #16a34a; }
-    body.light .loader-circle   { border-color: rgba(22,163,74,0.25); }
+    body.light .loader-tagline {
+      color: rgba(15, 23, 42, 0.5);
+    }
+
+    body.light .loader-bar-wrap {
+      background: rgba(15, 23, 42, 0.12);
+    }
+
+    body.light .loader-percent {
+      color: rgba(15, 23, 42, 0.45);
+    }
+
+    body.light .loader-particle {
+      background: #16a34a;
+    }
+
+    body.light .loader-circle {
+      border-color: rgba(22, 163, 74, 0.25);
+    }
 
     .loader-bottom {
       position: absolute;
@@ -179,7 +199,7 @@
     .loader-bar-wrap {
       width: 100%;
       height: 3px;
-      background: rgba(255,255,255,0.1);
+      background: rgba(255, 255, 255, 0.1);
       border-radius: 4px;
       overflow: hidden;
       margin-bottom: 10px;
@@ -197,7 +217,7 @@
     .loader-percent {
       font-family: 'Bebas Neue', sans-serif;
       font-size: clamp(13px, 2vw, 16px);
-      color: rgba(255,255,255,0.4);
+      color: rgba(255, 255, 255, 0.4);
       letter-spacing: 0.18em;
     }
 
@@ -235,9 +255,13 @@
       z-index: 2;
       opacity: 0;
       transform: translateY(28px);
-      transition: opacity 1s cubic-bezier(0.4,0,0.2,1), transform 1s cubic-bezier(0.4,0,0.2,1);
+      transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 1s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .content.revealed { opacity: 1; transform: translateY(0); }
+
+    .content.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
     nav {
       position: fixed;
@@ -252,9 +276,13 @@
       backdrop-filter: blur(10px);
       opacity: 0;
       transform: translateY(-18px);
-      transition: opacity 0.8s cubic-bezier(0.4,0,0.2,1) 0.2s, transform 0.8s cubic-bezier(0.4,0,0.2,1) 0.2s;
+      transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
     }
-    nav.revealed { opacity: 1; transform: translateY(0); }
+
+    nav.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
     .nav-links {
       display: flex;
@@ -741,12 +769,13 @@
       cursor: pointer;
       color: #22C55E;
       font-size: 18px;
-      box-shadow: 0 0 12px rgba(34,197,94,0.25);
+      box-shadow: 0 0 12px rgba(34, 197, 94, 0.25);
       transition: all 0.3s;
       display: flex;
       align-items: center;
       justify-content: center;
     }
+
     #musicToggle {
       position: fixed;
       bottom: 20px;
@@ -760,17 +789,30 @@
       cursor: pointer;
       color: #000;
       font-size: 20px;
-      box-shadow: 0 4px 15px rgba(34,197,94,0.4);
+      box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
       transition: all 0.3s;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    #musicToggle:hover { transform: scale(1.1); background: #1ea34b; }
 
-    body.light #canvas { opacity: 0.45; filter: hue-rotate(100deg) saturate(0.6) brightness(0.5); }
-    body.light .hero .highlight { -webkit-text-stroke-color: #16a34a; }
-    body.light .contact-heading .highlight { -webkit-text-stroke-color: #16a34a; }
+    #musicToggle:hover {
+      transform: scale(1.1);
+      background: #1ea34b;
+    }
+
+    body.light #canvas {
+      opacity: 0.45;
+      filter: hue-rotate(100deg) saturate(0.6) brightness(0.5);
+    }
+
+    body.light .hero .highlight {
+      -webkit-text-stroke-color: #16a34a;
+    }
+
+    body.light .contact-heading .highlight {
+      -webkit-text-stroke-color: #16a34a;
+    }
 
     @keyframes fadeIn {
       from {
@@ -903,7 +945,7 @@
         margin-top: 0;
       }
 
-      #contact > div > div {
+      #contact>div>div {
         flex-direction: column;
         gap: 15px !important;
         width: 100%;
@@ -941,6 +983,7 @@
       <a href="#education">Education</a>
       <a href="#skills">Skills</a>
       <a href="#projects">Projects</a>
+      <a href="#cv">CV</a>
       <a href="#contact">Contact</a>
     </div>
     <div class="hamburger" onclick="toggleMenu()">
@@ -957,6 +1000,7 @@
     <a href="#education" onclick="toggleMenu()">Education</a>
     <a href="#skills" onclick="toggleMenu()">Skills</a>
     <a href="#projects" onclick="toggleMenu()">Projects</a>
+    <a href="#cv" onclick="toggleMenu()">CV</a>
     <a href="#contact" onclick="toggleMenu()">Contact</a>
   </div>
 
@@ -978,7 +1022,8 @@
           <div class="card">
             <h3>🎓 Education</h3>
             <p>B.E. Computer Engineering (6th Sem)<br>LFRP – ITR, Gandhinagar<br>Kadi Sarva Vishwavidhyalaya</p>
-            <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px);">Currently maintaining strong academic performance while
+            <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px);">Currently maintaining strong academic
+              performance while
               actively working on real-world projects. Focused on bridging theoretical knowledge with practical
               implementation.</p>
           </div>
@@ -986,31 +1031,36 @@
             <h3>💡 Passion</h3>
             <p>Deeply passionate about software development and machine learning, especially computer vision and AI
               applications.</p>
-            <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px);">I believe technology should solve real problems. Every project
+            <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px);">I believe technology should solve real
+              problems. Every project
               I build has a clear purpose — from automating attendance to streamlining gym operations.</p>
           </div>
           <div class="card">
             <h3>🎯 Goal</h3>
             <p>Actively seeking internship opportunities to bridge academic knowledge with industry experience.</p>
-            <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px);">Looking to contribute to innovative teams where I can learn
+            <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px);">Looking to contribute to innovative teams
+              where I can learn
               from experienced professionals while bringing fresh perspectives and strong work ethic.</p>
           </div>
           <div class="card">
             <h3>⚡ Strengths</h3>
             <p>Quick learner who rapidly adapts to new technologies and frameworks with minimal guidance.</p>
-            <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px);">Strong problem-solving skills, excellent team collaboration,
+            <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px);">Strong problem-solving skills, excellent
+              team collaboration,
               and consistent dedication to delivering quality results on every project.</p>
           </div>
           <div class="card">
             <h3>🌟 Values</h3>
             <p>Committed to writing clean, maintainable code and following best practices in software development.</p>
-            <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px);">Believe in continuous learning, open communication, and
+            <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px);">Believe in continuous learning, open
+              communication, and
               building solutions that make a meaningful impact.</p>
           </div>
           <div class="card">
             <h3>🚀 Vision</h3>
             <p>Aspiring to become a skilled ML engineer specializing in computer vision and AI-driven solutions.</p>
-            <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px);">Excited about the future of AI and its potential to transform
+            <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px);">Excited about the future of AI and its
+              potential to transform
               industries. Eager to be part of that transformation.</p>
           </div>
         </div>
@@ -1037,7 +1087,9 @@
               </div>
             </div>
             <p class="education-description">
-              Pursuing comprehensive education in computer science fundamentals, software engineering, data structures, algorithms, and modern development practices. Actively engaged in hands-on projects combining theoretical knowledge with practical implementation.
+              Pursuing comprehensive education in computer science fundamentals, software engineering, data structures,
+              algorithms, and modern development practices. Actively engaged in hands-on projects combining theoretical
+              knowledge with practical implementation.
             </p>
           </div>
 
@@ -1046,7 +1098,7 @@
               <div class="education-title">
                 <h3>Higher Secondary Certificate (HSC) - Science</h3>
                 <p class="education-institution">Alpha Vidhya Sankul, Junagadh</p>
-                <p class="education-board">Gujarat Secondary and Higher Secondary Education Board (GSEB)</p>
+                <p class="education-board">Gujarat Secondary and Higher Secondary Education Board (GHSEB)</p>
               </div>
               <div class="education-date">
                 <p class="education-year">Completed 2023</p>
@@ -1054,7 +1106,9 @@
               </div>
             </div>
             <p class="education-description">
-              Completed higher secondary education with focus on Science stream, building strong foundation in Mathematics, Physics, and Chemistry. Developed analytical thinking and problem-solving skills that laid the groundwork for engineering studies.
+              Completed higher secondary education with focus on Science stream, building strong foundation in
+              Mathematics, Physics, and Chemistry. Developed analytical thinking and problem-solving skills that laid
+              the groundwork for engineering studies.
             </p>
           </div>
         </div>
@@ -1070,39 +1124,48 @@
         <div class="grid">
           <div class="card">
             <h3>Languages</h3>
-            <p><span class="skill-highlight">Python</span><span class="skill-highlight">JavaScript</span><span class="skill-highlight">C</span></p>
-            <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px);">Proficient in Python for backend development and ML
+            <p><span class="skill-highlight">Python</span><span class="skill-highlight">JavaScript</span><span
+                class="skill-highlight">C</span></p>
+            <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px);">Proficient in Python for backend
+              development and ML
               applications. Experienced with JavaScript for interactive web interfaces and C for foundational
               programming concepts.</p>
           </div>
           <div class="card">
             <h3>Web Development</h3>
-            <p><span class="skill-highlight">HTML5</span><span class="skill-highlight">CSS3</span><span class="skill-highlight">Bootstrap</span><span class="skill-highlight">Flask</span></p>
-            <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px);">Building responsive, modern web applications with clean UI/UX.
+            <p><span class="skill-highlight">HTML5</span><span class="skill-highlight">CSS3</span><span
+                class="skill-highlight">Bootstrap</span><span class="skill-highlight">Flask</span></p>
+            <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px);">Building responsive, modern web
+              applications with clean UI/UX.
               Experienced in creating full-stack solutions from frontend to backend.</p>
           </div>
           <div class="card">
             <h3>Computer Vision</h3>
             <p><span class="skill-highlight">OpenCV</span><span class="skill-highlight">Face Recognition</span></p>
-            <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px);">Hands-on experience with real-time video processing, facial
+            <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px);">Hands-on experience with real-time video
+              processing, facial
               recognition systems, and image manipulation techniques for practical applications.</p>
           </div>
           <div class="card">
             <h3>Data & ML</h3>
             <p><span class="skill-highlight">NumPy</span><span class="skill-highlight">Pandas</span></p>
-            <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px);">Data manipulation, analysis, and preprocessing for machine
+            <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px);">Data manipulation, analysis, and
+              preprocessing for machine
               learning workflows. Comfortable working with large datasets and statistical operations.</p>
           </div>
           <div class="card">
             <h3>Database</h3>
             <p><span class="skill-highlight">MySQL</span></p>
-            <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px);">Designing and managing relational databases, writing optimized
+            <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px);">Designing and managing relational
+              databases, writing optimized
               queries, and implementing secure data storage solutions for web applications.</p>
           </div>
           <div class="card">
             <h3>Tools & Version Control</h3>
-            <p><span class="skill-highlight">Git</span><span class="skill-highlight">GitHub</span><span class="skill-highlight">VS Code</span></p>
-            <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px);">Version control best practices, collaborative development
+            <p><span class="skill-highlight">Git</span><span class="skill-highlight">GitHub</span><span
+                class="skill-highlight">VS Code</span></p>
+            <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px);">Version control best practices,
+              collaborative development
               workflows, and efficient code editing with modern IDE features and extensions.</p>
           </div>
         </div>
@@ -1121,10 +1184,12 @@
           <p>Real-time face recognition system using Python & OpenCV with live webcam feed. Flask web interface for
             student registration, facial data management, and admin control — backed by MySQL for profiles, encodings &
             session logs.</p>
-          <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px); opacity: 0.9;"><strong>Key Features:</strong> Automated
+          <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px); opacity: 0.9;"><strong>Key Features:</strong>
+            Automated
             attendance tracking, real-time facial detection and recognition, secure admin dashboard, student profile
             management, attendance history and analytics, and MySQL database integration for reliable data storage.</p>
-          <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px); opacity: 0.9;"><strong>Impact:</strong> Eliminates manual
+          <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px); opacity: 0.9;"><strong>Impact:</strong>
+            Eliminates manual
             attendance processes, reduces time spent on roll calls, and provides accurate attendance records with
             timestamp verification.</p>
           <div class="tags">
@@ -1142,10 +1207,12 @@
           <p>Full-stack gym management web application handling member registration, subscription plans & payment
             tracking. Bootstrap admin dashboard for managing members, assigning trainers & monitoring daily check-ins.
           </p>
-          <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px); opacity: 0.9;"><strong>Key Features:</strong> Member registration
+          <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px); opacity: 0.9;"><strong>Key Features:</strong>
+            Member registration
             and profile management, flexible subscription plans, payment tracking and history, trainer assignment
             system, daily check-in monitoring, and responsive Bootstrap UI for seamless user experience.</p>
-          <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px); opacity: 0.9;"><strong>Planned Enhancements:</strong> Automated
+          <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px); opacity: 0.9;"><strong>Planned
+              Enhancements:</strong> Automated
             renewal reminders via email/SMS, detailed payment history reports, workout plan management, and member
             progress tracking dashboard.</p>
           <div class="tags">
@@ -1160,10 +1227,27 @@
       </div>
     </section>
 
+    <section id="cv">
+      <div style="max-width: 1200px; width: 100%;">
+        <div class="section-header">
+          <div class="s-eyebrow">Resume</div>
+          <h2 class="s-title">My <em>CV</em></h2>
+        </div>
+        <div class="card" style="text-align: center; padding: clamp(40px, 6vw, 60px);">
+          <h3 style="margin-bottom: 20px;">📄 Download My Resume</h3>
+          <p style="margin-bottom: 30px; font-size: clamp(14px, 2vw, 16px);">Get a comprehensive overview of my
+            education, skills, projects, and experience.</p>
+          <a href="Resume_Hetavin.pdf" download class="cta">Download CV
+          </a>
+        </div>
+      </div>
+    </section>
+
     <section id="contact">
       <div style="text-align: center;">
         <h1 class="contact-heading">LET'S <span class="highlight">CONNECT</span></h1>
-        <p style="font-size: clamp(15px, 2.2vw, 18px); margin-bottom: 20px; opacity: 0.8;">Actively looking for internship opportunities in
+        <p style="font-size: clamp(15px, 2.2vw, 18px); margin-bottom: 20px; opacity: 0.8;">Actively looking for
+          internship opportunities in
           software development or ML engineering.</p>
         <p
           style="font-size: clamp(13px, 2vw, 16px); margin-bottom: 40px; opacity: 0.7; max-width: 600px; margin-left: auto; margin-right: auto;">
@@ -1172,11 +1256,14 @@
         <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
           <a href="mailto:hetavinpokiya4672@gmail.com" class="cta email-btn"><i class="fas fa-envelope"></i>Email Me</a>
           <a href="tel:+919773293841" class="cta"
-            style="background: transparent; border: 2px solid #22C55E; color: #22C55E;"><i class="fas fa-phone"></i>Call Me</a>
+            style="background: transparent; border: 2px solid #22C55E; color: #22C55E;"><i class="fas fa-phone"></i>Call
+            Me</a>
           <a href="https://linkedin.com/in/hetavin-pokiya-66352b2b4" target="_blank" class="cta"
-            style="background: transparent; border: 2px solid #22C55E; color: #22C55E;"><i class="fab fa-linkedin"></i>LinkedIn</a>
+            style="background: transparent; border: 2px solid #22C55E; color: #22C55E;"><i
+              class="fab fa-linkedin"></i>LinkedIn</a>
         </div>
-        <p style="font-size: clamp(11px, 1.8vw, 14px); margin-top: 40px; opacity: 0.6;">📍 Based in Ahmedabad, Gujarat | Open to remote and
+        <p style="font-size: clamp(11px, 1.8vw, 14px); margin-top: 40px; opacity: 0.6;">📍 Based in Ahmedabad, Gujarat |
+          Open to remote and
           on-site opportunities</p>
       </div>
     </section>
@@ -1201,8 +1288,8 @@
       const p = document.createElement('div');
       p.className = 'loader-particle';
       p.style.left = Math.random() * 100 + '%';
-      p.style.top  = Math.random() * 100 + '%';
-      p.style.animationDelay    = (Math.random() * 3) + 's';
+      p.style.top = Math.random() * 100 + '%';
+      p.style.animationDelay = (Math.random() * 3) + 's';
       p.style.animationDuration = (Math.random() * 2 + 2) + 's';
       loaderBg.appendChild(p);
     }
@@ -1222,11 +1309,11 @@
       // match hero breakpoints exactly:
       // ≤480px → clamp(70px,18vw,140px), ≤768px → clamp(60px,15vw,140px), else → clamp(40px,10vw,140px)
       let fs;
-      if (vw <= 480)      fs = Math.min(Math.max(vw * 0.18, 70), 140);
+      if (vw <= 480) fs = Math.min(Math.max(vw * 0.18, 70), 140);
       else if (vw <= 768) fs = Math.min(Math.max(vw * 0.15, 60), 140);
-      else                fs = Math.min(Math.max(vw * 0.10, 40), 140);
+      else fs = Math.min(Math.max(vw * 0.10, 40), 140);
       const lineH = fs * 0.88;
-      nameCanvas.width  = vw;
+      nameCanvas.width = vw;
       nameCanvas.height = lineH * 2 + fs * 0.25;
       drawName(currentProgress);
     }
@@ -1235,9 +1322,9 @@
       const W = nameCanvas.width, H = nameCanvas.height;
       const vw = window.innerWidth;
       let fs;
-      if (vw <= 480)      fs = Math.min(Math.max(vw * 0.18, 70), 140);
+      if (vw <= 480) fs = Math.min(Math.max(vw * 0.18, 70), 140);
       else if (vw <= 768) fs = Math.min(Math.max(vw * 0.15, 60), 140);
-      else                fs = Math.min(Math.max(vw * 0.10, 40), 140);
+      else fs = Math.min(Math.max(vw * 0.10, 40), 140);
       const lineH = fs * 0.88;
       const isLight = document.body.classList.contains('light');
       nctx.clearRect(0, 0, W, H);
@@ -1249,13 +1336,13 @@
 
       // ghost base
       nctx.save();
-      nctx.fillStyle   = isLight ? 'rgba(15,23,42,0.08)' : 'rgba(255,255,255,0.06)';
+      nctx.fillStyle = isLight ? 'rgba(15,23,42,0.08)' : 'rgba(255,255,255,0.06)';
       nctx.fillText('HETAVIN', cx, 0);
-      nctx.fillText('POKIYA',  cx, lineH);
+      nctx.fillText('POKIYA', cx, lineH);
       nctx.strokeStyle = isLight ? 'rgba(22,163,74,0.15)' : 'rgba(34,197,94,0.12)';
       nctx.lineWidth = 2;
       nctx.strokeText('HETAVIN', cx, 0);
-      nctx.strokeText('POKIYA',  cx, lineH);
+      nctx.strokeText('POKIYA', cx, lineH);
       nctx.restore();
 
       if (pct <= 0) return;
@@ -1265,9 +1352,9 @@
       nctx.beginPath();
       nctx.rect(0, fillY, W, lineH);
       nctx.clip();
-      nctx.fillStyle   = isLight ? '#0f172a' : '#ffffff';
+      nctx.fillStyle = isLight ? '#0f172a' : '#ffffff';
       nctx.shadowColor = isLight ? 'rgba(15,23,42,0.25)' : 'rgba(255,255,255,0.5)';
-      nctx.shadowBlur  = 20;
+      nctx.shadowBlur = 20;
       nctx.fillText('HETAVIN', cx, 0);
       nctx.restore();
 
@@ -1277,9 +1364,9 @@
       nctx.rect(0, lineH + fillY * 0.5, W, lineH);
       nctx.clip();
       nctx.strokeStyle = isLight ? '#16a34a' : '#22C55E';
-      nctx.lineWidth   = Math.max(1.5, fs * 0.014);
+      nctx.lineWidth = Math.max(1.5, fs * 0.014);
       nctx.shadowColor = isLight ? '#16a34a' : '#22C55E';
-      nctx.shadowBlur  = 28;
+      nctx.shadowBlur = 28;
       nctx.strokeText('POKIYA', cx, lineH);
       nctx.restore();
     }
@@ -1292,14 +1379,14 @@
 
     // ── SMOOTH LOADING (requestAnimationFrame) ───────────────────────
     window.addEventListener('load', () => {
-      const loader          = document.getElementById('loader');
-      const barFill         = document.getElementById('loaderBarFill');
+      const loader = document.getElementById('loader');
+      const barFill = document.getElementById('loaderBarFill');
       const progressPercent = document.getElementById('progressPercent');
       const brightnessOverlay = document.getElementById('brightness-overlay');
 
       const DURATION = 5000;   // total load animation ms
-      let startTime  = null;
-      let done       = false;
+      let startTime = null;
+      let done = false;
 
       function easeInOut(t) {
         return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
@@ -1308,7 +1395,7 @@
       function tick(ts) {
         if (!startTime) startTime = ts;
         const elapsed = ts - startTime;
-        const t   = Math.min(elapsed / DURATION, 1);
+        const t = Math.min(elapsed / DURATION, 1);
         const pct = easeInOut(t) * 100;
 
         currentProgress = pct;
@@ -1362,10 +1449,10 @@
     dotCanvas.width = dotCanvas.height = 32;
     const dctx = dotCanvas.getContext('2d');
     const grad = dctx.createRadialGradient(16, 16, 0, 16, 16, 16);
-    grad.addColorStop(0,   'rgba(255,255,255,1)');
+    grad.addColorStop(0, 'rgba(255,255,255,1)');
     grad.addColorStop(0.3, 'rgba(255,255,255,0.8)');
     grad.addColorStop(0.7, 'rgba(34,197,94,0.3)');
-    grad.addColorStop(1,   'rgba(0,0,0,0)');
+    grad.addColorStop(1, 'rgba(0,0,0,0)');
     dctx.fillStyle = grad;
     dctx.fillRect(0, 0, 32, 32);
     const dotTexture = new THREE.CanvasTexture(dotCanvas);
@@ -1375,9 +1462,9 @@
     const colors = [];
     for (let i = 0; i < 12000; i++) {
       const r = Math.random();
-      if (r < 0.6)       colors.push(1, 1, 1);
+      if (r < 0.6) colors.push(1, 1, 1);
       else if (r < 0.85) colors.push(0.13, 0.77, 0.37);
-      else               colors.push(0.5, 0.9, 0.6);
+      else colors.push(0.5, 0.9, 0.6);
     }
     geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
     const particles = new THREE.Points(geometry, material);
@@ -1406,9 +1493,9 @@
       ctx.restore();
     }
     const cg = sctx.createRadialGradient(32, 32, 0, 32, 32, 14);
-    cg.addColorStop(0,   'rgba(255,255,255,1)');
+    cg.addColorStop(0, 'rgba(255,255,255,1)');
     cg.addColorStop(0.4, 'rgba(180,255,200,0.6)');
-    cg.addColorStop(1,   'rgba(34,197,94,0)');
+    cg.addColorStop(1, 'rgba(34,197,94,0)');
     sctx.fillStyle = cg;
     sctx.beginPath();
     sctx.arc(32, 32, 14, 0, Math.PI * 2);
@@ -1537,11 +1624,11 @@
         e.preventDefault();
         const targetId = this.getAttribute('href');
         const targetElement = document.querySelector(targetId);
-        
+
         if (targetElement) {
           // Check if device supports smooth scrolling
           const supportsNativeSmoothScroll = 'scrollBehavior' in document.documentElement.style;
-          
+
           if (supportsNativeSmoothScroll && !(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent))) {
             // Use custom smooth scroll for desktop
             const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
@@ -1559,9 +1646,9 @@
               const timeElapsed = currentTime - start;
               const progress = Math.min(timeElapsed / duration, 1);
               const ease = easeInOutCubic(progress);
-              
+
               window.scrollTo(0, startPosition + distance * ease);
-              
+
               if (timeElapsed < duration) {
                 requestAnimationFrame(animation);
               }
@@ -1570,7 +1657,7 @@
             requestAnimationFrame(animation);
           } else {
             // Use native smooth scroll for mobile devices
-            targetElement.scrollIntoView({ 
+            targetElement.scrollIntoView({
               behavior: 'smooth',
               block: 'start'
             });
@@ -1637,7 +1724,7 @@
         gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
         osc.start(ctx.currentTime);
         osc.stop(ctx.currentTime + 0.12);
-      } catch(e) {}
+      } catch (e) { }
     }
 
     musicToggle.addEventListener('click', () => {
