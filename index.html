@@ -1,1771 +1,550 @@
-<html lang="en">
 <!DOCTYPE html>
-
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Hetavin Pokiya – Computer Engineering Student, Aspiring Software Developer & ML Engineer. Portfolio showcasing projects in Python, Flask, OpenCV, and web technologies." />
+  <meta name="keywords" content="Hetavin Pokiya, portfolio, software developer, machine learning, Python, Flask, OpenCV, web developer" />
+  <meta name="author" content="Hetavin Pokiya" />
   <title>Hetavin Pokiya | Portfolio</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@200..800&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <style>
-    html {
-      scroll-behavior: smooth;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    :root {
-      --bg: #000;
-      --text: #fff;
-      --text-muted: rgba(255, 255, 255, 0.8);
-      --text-dim: rgba(255, 255, 255, 0.45);
-      --card-bg: rgba(255, 255, 255, 0.05);
-      --card-border: rgba(255, 255, 255, 0.1);
-      --nav-bg: rgba(0, 0, 0, 0.3);
-      --mobile-menu-bg: rgba(0, 0, 0, 0.7);
-      --overlay-bg: rgba(0, 0, 0, 0.5);
-      --loader-bg: #000;
-    }
-
-    body.light {
-      --bg: #f0f4f8;
-      --text: #0f172a;
-      --text-muted: rgba(15, 23, 42, 0.8);
-      --text-dim: rgba(15, 23, 42, 0.55);
-      --card-bg: rgba(255, 255, 255, 0.7);
-      --card-border: rgba(15, 23, 42, 0.12);
-      --nav-bg: rgba(240, 244, 248, 0.7);
-      --mobile-menu-bg: rgba(240, 244, 248, 0.95);
-      --overlay-bg: rgba(15, 23, 42, 0.3);
-      --loader-bg: #f0f4f8;
-    }
-
-    body {
-      font-family: 'Manrope', sans-serif;
-      overflow-x: hidden;
-      background: var(--bg);
-      color: var(--text);
-      scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch;
-      cursor: none;
-      transition: background 0.4s ease, color 0.4s ease;
-    }
-
-    * {
-      cursor: none;
-    }
-
-    #loader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      background: var(--loader-bg);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 10000;
-      transition: opacity 0.5s ease;
-      overflow: hidden;
-    }
-
-    #loader.fade-out {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .loader-bg {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      z-index: 1;
-    }
-
-    .loader-particle {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      background: #22C55E;
-      border-radius: 50%;
-      opacity: 0.6;
-      animation: float 3s infinite ease-in-out;
-    }
-
-    @keyframes float {
-
-      0%,
-      100% {
-        transform: translateY(0) translateX(0);
-        opacity: 0;
-      }
-
-      50% {
-        opacity: 0.6;
-      }
-    }
-
-    .loader-circle {
-      position: absolute;
-      border: 1px solid rgba(34, 197, 94, 0.2);
-      border-radius: 50%;
-      animation: pulse 2s infinite ease-in-out;
-    }
-
-    @keyframes pulse {
-
-      0%,
-      100% {
-        transform: scale(1);
-        opacity: 0.3;
-      }
-
-      50% {
-        transform: scale(1.5);
-        opacity: 0;
-      }
-    }
-
-    .loader-center {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-      z-index: 2;
-      width: 100%;
-      padding: 0 clamp(16px, 5vw, 60px);
-    }
-
-    #nameCanvas {
-      display: block;
-      width: 100% !important;
-      max-width: 100%;
-      height: auto;
-      margin: 0 auto clamp(8px, 2vh, 16px);
-    }
-
-    .loader-tagline {
-      font-family: 'Manrope', sans-serif;
-      font-size: clamp(9px, 1.8vw, 15px);
-      color: rgba(255, 255, 255, 0.45);
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      margin-bottom: clamp(16px, 4vh, 36px);
-      white-space: nowrap;
-    }
-
-    body.light .loader-tagline {
-      color: rgba(15, 23, 42, 0.5);
-    }
-
-    body.light .loader-bar-wrap {
-      background: rgba(15, 23, 42, 0.12);
-    }
-
-    body.light .loader-percent {
-      color: rgba(15, 23, 42, 0.45);
-    }
-
-    body.light .loader-particle {
-      background: #16a34a;
-    }
-
-    body.light .loader-circle {
-      border-color: rgba(22, 163, 74, 0.25);
-    }
-
-    .loader-bottom {
-      position: absolute;
-      bottom: clamp(20px, 5vh, 50px);
-      left: 50%;
-      transform: translateX(-50%);
-      width: 88%;
-      max-width: 520px;
-      z-index: 2;
-      text-align: center;
-    }
-
-    .loader-bar-wrap {
-      width: 100%;
-      height: 3px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 4px;
-      overflow: hidden;
-      margin-bottom: 10px;
-    }
-
-    .loader-bar-fill {
-      height: 100%;
-      width: 0%;
-      background: #22C55E;
-      border-radius: 4px;
-      transition: width 0.25s ease;
-      box-shadow: 0 0 10px #22C55E;
-    }
-
-    .loader-percent {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(13px, 2vw, 16px);
-      color: rgba(255, 255, 255, 0.4);
-      letter-spacing: 0.18em;
-    }
-
-    #cursor {
-      position: fixed;
-      width: 10px;
-      height: 10px;
-      background: #22C55E;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-    }
-
-    #cursorCircle {
-      position: fixed;
-      width: 40px;
-      height: 40px;
-      border: 2px solid rgba(34, 197, 94, 0.5);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9998;
-      transform: translate(-50%, -50%);
-    }
-
-    #canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 1;
-    }
-
-    .content {
-      position: relative;
-      z-index: 2;
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 1s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .content.revealed {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      padding: 20px 50px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 100;
-      background: var(--nav-bg);
-      backdrop-filter: blur(10px);
-      opacity: 0;
-      transform: translateY(-18px);
-      transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
-    }
-
-    nav.revealed {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .nav-links {
-      display: flex;
-    }
-
-    .logo {
-      font-size: clamp(20px, 4vw, 24px);
-      font-weight: bold;
-      color: #22C55E;
-      font-family: 'Bebas Neue', sans-serif;
-      letter-spacing: 0.1em;
-    }
-
-    nav a {
-      color: var(--text);
-      text-decoration: none;
-      margin-left: 30px;
-      transition: color 0.3s;
-      font-size: clamp(12px, 2vw, 16px);
-    }
-
-    nav a:hover {
-      color: #22C55E;
-    }
-
-    .hire-btn {
-      padding: clamp(8px, 1.5vh, 10px) clamp(20px, 3vw, 25px);
-      background: #22C55E;
-      color: #000;
-      text-decoration: none;
-      border-radius: 5px;
-      font-weight: bold;
-      transition: transform 0.3s, background 0.3s;
-      font-size: clamp(12px, 2vw, 16px);
-      font-family: 'Bebas Neue', sans-serif;
-      letter-spacing: 0.1em;
-      margin-left: 0;
-      display: none;
-    }
-
-    .hire-btn:hover {
-      transform: scale(1.05);
-      background: #1ea34b;
-      color: #000;
-    }
-
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      cursor: pointer;
-      gap: 5px;
-      z-index: 101;
-    }
-
-    .hamburger span {
-      width: 25px;
-      height: 3px;
-      background: var(--text);
-      transition: all 0.3s;
-      border-radius: 2px;
-    }
-
-    .hamburger.active span:nth-child(1) {
-      transform: rotate(45deg) translate(8px, 8px);
-    }
-
-    .hamburger.active span:nth-child(2) {
-      opacity: 0;
-    }
-
-    .hamburger.active span:nth-child(3) {
-      transform: rotate(-45deg) translate(7px, -7px);
-    }
-
-    .mobile-menu {
-      position: fixed;
-      top: 0;
-      right: -100%;
-      width: 70%;
-      height: 100vh;
-      background: var(--mobile-menu-bg);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-left: 1px solid var(--card-border);
-      box-shadow: -5px 0 30px rgba(0, 0, 0, 0.5);
-      display: flex;
-      flex-direction: column;
-      padding: 80px 30px 30px;
-      transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: 100;
-    }
-
-    .mobile-menu.active {
-      right: 0;
-    }
-
-    .mobile-menu a {
-      color: var(--text);
-      text-decoration: none;
-      font-size: 24px;
-      padding: 20px 0;
-      border-bottom: 1px solid var(--card-border);
-      transition: all 0.3s ease;
-      opacity: 0;
-      transform: translateX(30px);
-    }
-
-    .mobile-menu.active a {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    .mobile-menu.active a:nth-child(1) {
-      transition-delay: 0.1s;
-    }
-
-    .mobile-menu.active a:nth-child(2) {
-      transition-delay: 0.15s;
-    }
-
-    .mobile-menu.active a:nth-child(3) {
-      transition-delay: 0.2s;
-    }
-
-    .mobile-menu.active a:nth-child(4) {
-      transition-delay: 0.25s;
-    }
-
-    .mobile-menu.active a:nth-child(5) {
-      transition-delay: 0.3s;
-    }
-
-    .mobile-menu a:hover {
-      color: #22C55E;
-      padding-left: 10px;
-    }
-
-    .menu-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      background: var(--overlay-bg);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.4s ease, visibility 0.4s ease;
-      z-index: 99;
-    }
-
-    .menu-overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    @media (min-width: 1025px) {
-      .nav-links {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-      }
-
-      .hire-btn {
-        display: inline-block;
-      }
-    }
-
-    section {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: clamp(60px, 10vh, 100px) clamp(20px, 5vw, 50px);
-    }
-
-    .hero {
-      flex-direction: column;
-      text-align: center;
-    }
-
-    .hero h1 {
-      font-size: clamp(40px, 10vw, 140px);
-      margin-bottom: 20px;
-      animation: fadeIn 1s;
-      font-family: 'Bebas Neue', sans-serif;
-      line-height: 0.88;
-      letter-spacing: 0.02em;
-    }
-
-    .mobile-break {
-      display: none;
-    }
-
-    .hero .highlight {
-      color: transparent;
-      -webkit-text-stroke: 2px #22C55E;
-    }
-
-    .contact-heading {
-      font-size: clamp(40px, 10vw, 140px);
-      margin-bottom: 20px;
-      animation: fadeIn 1s;
-      font-family: 'Bebas Neue', sans-serif;
-      line-height: 0.88;
-      letter-spacing: 0.02em;
-    }
-
-    .contact-heading .highlight {
-      color: transparent;
-      -webkit-text-stroke: 2px #22C55E;
-    }
-
-    .hero p {
-      font-size: clamp(16px, 2.5vw, 20px);
-      max-width: 600px;
-      margin: 20px auto;
-      opacity: 0.8;
-      font-family: 'Manrope', sans-serif;
-      line-height: 1.6;
-      color: var(--text);
-    }
-
-    .cta {
-      display: inline-block;
-      margin-top: 30px;
-      padding: clamp(12px, 2vh, 15px) clamp(30px, 5vw, 40px);
-      background: #22C55E;
-      color: #000;
-      text-decoration: none;
-      border-radius: 5px;
-      font-weight: bold;
-      transition: transform 0.3s;
-      font-size: clamp(14px, 2vw, 16px);
-      font-family: 'Bebas Neue', sans-serif;
-      letter-spacing: 0.1em;
-      font-size: clamp(16px, 2.5vw, 20px);
-    }
-
-    .cta i {
-      color: #22C55E;
-      margin-right: 8px;
-    }
-
-    .cta.email-btn i {
-      color: #000;
-    }
-
-    .cta:hover {
-      transform: scale(1.05);
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: clamp(20px, 3vw, 30px);
-      max-width: 1200px;
-      width: 100%;
-    }
-
-    .card {
-      background: var(--card-bg);
-      padding: clamp(20px, 4vw, 30px);
-      border-radius: 10px;
-      backdrop-filter: blur(10px);
-      border: 1px solid var(--card-border);
-      transition: transform 0.3s, background 0.4s, border-color 0.4s;
-    }
-
-    .card:hover {
-      transform: translateY(-10px);
-      border-color: #22C55E;
-    }
-
-    .card h3 {
-      color: #22C55E;
-      margin-bottom: 15px;
-      font-size: clamp(20px, 3vw, 24px);
-      font-family: 'Bebas Neue', sans-serif;
-      letter-spacing: 0.05em;
-    }
-
-    .card p {
-      opacity: 0.8;
-      line-height: 1.6;
-      font-size: clamp(14px, 2vw, 16px);
-      color: var(--text);
-    }
-
-    .project {
-      background: var(--card-bg);
-      padding: clamp(25px, 5vw, 40px);
-      border-radius: 10px;
-      margin-bottom: clamp(20px, 3vw, 30px);
-      border-left: 4px solid #22C55E;
-      transition: background 0.4s;
-    }
-
-    .project h3 {
-      font-size: clamp(22px, 4vw, 28px);
-      margin-bottom: 10px;
-      font-family: 'Bebas Neue', sans-serif;
-      letter-spacing: 0.05em;
-    }
-
-    .project p {
-      font-size: clamp(14px, 2vw, 16px);
-      line-height: 1.6;
-      opacity: 0.9;
-      color: var(--text);
-    }
-
-    .project .tags {
-      display: flex;
-      gap: clamp(8px, 1.5vw, 10px);
-      margin-top: 15px;
-      flex-wrap: wrap;
-    }
-
-    .tag {
-      background: rgba(34, 197, 94, 0.2);
-      padding: clamp(4px, 1vw, 5px) clamp(12px, 2vw, 15px);
-      border-radius: 20px;
-      font-size: clamp(10px, 1.5vw, 12px);
-      border: 1px solid #22C55E;
-    }
-
-    .skill-highlight {
-      display: inline-block;
-      background: rgba(34, 197, 94, 0.12);
-      color: #22C55E;
-      border: 1px solid rgba(34, 197, 94, 0.4);
-      border-radius: 4px;
-      padding: 2px 8px;
-      margin: 2px 3px;
-      font-weight: 600;
-      font-size: clamp(13px, 1.8vw, 15px);
-      transition: background 0.2s, box-shadow 0.2s;
-    }
-
-    .skill-highlight:hover {
-      background: rgba(34, 197, 94, 0.28);
-      box-shadow: 0 0 8px rgba(34, 197, 94, 0.5);
-    }
-
-    h2 {
-      font-size: clamp(35px, 6vw, 50px) !important;
-      font-family: 'Bebas Neue', sans-serif;
-      letter-spacing: 0.05em;
-    }
-
-    .section-header {
-      margin-bottom: clamp(40px, 5vw, 60px);
-    }
-
-    .s-eyebrow {
-      font-family: 'DM Mono', monospace;
-      font-size: clamp(10px, 1.2vw, 12px);
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: #22C55E;
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      margin-bottom: 1rem;
-    }
-
-    .s-eyebrow::before {
-      content: '';
-      width: 28px;
-      height: 1px;
-      background: #22C55E;
-    }
-
-    .s-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(3rem, 7vw, 6rem);
-      letter-spacing: 0.03em;
-      line-height: 0.95;
-      color: var(--text);
-    }
-
-    .s-title em {
-      font-style: normal;
-      color: #22C55E;
-    }
-
-    .education-container {
-      display: flex;
-      flex-direction: column;
-      gap: clamp(20px, 3vw, 30px);
-    }
-
-    .education-card {
-      background: var(--card-bg);
-      padding: clamp(25px, 4vw, 35px);
-      border-radius: 10px;
-      backdrop-filter: blur(10px);
-      border: 1px solid var(--card-border);
-      border-left: 4px solid #22C55E;
-      transition: transform 0.3s, border-color 0.3s, background 0.4s;
-    }
-
-    .education-card:hover {
-      transform: translateY(-5px);
-      border-color: #22C55E;
-    }
-
-    .education-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      flex-wrap: wrap;
-      gap: clamp(10px, 2vw, 15px);
-      margin-bottom: clamp(12px, 2vw, 15px);
-    }
-
-    .education-title {
-      flex: 1;
-      min-width: 250px;
-    }
-
-    .education-title h3 {
-      font-size: clamp(18px, 3vw, 22px);
-      color: #22C55E;
-      margin-bottom: clamp(6px, 1vw, 8px);
-      font-family: 'Bebas Neue', sans-serif;
-      letter-spacing: 0.05em;
-    }
-
-    .education-institution {
-      font-size: clamp(14px, 2vw, 16px);
-      opacity: 0.9;
-      margin-bottom: 5px;
-      line-height: 1.5;
-      color: var(--text);
-    }
-
-    .education-board {
-      font-size: clamp(13px, 1.8vw, 15px);
-      opacity: 0.7;
-      line-height: 1.4;
-      color: var(--text);
-    }
-
-    .education-date {
-      text-align: right;
-      min-width: 150px;
-    }
-
-    .education-year {
-      font-size: clamp(13px, 1.8vw, 15px);
-      color: #22C55E;
-      font-weight: 600;
-      margin-bottom: 5px;
-    }
-
-    .education-status {
-      font-size: clamp(12px, 1.6vw, 14px);
-      opacity: 0.8;
-      margin-top: 5px;
-    }
-
-    .education-description {
-      margin-top: clamp(12px, 2vw, 15px);
-      font-size: clamp(13px, 1.8vw, 15px);
-      line-height: 1.7;
-      opacity: 0.85;
-      color: var(--text);
-    }
-
-    /* ── THEME TOGGLE ── */
-    #themeToggle {
-      position: fixed;
-      bottom: 80px;
-      right: 20px;
-      z-index: 1000;
-      background: transparent;
-      border: 2px solid #22C55E;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      cursor: pointer;
-      color: #22C55E;
-      font-size: 18px;
-      box-shadow: 0 0 12px rgba(34, 197, 94, 0.25);
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #musicToggle {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 1000;
-      background: #22C55E;
-      border: none;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      cursor: pointer;
-      color: #000;
-      font-size: 20px;
-      box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #musicToggle:hover {
-      transform: scale(1.1);
-      background: #1ea34b;
-    }
-
-    body.light #canvas {
-      opacity: 0.45;
-      filter: hue-rotate(100deg) saturate(0.6) brightness(0.5);
-    }
-
-    body.light .hero .highlight {
-      -webkit-text-stroke-color: #16a34a;
-    }
-
-    body.light .contact-heading .highlight {
-      -webkit-text-stroke-color: #16a34a;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @media (max-width: 1024px) {
-      .grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      nav {
-        justify-content: space-between;
-      }
-
-      .nav-links {
-        position: static;
-        transform: none;
-      }
-
-      .hamburger {
-        display: flex;
-      }
-
-      .nav-links {
-        display: none;
-      }
-    }
-
-    @media (max-width: 768px) {
-      nav {
-        padding: 15px 20px;
-      }
-
-      nav a {
-        margin-left: 15px;
-      }
-
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      .hero h1 {
-        line-height: 1.1;
-        font-size: clamp(60px, 15vw, 140px);
-      }
-
-      .contact-heading {
-        line-height: 1.1;
-        font-size: clamp(60px, 15vw, 140px);
-      }
-
-      .mobile-break {
-        display: block;
-      }
-
-      .project {
-        padding: 20px;
-      }
-
-      .card {
-        padding: 25px;
-      }
-
-      .card h3 {
-        font-size: 22px;
-        margin-bottom: 12px;
-      }
-
-      .card p {
-        font-size: 15px;
-        line-height: 1.7;
-      }
-
-      .education-header {
-        flex-direction: column;
-        gap: 15px;
-      }
-
-      .education-date {
-        text-align: left;
-      }
-
-      .education-title {
-        min-width: 100%;
-      }
-
-      section {
-        padding: clamp(50px, 8vh, 80px) clamp(25px, 4vw, 40px);
-      }
-    }
-
-    @media (max-width: 480px) {
-      nav a {
-        margin-left: 10px;
-        font-size: 12px;
-      }
-
-      .hero {
-        padding: 20px;
-      }
-
-      .hero h1 {
-        line-height: 1.1;
-        font-size: clamp(70px, 18vw, 140px);
-      }
-
-      .contact-heading {
-        line-height: 1.1;
-        font-size: clamp(70px, 18vw, 140px);
-      }
-
-      .mobile-break {
-        display: block;
-      }
-
-      .cta {
-        width: 100%;
-        max-width: 100%;
-        text-align: center;
-        padding: 15px 30px;
-        font-size: 16px;
-        margin-top: 0;
-      }
-
-      #contact>div>div {
-        flex-direction: column;
-        gap: 15px !important;
-        width: 100%;
-        padding: 0 20px;
-        margin-top: 0;
-      }
-    }
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-  <div id="loader">
-    <div class="loader-bg" id="loaderBg"></div>
-    <div class="loader-center">
-      <canvas id="nameCanvas"></canvas>
-      <div class="loader-tagline">Engineer &nbsp;&middot;&nbsp; Builder &nbsp;&middot;&nbsp; Creator</div>
 
-    </div>
-    <div class="loader-bottom">
-      <div class="loader-bar-wrap">
-        <div class="loader-bar-fill" id="loaderBarFill"></div>
-      </div>
-      <div class="loader-percent" id="progressPercent">0%</div>
-    </div>
-  </div>
+  <!-- CURSOR -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-follower" id="cursorFollower"></div>
 
-  <div id="cursor"></div>
-  <div id="cursorCircle"></div>
-  <canvas id="canvas"></canvas>
-
-  <nav>
-    <a href="#hero" class="logo">HP</a>
-    <div class="nav-links">
-      <a href="#about">About</a>
-      <a href="#education">Education</a>
-      <a href="#skills">Skills</a>
-      <a href="#projects">Projects</a>
-      <a href="#cv">CV</a>
-      <a href="#contact">Contact</a>
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-container">
+      <a href="#hero" class="nav-logo" aria-label="Hetavin Pokiya Home">
+        <span class="logo-bracket">&lt;</span>HP<span class="logo-bracket">/&gt;</span>
+      </a>
+      <ul class="nav-links" id="navLinks" role="list">
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#skills" class="nav-link">Skills</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#education" class="nav-link">Education</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+      <a href="#contact" class="nav-cta">Let's Connect</a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle mobile menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </div>
-    <div class="hamburger" onclick="toggleMenu()">
-      <span></span>
-      <span></span>
-      <span></span>
+    <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+      <ul role="list">
+        <li><a href="#about" class="mobile-link">About</a></li>
+        <li><a href="#skills" class="mobile-link">Skills</a></li>
+        <li><a href="#projects" class="mobile-link">Projects</a></li>
+        <li><a href="#education" class="mobile-link">Education</a></li>
+        <li><a href="#contact" class="mobile-link">Contact</a></li>
+      </ul>
     </div>
-    <a href="#contact" class="hire-btn">Hire Me</a>
   </nav>
 
-  <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="#about" onclick="toggleMenu()">About</a>
-    <a href="#education" onclick="toggleMenu()">Education</a>
-    <a href="#skills" onclick="toggleMenu()">Skills</a>
-    <a href="#projects" onclick="toggleMenu()">Projects</a>
-    <a href="#cv" onclick="toggleMenu()">CV</a>
-    <a href="#contact" onclick="toggleMenu()">Contact</a>
-  </div>
-
-  <div class="content">
-    <section class="hero" id="hero">
-      <h1>HETAVIN <br class="mobile-break"><span class="highlight">POKIYA</span></h1>
-      <p>Computer Engineering student building real-time computer vision systems & full-stack web applications that
-        solve real problems.</p>
-      <a href="#contact" class="cta">Let's Connect</a>
-    </section>
-
-    <section id="about">
-      <div style="max-width: 1200px;">
-        <div class="section-header">
-          <div class="s-eyebrow">Who I Am</div>
-          <h2 class="s-title">Who am <em>I?</em></h2>
+  <!-- HERO -->
+  <section class="hero" id="hero" aria-label="Hero section">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+      <div class="hero-grid"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Available for Internships
+      </div>
+      <h1 class="hero-title">
+        <span class="hero-greeting">Hello, I'm</span>
+        <span class="hero-name">Hetavin <span class="name-accent">Pokiya</span></span>
+      </h1>
+      <p class="hero-typewriter" id="typewriter" aria-live="polite"></p>
+      <p class="hero-desc">
+        A passionate Computer Engineering student building real-world applications with Python, Flask,
+        and computer vision — turning ideas into clean, functional software.
+      </p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary" id="heroViewWork">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+          View My Work
+        </a>
+        <a href="#contact" class="btn btn-secondary" id="heroContact">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Get In Touch
+        </a>
+      </div>
+      <div class="hero-stats" role="list">
+        <div class="stat-item" role="listitem">
+          <span class="stat-num" data-target="2">0</span><span class="stat-suf">+</span>
+          <span class="stat-lbl">Projects</span>
         </div>
-        <div class="grid">
-          <div class="card">
-            <h3>🎓 Education</h3>
-            <p>B.E. Computer Engineering (6th Sem)<br>LFRP – ITR, Gandhinagar<br>Kadi Sarva Vishwavidhyalaya</p>
-            <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px);">Currently maintaining strong academic
-              performance while
-              actively working on real-world projects. Focused on bridging theoretical knowledge with practical
-              implementation.</p>
-          </div>
-          <div class="card">
-            <h3>💡 Passion</h3>
-            <p>Deeply passionate about software development and machine learning, especially computer vision and AI
-              applications.</p>
-            <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px);">I believe technology should solve real
-              problems. Every project
-              I build has a clear purpose — from automating attendance to streamlining gym operations.</p>
-          </div>
-          <div class="card">
-            <h3>🎯 Goal</h3>
-            <p>Actively seeking internship opportunities to bridge academic knowledge with industry experience.</p>
-            <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px);">Looking to contribute to innovative teams
-              where I can learn
-              from experienced professionals while bringing fresh perspectives and strong work ethic.</p>
-          </div>
-          <div class="card">
-            <h3>⚡ Strengths</h3>
-            <p>Quick learner who rapidly adapts to new technologies and frameworks with minimal guidance.</p>
-            <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px);">Strong problem-solving skills, excellent
-              team collaboration,
-              and consistent dedication to delivering quality results on every project.</p>
-          </div>
-          <div class="card">
-            <h3>🌟 Values</h3>
-            <p>Committed to writing clean, maintainable code and following best practices in software development.</p>
-            <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px);">Believe in continuous learning, open
-              communication, and
-              building solutions that make a meaningful impact.</p>
-          </div>
-          <div class="card">
-            <h3>🚀 Vision</h3>
-            <p>Aspiring to become a skilled ML engineer specializing in computer vision and AI-driven solutions.</p>
-            <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px);">Excited about the future of AI and its
-              potential to transform
-              industries. Eager to be part of that transformation.</p>
-          </div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat-item" role="listitem">
+          <span class="stat-num" data-target="5">0</span><span class="stat-suf">+</span>
+          <span class="stat-lbl">Technologies</span>
+        </div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat-item" role="listitem">
+          <span class="stat-num" data-target="3">0</span><span class="stat-suf"></span>
+          <span class="stat-lbl">Languages</span>
         </div>
       </div>
-    </section>
-
-    <section id="education">
-      <div style="max-width: 1200px; width: 100%;">
-        <div class="section-header">
-          <div class="s-eyebrow">Academic Background</div>
-          <h2 class="s-title">My <em>Journey</em></h2>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="code-card glass">
+        <div class="code-header">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="code-filename">hetavin.py</span>
         </div>
-        <div class="education-container">
-          <div class="education-card">
-            <div class="education-header">
-              <div class="education-title">
-                <h3>Bachelor of Engineering - Computer Engineering</h3>
-                <p class="education-institution">LFRP – ITR, Gandhinagar</p>
-                <p class="education-board">Kadi Sarva Vishwavidhyalaya (KSV)</p>
-              </div>
-              <div class="education-date">
-                <p class="education-year">2023 - Present</p>
-                <p class="education-status">Currently in 6th Semester</p>
-              </div>
-            </div>
-            <p class="education-description">
-              Pursuing comprehensive education in computer science fundamentals, software engineering, data structures,
-              algorithms, and modern development practices. Actively engaged in hands-on projects combining theoretical
-              knowledge with practical implementation.
-            </p>
-          </div>
+        <pre class="code-body"><code><span class="ck">class</span> <span class="cc">Developer</span>:
+  <span class="ck">def</span> <span class="cf">__init__</span>(self):
+    self.name = <span class="cs">"Hetavin Pokiya"</span>
+    self.role = <span class="cs">"CS Student"</span>
+    self.stack = [
+      <span class="cs">"Python"</span>, <span class="cs">"Flask"</span>,
+      <span class="cs">"OpenCV"</span>, <span class="cs">"MySQL"</span>,
+    ]
+    self.open_to = <span class="cs">"Internships"</span>
 
-          <div class="education-card">
-            <div class="education-header">
-              <div class="education-title">
-                <h3>Higher Secondary Certificate (HSC) - Science</h3>
-                <p class="education-institution">Alpha Vidhya Sankul, Junagadh</p>
-                <p class="education-board">Gujarat Secondary and Higher Secondary Education Board (GHSEB)</p>
-              </div>
-              <div class="education-date">
-                <p class="education-year">Completed 2023</p>
-                <p class="education-status">12th Grade</p>
-              </div>
-            </div>
-            <p class="education-description">
-              Completed higher secondary education with focus on Science stream, building strong foundation in
-              Mathematics, Physics, and Chemistry. Developed analytical thinking and problem-solving skills that laid
-              the groundwork for engineering studies.
-            </p>
-          </div>
-        </div>
+  <span class="ck">def</span> <span class="cf">build</span>(self, idea):
+    <span class="ck">return</span> idea + <span class="cs">" → Product"</span></code></pre>
       </div>
-    </section>
+    </div>
+    <a href="#about" class="scroll-hint" aria-label="Scroll down to About">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+    </a>
+  </section>
 
-    <section id="skills">
-      <div style="max-width: 1200px; width: 100%;">
-        <div class="section-header">
-          <div class="s-eyebrow">Technical Stack</div>
-          <h2 class="s-title">Tools I <em>Wield</em></h2>
-        </div>
-        <div class="grid">
-          <div class="card">
-            <h3>Languages</h3>
-            <p><span class="skill-highlight">Python</span><span class="skill-highlight">JavaScript</span><span
-                class="skill-highlight">C</span></p>
-            <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px);">Proficient in Python for backend
-              development and ML
-              applications. Experienced with JavaScript for interactive web interfaces and C for foundational
-              programming concepts.</p>
-          </div>
-          <div class="card">
-            <h3>Web Development</h3>
-            <p><span class="skill-highlight">HTML5</span><span class="skill-highlight">CSS3</span><span
-                class="skill-highlight">Bootstrap</span><span class="skill-highlight">Flask</span></p>
-            <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px);">Building responsive, modern web
-              applications with clean UI/UX.
-              Experienced in creating full-stack solutions from frontend to backend.</p>
-          </div>
-          <div class="card">
-            <h3>Computer Vision</h3>
-            <p><span class="skill-highlight">OpenCV</span><span class="skill-highlight">Face Recognition</span></p>
-            <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px);">Hands-on experience with real-time video
-              processing, facial
-              recognition systems, and image manipulation techniques for practical applications.</p>
-          </div>
-          <div class="card">
-            <h3>Data & ML</h3>
-            <p><span class="skill-highlight">NumPy</span><span class="skill-highlight">Pandas</span></p>
-            <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px);">Data manipulation, analysis, and
-              preprocessing for machine
-              learning workflows. Comfortable working with large datasets and statistical operations.</p>
-          </div>
-          <div class="card">
-            <h3>Database</h3>
-            <p><span class="skill-highlight">MySQL</span></p>
-            <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px);">Designing and managing relational
-              databases, writing optimized
-              queries, and implementing secure data storage solutions for web applications.</p>
-          </div>
-          <div class="card">
-            <h3>Tools & Version Control</h3>
-            <p><span class="skill-highlight">Git</span><span class="skill-highlight">GitHub</span><span
-                class="skill-highlight">VS Code</span></p>
-            <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px);">Version control best practices,
-              collaborative development
-              workflows, and efficient code editing with modern IDE features and extensions.</p>
-          </div>
-        </div>
+  <!-- ABOUT -->
+  <section class="section" id="about" aria-labelledby="about-h">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Who I Am</span>
+        <h2 class="section-title" id="about-h">About Me</h2>
+        <p class="section-sub">Curious by nature. Builder by choice.</p>
       </div>
-    </section>
-
-    <section id="projects">
-      <div style="max-width: 1200px; width: 100%;">
-        <div class="section-header">
-          <div class="s-eyebrow">Selected Projects</div>
-          <h2 class="s-title">Things I've <em>Built</em></h2>
-        </div>
-
-        <div class="project">
-          <h3>EduSync</h3>
-          <p>Real-time face recognition system using Python & OpenCV with live webcam feed. Flask web interface for
-            student registration, facial data management, and admin control — backed by MySQL for profiles, encodings &
-            session logs.</p>
-          <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px); opacity: 0.9;"><strong>Key Features:</strong>
-            Automated
-            attendance tracking, real-time facial detection and recognition, secure admin dashboard, student profile
-            management, attendance history and analytics, and MySQL database integration for reliable data storage.</p>
-          <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px); opacity: 0.9;"><strong>Impact:</strong>
-            Eliminates manual
-            attendance processes, reduces time spent on roll calls, and provides accurate attendance records with
-            timestamp verification.</p>
-          <div class="tags">
-            <span class="tag">Python</span>
-            <span class="tag">OpenCV</span>
-            <span class="tag">Flask</span>
-            <span class="tag">MySQL</span>
-            <span class="tag">Face Recognition</span>
-            <span class="tag">Real-time Processing</span>
-          </div>
-        </div>
-
-        <div class="project">
-          <h3>Iron Hub</h3>
-          <p>Full-stack gym management web application handling member registration, subscription plans tracking. Bootstrap admin dashboard for managing members, assigning trainers & monitoring daily check-ins.
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <p class="about-lead">
+            I'm a <strong>Computer Engineering student</strong> at LFRP–ITR, Gandhinagar (KSV),
+            currently in my <span class="hl">6th semester</span> — passionate about
+            <span class="hl">software development</span> and <span class="hl">machine learning</span>.
           </p>
-          <p style="margin-top: 15px; font-size: clamp(12px, 1.8vw, 14px); opacity: 0.9;"><strong>Key Features:</strong>
-            Member registration
-            and profile management, flexible subscription plans, payment tracking and history, trainer assignment
-            system, daily check-in monitoring, and responsive Bootstrap UI for seamless user experience.</p>
-          <p style="margin-top: 10px; font-size: clamp(12px, 1.8vw, 14px); opacity: 0.9;"><strong>Planned
-              Enhancements:</strong> Automated
-            renewal reminders via email/SMS, detailed payment history reports, workout plan management, and member
-            progress tracking dashboard.</p>
-          <div class="tags">
-            <span class="tag">Python</span>
-            <span class="tag">Flask</span>
-            <span class="tag">MySQL</span>
-            <span class="tag">Bootstrap</span>
-            <span class="tag">Admin Dashboard</span>
+          <p class="about-body">
+            My journey spans real-time face recognition systems and full-stack gym management apps.
+            I believe in learning by doing — every project sharpens my engineering instincts and
+            prepares me for real-world challenges.
+          </p>
+          <p class="about-body">
+            Actively seeking internship opportunities to contribute to impactful products and grow
+            in a collaborative, technology-driven environment.
+          </p>
+          <div class="about-personal">
+            <div class="pi">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              Ahmedabad, Gujarat, India
+            </div>
+            <div class="pi">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              Born November 23, 2005
+            </div>
+            <div class="pi">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              English &middot; Hindi &middot; Gujarati
+            </div>
+          </div>
+        </div>
+        <div class="strengths-wrap reveal">
+          <h3 class="strengths-title">Core Strengths</h3>
+          <div class="strengths-grid">
+            <div class="strength-card glass">
+              <div class="str-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              </div>
+              <h4>Quick Learner</h4>
+              <p>Picks up new tech and frameworks with minimal guidance.</p>
+            </div>
+            <div class="strength-card glass">
+              <div class="str-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              </div>
+              <h4>Problem Solver</h4>
+              <p>Approaches challenges analytically with structured steps.</p>
+            </div>
+            <div class="strength-card glass">
+              <div class="str-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <h4>Team Player</h4>
+              <p>Communicates clearly in collaborative environments.</p>
+            </div>
+            <div class="strength-card glass">
+              <div class="str-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              </div>
+              <h4>Hard Working</h4>
+              <p>Consistent and committed to delivering quality results.</p>
+            </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="cv">
-      <div style="max-width: 1200px; width: 100%;">
-        <div class="section-header">
-          <div class="s-eyebrow">Resume</div>
-          <h2 class="s-title">My <em>CV</em></h2>
+  <!-- SKILLS -->
+  <section class="section section-alt" id="skills" aria-labelledby="skills-h">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">What I Know</span>
+        <h2 class="section-title" id="skills-h">Technical Skills</h2>
+        <p class="section-sub">Technologies I work with every day</p>
+      </div>
+      <div class="skills-wrap reveal">
+        <div class="skill-cat">
+          <h3 class="skill-cat-h">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            Programming Languages
+          </h3>
+          <div class="skill-row">
+            <div class="skill-pill" style="--ac:#3776AB">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" width="22" height="22" loading="lazy"/>
+              Python
+            </div>
+            <div class="skill-pill" style="--ac:#A8B9CC">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" alt="C" width="22" height="22" loading="lazy"/>
+              C
+            </div>
+            <div class="skill-pill" style="--ac:#F7DF1E">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" width="22" height="22" loading="lazy"/>
+              JavaScript
+            </div>
+          </div>
         </div>
-        <div class="card" style="text-align: center; padding: clamp(40px, 6vw, 60px);">
-          <h3 style="margin-bottom: 20px;">📄 Download My Resume</h3>
-          <p style="margin-bottom: 30px; font-size: clamp(14px, 2vw, 16px);">Get a comprehensive overview of my
-            education, skills, projects, and experience.</p>
-          <a href="Resume_Hetavin.pdf" download class="cta">Download CV
+        <div class="skill-cat">
+          <h3 class="skill-cat-h">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            Web Technologies
+          </h3>
+          <div class="skill-row">
+            <div class="skill-pill" style="--ac:#E34F26">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5" width="22" height="22" loading="lazy"/>
+              HTML5
+            </div>
+            <div class="skill-pill" style="--ac:#1572B6">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3" width="22" height="22" loading="lazy"/>
+              CSS3
+            </div>
+            <div class="skill-pill" style="--ac:#7952B3">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" alt="Bootstrap" width="22" height="22" loading="lazy"/>
+              Bootstrap
+            </div>
+            <div class="skill-pill" style="--ac:#888">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg" alt="Flask" width="22" height="22" loading="lazy" style="filter:invert(1) brightness(2)"/>
+              Flask
+            </div>
+          </div>
+        </div>
+        <div class="skill-cat">
+          <h3 class="skill-cat-h">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+            Machine Learning / CV
+          </h3>
+          <div class="skill-row">
+            <div class="skill-pill" style="--ac:#5C3EE8">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/opencv/opencv-original.svg" alt="OpenCV" width="22" height="22" loading="lazy"/>
+              OpenCV
+            </div>
+            <div class="skill-pill" style="--ac:#013243">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg" alt="NumPy" width="22" height="22" loading="lazy"/>
+              NumPy
+            </div>
+            <div class="skill-pill" style="--ac:#150458">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg" alt="Pandas" width="22" height="22" loading="lazy"/>
+              Pandas
+            </div>
+          </div>
+        </div>
+        <div class="skill-cat">
+          <h3 class="skill-cat-h">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>
+            Database &amp; Tools
+          </h3>
+          <div class="skill-row">
+            <div class="skill-pill" style="--ac:#4479A1">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL" width="22" height="22" loading="lazy"/>
+              MySQL
+            </div>
+            <div class="skill-pill" style="--ac:#007ACC">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="VS Code" width="22" height="22" loading="lazy"/>
+              VS Code
+            </div>
+            <div class="skill-pill" style="--ac:#F05032">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" width="22" height="22" loading="lazy"/>
+              Git
+            </div>
+            <div class="skill-pill" style="--ac:#6e7681">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="22" height="22" loading="lazy"/>
+              GitHub
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="section" id="projects" aria-labelledby="proj-h">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">What I've Built</span>
+        <h2 class="section-title" id="proj-h">Projects</h2>
+        <p class="section-sub">Real applications, real problems solved</p>
+      </div>
+      <div class="projects-grid">
+
+        <article class="proj-card glass reveal" aria-label="EduSync project">
+          <div class="proj-top">
+            <div class="proj-icon" style="--pc:#6C63FF">
+              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 7h-9"/><path d="M14 17H5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg>
+            </div>
+            <a href="#" class="proj-gh" aria-label="EduSync GitHub">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+            </a>
+          </div>
+          <h3 class="proj-title">EduSync</h3>
+          <p class="proj-sub">Face Recognition System</p>
+          <p class="proj-desc">
+            A real-time face recognition system using Python and OpenCV that detects and identifies
+            individuals via live webcam. Includes a Flask admin dashboard for student registration,
+            facial data management, and MySQL-backed profile &amp; session storage.
+          </p>
+          <ul class="proj-features">
+            <li>Real-time webcam detection &amp; identification</li>
+            <li>Flask admin dashboard with clean UI</li>
+            <li>MySQL – facial encodings &amp; session logs</li>
+            <li>Future: full attendance management system</li>
+          </ul>
+          <div class="proj-tags">
+            <span class="ptag">Python</span>
+            <span class="ptag">OpenCV</span>
+            <span class="ptag">Flask</span>
+            <span class="ptag">MySQL</span>
+          </div>
+          <div class="proj-status">
+            <span class="sdot active"></span> In Development
+          </div>
+        </article>
+
+        <article class="proj-card glass reveal" aria-label="Iron Hub project">
+          <div class="proj-top">
+            <div class="proj-icon" style="--pc:#FF6B6B">
+              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18h8"/><path d="M3 22h18"/><path d="M14 22a7 7 0 1 0 0-14h-1"/><path d="M9 14h2"/><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z"/><path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/></svg>
+            </div>
+            <a href="#" class="proj-gh" aria-label="Iron Hub GitHub">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+            </a>
+          </div>
+          <h3 class="proj-title">Iron Hub</h3>
+          <p class="proj-sub">Gym Management System</p>
+          <p class="proj-desc">
+            A full-stack gym management web app built with Python, Flask, and MySQL — handling member
+            registration, subscription plans, and fee payment tracking with a Bootstrap-powered
+            admin dashboard for complete gym administration.
+          </p>
+          <ul class="proj-features">
+            <li>Member registration &amp; subscription plans</li>
+            <li>Trainer assignment &amp; daily check-ins</li>
+            <li>Automated renewal reminders module</li>
+            <li>Payment history &amp; progress logs</li>
+          </ul>
+          <div class="proj-tags">
+            <span class="ptag">Python</span>
+            <span class="ptag">Flask</span>
+            <span class="ptag">MySQL</span>
+            <span class="ptag">Bootstrap</span>
+          </div>
+          <div class="proj-status">
+            <span class="sdot building"></span> Building
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section class="section section-alt" id="education" aria-labelledby="edu-h">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">My Journey</span>
+        <h2 class="section-title" id="edu-h">Education</h2>
+        <p class="section-sub">Building a strong foundation</p>
+      </div>
+      <div class="timeline reveal">
+
+        <div class="tl-item">
+          <div class="tl-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          </div>
+          <div class="tl-content glass">
+            <div class="tl-year">2023 – Present</div>
+            <h3 class="tl-title">B.E. in Computer Engineering</h3>
+            <p class="tl-org">LFRP – ITR, Gandhinagar</p>
+            <p class="tl-detail">Kadi Sarva Vishwavidhyalaya (KSV) &middot; 6th Semester</p>
+            <div class="tl-tags">
+              <span class="ptag">Data Structures</span>
+              <span class="ptag">Algorithms</span>
+              <span class="ptag">DBMS</span>
+              <span class="ptag">OS</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          </div>
+          <div class="tl-content glass">
+            <div class="tl-year">Completed 2023</div>
+            <h3 class="tl-title">Higher Secondary (12th – Science)</h3>
+            <p class="tl-org">Alpha Vidhya Sankul, Junagadh</p>
+            <p class="tl-detail">GHSEB Board &middot; Science Stream</p>
+            <div class="tl-tags">
+              <span class="ptag">Physics</span>
+              <span class="ptag">Chemistry</span>
+              <span class="ptag">Mathematics</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section" id="contact" aria-labelledby="contact-h">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Let's Connect</span>
+        <h2 class="section-title" id="contact-h">Get In Touch</h2>
+        <p class="section-sub">Open to internships, collaborations &amp; opportunities</p>
+      </div>
+      <div class="contact-grid reveal">
+        <div class="contact-info">
+          <p class="contact-intro">
+            I'm actively looking for internship opportunities where I can contribute to real products,
+            sharpen my engineering skills, and grow in a collaborative environment.
+          </p>
+          <div class="contact-items">
+            <a href="tel:+919773293841" class="ci" id="ciPhone">
+              <div class="ci-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 1.2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.74a16 16 0 0 0 6.29 6.29l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </div>
+              <div>
+                <span class="ci-label">Phone</span>
+                <span class="ci-value">+91 97732 93841</span>
+              </div>
+            </a>
+            <a href="https://www.linkedin.com/in/hetavin-pokiya-66352b2b4/" target="_blank" rel="noopener noreferrer" class="ci" id="ciLinkedIn">
+              <div class="ci-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+              </div>
+              <div>
+                <span class="ci-label">LinkedIn</span>
+                <span class="ci-value">linkedin.com/in/hetavin-pokiya-66352b2b4</span>
+              </div>
+            </a>
+            <a href="https://github.com/hetavin" target="_blank" rel="noopener noreferrer" class="ci" id="ciGitHub">
+              <div class="ci-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+              </div>
+              <div>
+                <span class="ci-label">GitHub</span>
+                <span class="ci-value">github.com/hetavin</span>
+              </div>
+            </a>
+            <div class="ci" id="ciLocation">
+              <div class="ci-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <div>
+                <span class="ci-label">Location</span>
+                <span class="ci-value">Nikol, Ahmedabad – 382350</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <form class="contact-form glass" id="contactForm" novalidate aria-label="Contact form">
+          <h3 class="form-title">Send a Message</h3>
+          <div class="fg">
+            <label for="fname" class="fl">Your Name <span aria-label="required">*</span></label>
+            <input type="text" id="fname" name="name" class="fi" placeholder="John Doe" required autocomplete="name" />
+          </div>
+          <div class="fg">
+            <label for="femail" class="fl">Email Address <span aria-label="required">*</span></label>
+            <input type="email" id="femail" name="email" class="fi" placeholder="john@example.com" required autocomplete="email" />
+          </div>
+          <div class="fg">
+            <label for="fsubject" class="fl">Subject</label>
+            <input type="text" id="fsubject" name="subject" class="fi" placeholder="Internship opportunity..." />
+          </div>
+          <div class="fg">
+            <label for="fmsg" class="fl">Message <span aria-label="required">*</span></label>
+            <textarea id="fmsg" name="message" class="fi ftxt" placeholder="Hi Hetavin, I'd like to..." rows="4" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full" id="submitBtn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Send Message
+          </button>
+          <p class="form-note" role="note">This will open your mail client with a pre-filled message.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="#hero" class="nav-logo" aria-label="Back to top"><span class="logo-bracket">&lt;</span>HP<span class="logo-bracket">/&gt;</span></a>
+          <p>Computer Engineering Student &amp; Aspiring Developer</p>
+        </div>
+        <nav class="footer-nav" aria-label="Footer navigation">
+          <a href="#about">About</a>
+          <a href="#skills">Skills</a>
+          <a href="#projects">Projects</a>
+          <a href="#education">Education</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <div class="footer-social">
+          <a href="https://github.com/hetavin" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/hetavin-pokiya-66352b2b4/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="tel:+919773293841" aria-label="Phone">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 1.2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.74a16 16 0 0 0 6.29 6.29l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
           </a>
         </div>
       </div>
-    </section>
-
-    <section id="contact">
-      <div style="text-align: center;">
-        <h1 class="contact-heading">LET'S <span class="highlight">CONNECT</span></h1>
-        <p style="font-size: clamp(15px, 2.2vw, 18px); margin-bottom: 20px; opacity: 0.8;">Actively looking for
-          internship opportunities in
-          software development or ML engineering.</p>
-        <p
-          style="font-size: clamp(13px, 2vw, 16px); margin-bottom: 40px; opacity: 0.7; max-width: 600px; margin-left: auto; margin-right: auto;">
-          I'm eager to contribute to innovative projects, learn from experienced professionals, and grow as a developer.
-          Whether you have an opportunity or just want to discuss technology, feel free to reach out!</p>
-        <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-          <a href="mailto:hetavinpokiya4672@gmail.com" class="cta email-btn"><i class="fas fa-envelope"></i>Email Me</a>
-          <a href="tel:+919773293841" class="cta"
-            style="background: transparent; border: 2px solid #22C55E; color: #22C55E;"><i class="fas fa-phone"></i>Call
-            Me</a>
-          <a href="https://linkedin.com/in/hetavin-pokiya-66352b2b4" target="_blank" class="cta"
-            style="background: transparent; border: 2px solid #22C55E; color: #22C55E;"><i
-              class="fab fa-linkedin"></i>LinkedIn</a>
-        </div>
-        <p style="font-size: clamp(11px, 1.8vw, 14px); margin-top: 40px; opacity: 0.6;">📍 Based in Ahmedabad, Gujarat |
-          Open to remote and
-          on-site opportunities</p>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Hetavin Pokiya &middot; Crafted with passion in Ahmedabad, India</p>
+        <a href="#hero" class="back-top" aria-label="Back to top">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+          Back to Top
+        </a>
       </div>
-    </section>
-  </div>
+    </div>
+  </footer>
 
-  <audio id="bgMusic" loop>
-    <source src="Fireflies.mp3" type="audio/mpeg">
-  </audio>
-  <audio id="clickSound" preload="auto">
-    <source src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3" type="audio/mpeg">
-  </audio>
-  <button id="musicToggle">
-    <i class="fas fa-play"></i>
-  </button>
-  <button id="themeToggle"><i class="fas fa-sun"></i></button>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script>
-    // ── LOADER BACKGROUND PARTICLES ───────────────────────────────────
-    const loaderBg = document.getElementById('loaderBg');
-    for (let i = 0; i < 30; i++) {
-      const p = document.createElement('div');
-      p.className = 'loader-particle';
-      p.style.left = Math.random() * 100 + '%';
-      p.style.top = Math.random() * 100 + '%';
-      p.style.animationDelay = (Math.random() * 3) + 's';
-      p.style.animationDuration = (Math.random() * 2 + 2) + 's';
-      loaderBg.appendChild(p);
-    }
-    const ring = document.createElement('div');
-    ring.className = 'loader-circle';
-    ring.style.width = ring.style.height = '320px';
-    ring.style.left = ring.style.top = '50%';
-    ring.style.transform = 'translate(-50%,-50%)';
-    loaderBg.appendChild(ring);
-
-    // ── NAME CANVAS ──────────────────────────────────────────────────
-    const nameCanvas = document.getElementById('nameCanvas');
-    const nctx = nameCanvas.getContext('2d');
-
-    function setupNameCanvas() {
-      const vw = window.innerWidth;
-      // match hero breakpoints exactly:
-      // ≤480px → clamp(70px,18vw,140px), ≤768px → clamp(60px,15vw,140px), else → clamp(40px,10vw,140px)
-      let fs;
-      if (vw <= 480) fs = Math.min(Math.max(vw * 0.18, 70), 140);
-      else if (vw <= 768) fs = Math.min(Math.max(vw * 0.15, 60), 140);
-      else fs = Math.min(Math.max(vw * 0.10, 40), 140);
-      const lineH = fs * 0.88;
-      nameCanvas.width = vw;
-      nameCanvas.height = lineH * 2 + fs * 0.25;
-      drawName(currentProgress);
-    }
-
-    function drawName(pct) {
-      const W = nameCanvas.width, H = nameCanvas.height;
-      const vw = window.innerWidth;
-      let fs;
-      if (vw <= 480) fs = Math.min(Math.max(vw * 0.18, 70), 140);
-      else if (vw <= 768) fs = Math.min(Math.max(vw * 0.15, 60), 140);
-      else fs = Math.min(Math.max(vw * 0.10, 40), 140);
-      const lineH = fs * 0.88;
-      const isLight = document.body.classList.contains('light');
-      nctx.clearRect(0, 0, W, H);
-      nctx.font = `${fs}px 'Bebas Neue', sans-serif`;
-      nctx.textAlign = 'center';
-      nctx.textBaseline = 'top';
-      const cx = W / 2;
-      const fillY = H * (1 - pct / 100);
-
-      // ghost base
-      nctx.save();
-      nctx.fillStyle = isLight ? 'rgba(15,23,42,0.08)' : 'rgba(255,255,255,0.06)';
-      nctx.fillText('HETAVIN', cx, 0);
-      nctx.fillText('POKIYA', cx, lineH);
-      nctx.strokeStyle = isLight ? 'rgba(22,163,74,0.15)' : 'rgba(34,197,94,0.12)';
-      nctx.lineWidth = 2;
-      nctx.strokeText('HETAVIN', cx, 0);
-      nctx.strokeText('POKIYA', cx, lineH);
-      nctx.restore();
-
-      if (pct <= 0) return;
-
-      // HETAVIN — solid fill, rising
-      nctx.save();
-      nctx.beginPath();
-      nctx.rect(0, fillY, W, lineH);
-      nctx.clip();
-      nctx.fillStyle = isLight ? '#0f172a' : '#ffffff';
-      nctx.shadowColor = isLight ? 'rgba(15,23,42,0.25)' : 'rgba(255,255,255,0.5)';
-      nctx.shadowBlur = 20;
-      nctx.fillText('HETAVIN', cx, 0);
-      nctx.restore();
-
-      // POKIYA — green stroke outline, rising
-      nctx.save();
-      nctx.beginPath();
-      nctx.rect(0, lineH + fillY * 0.5, W, lineH);
-      nctx.clip();
-      nctx.strokeStyle = isLight ? '#16a34a' : '#22C55E';
-      nctx.lineWidth = Math.max(1.5, fs * 0.014);
-      nctx.shadowColor = isLight ? '#16a34a' : '#22C55E';
-      nctx.shadowBlur = 28;
-      nctx.strokeText('POKIYA', cx, lineH);
-      nctx.restore();
-    }
-
-    let currentProgress = 0;
-    setupNameCanvas();
-    window.addEventListener('resize', setupNameCanvas);
-
-
-
-    // ── SMOOTH LOADING (requestAnimationFrame) ───────────────────────
-    window.addEventListener('load', () => {
-      const loader = document.getElementById('loader');
-      const barFill = document.getElementById('loaderBarFill');
-      const progressPercent = document.getElementById('progressPercent');
-      const brightnessOverlay = document.getElementById('brightness-overlay');
-
-      const DURATION = 5000;   // total load animation ms
-      let startTime = null;
-      let done = false;
-
-      function easeInOut(t) {
-        return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-      }
-
-      function tick(ts) {
-        if (!startTime) startTime = ts;
-        const elapsed = ts - startTime;
-        const t = Math.min(elapsed / DURATION, 1);
-        const pct = easeInOut(t) * 100;
-
-        currentProgress = pct;
-        drawName(pct);
-        barFill.style.width = pct + '%';
-        progressPercent.textContent = Math.floor(pct) + '%';
-        if (brightnessOverlay)
-          brightnessOverlay.style.opacity = 1 - (pct / 100) * 0.85;
-
-        if (t < 1) {
-          requestAnimationFrame(tick);
-        } else if (!done) {
-          done = true;
-          setTimeout(() => {
-            loader.classList.add('fade-out');
-            if (brightnessOverlay) brightnessOverlay.style.opacity = 0;
-            setTimeout(() => {
-              loader.style.display = 'none';
-              if (brightnessOverlay) brightnessOverlay.style.display = 'none';
-              document.querySelector('.content').classList.add('revealed');
-              document.querySelector('nav').classList.add('revealed');
-            }, 700);
-          }, 500);
-        }
-      }
-
-      requestAnimationFrame(tick);
-    });
-
-
-    // Three.js 3D Background
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas'), alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    camera.position.z = 5;
-
-    // Create particles
-    const geometry = new THREE.BufferGeometry();
-    const vertices = [];
-    for (let i = 0; i < 12000; i++) {
-      vertices.push(
-        Math.random() * 2000 - 1000,
-        Math.random() * 2000 - 1000,
-        Math.random() * 2000 - 1000
-      );
-    }
-    geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-    // soft glow dot texture
-    const dotCanvas = document.createElement('canvas');
-    dotCanvas.width = dotCanvas.height = 32;
-    const dctx = dotCanvas.getContext('2d');
-    const grad = dctx.createRadialGradient(16, 16, 0, 16, 16, 16);
-    grad.addColorStop(0, 'rgba(255,255,255,1)');
-    grad.addColorStop(0.3, 'rgba(255,255,255,0.8)');
-    grad.addColorStop(0.7, 'rgba(34,197,94,0.3)');
-    grad.addColorStop(1, 'rgba(0,0,0,0)');
-    dctx.fillStyle = grad;
-    dctx.fillRect(0, 0, 32, 32);
-    const dotTexture = new THREE.CanvasTexture(dotCanvas);
-    const material = new THREE.PointsMaterial({ color: 0xffffff, size: 2.5, map: dotTexture, alphaTest: 0.02, transparent: true, vertexColors: true });
-
-    // assign per-vertex colors: mix of white, green, dim
-    const colors = [];
-    for (let i = 0; i < 12000; i++) {
-      const r = Math.random();
-      if (r < 0.6) colors.push(1, 1, 1);
-      else if (r < 0.85) colors.push(0.13, 0.77, 0.37);
-      else colors.push(0.5, 0.9, 0.6);
-    }
-    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-    const particles = new THREE.Points(geometry, material);
-    scene.add(particles);
-
-    // ── SPARK / TWINKLE STARS ─────────────────────────────────────────
-    const sparkCanvas = document.createElement('canvas');
-    sparkCanvas.width = sparkCanvas.height = 64;
-    const sctx = sparkCanvas.getContext('2d');
-    // 4-point star spike
-    function drawSpike(ctx, cx, cy, r) {
-      ctx.save();
-      ctx.translate(cx, cy);
-      for (let a = 0; a < 4; a++) {
-        ctx.rotate(Math.PI / 2);
-        const sg = ctx.createLinearGradient(0, 0, 0, -r);
-        sg.addColorStop(0, 'rgba(255,255,255,0.9)');
-        sg.addColorStop(1, 'rgba(255,255,255,0)');
-        ctx.fillStyle = sg;
-        ctx.beginPath();
-        ctx.moveTo(-1.5, 0);
-        ctx.lineTo(0, -r);
-        ctx.lineTo(1.5, 0);
-        ctx.fill();
-      }
-      ctx.restore();
-    }
-    const cg = sctx.createRadialGradient(32, 32, 0, 32, 32, 14);
-    cg.addColorStop(0, 'rgba(255,255,255,1)');
-    cg.addColorStop(0.4, 'rgba(180,255,200,0.6)');
-    cg.addColorStop(1, 'rgba(34,197,94,0)');
-    sctx.fillStyle = cg;
-    sctx.beginPath();
-    sctx.arc(32, 32, 14, 0, Math.PI * 2);
-    sctx.fill();
-    drawSpike(sctx, 32, 32, 30);
-    const sparkTexture = new THREE.CanvasTexture(sparkCanvas);
-
-    const sparkGeo = new THREE.BufferGeometry();
-    const sparkVerts = [], sparkSizes = [];
-    for (let i = 0; i < 180; i++) {
-      sparkVerts.push(
-        Math.random() * 1800 - 900,
-        Math.random() * 1800 - 900,
-        Math.random() * 1800 - 900
-      );
-      sparkSizes.push(Math.random() * 6 + 4);
-    }
-    sparkGeo.setAttribute('position', new THREE.Float32BufferAttribute(sparkVerts, 3));
-    const sparkMat = new THREE.PointsMaterial({ size: 8, map: sparkTexture, alphaTest: 0.01, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
-    const sparks = new THREE.Points(sparkGeo, sparkMat);
-    scene.add(sparks);
-
-    // Create floating geometric shapes
-    const shapes = [];
-
-    // Add cubes
-    for (let i = 0; i < 3; i++) {
-      const cubeGeometry = new THREE.BoxGeometry(2, 2, 2);
-      const cubeMaterial = new THREE.MeshBasicMaterial({
-        color: 0x22C55E,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.3
-      });
-      const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-      cube.position.set(
-        Math.random() * 20 - 10,
-        Math.random() * 20 - 10,
-        Math.random() * 20 - 10
-      );
-      shapes.push(cube);
-      scene.add(cube);
-    }
-
-    // Add octahedrons
-    for (let i = 0; i < 3; i++) {
-      const octaGeometry = new THREE.OctahedronGeometry(1.5);
-      const octaMaterial = new THREE.MeshBasicMaterial({
-        color: 0x22C55E,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.4
-      });
-      const octa = new THREE.Mesh(octaGeometry, octaMaterial);
-      octa.position.set(
-        Math.random() * 20 - 10,
-        Math.random() * 20 - 10,
-        Math.random() * 20 - 10
-      );
-      shapes.push(octa);
-      scene.add(octa);
-    }
-
-    // Add tetrahedrons
-    for (let i = 0; i < 2; i++) {
-      const tetraGeometry = new THREE.TetrahedronGeometry(1.2);
-      const tetraMaterial = new THREE.MeshBasicMaterial({
-        color: 0x22C55E,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.35
-      });
-      const tetra = new THREE.Mesh(tetraGeometry, tetraMaterial);
-      tetra.position.set(
-        Math.random() * 20 - 10,
-        Math.random() * 20 - 10,
-        Math.random() * 20 - 10
-      );
-      shapes.push(tetra);
-      scene.add(tetra);
-    }
-
-    // Mouse movement
-    let mouseX = 0, mouseY = 0;
-    document.addEventListener('mousemove', (e) => {
-      mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-      mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
-    });
-
-    // Animation
-    function animate() {
-      requestAnimationFrame(animate);
-      particles.rotation.x += 0.0005;
-      particles.rotation.y += 0.0005;
-      sparks.rotation.x += 0.0003;
-      sparks.rotation.y -= 0.0004;
-      sparkMat.opacity = 0.6 + Math.sin(Date.now() * 0.002) * 0.4;
-
-      // Animate each shape with different speeds and directions
-      shapes.forEach((shape, index) => {
-        shape.rotation.x += 0.005 + (index * 0.002);
-        shape.rotation.y += 0.003 + (index * 0.001);
-        shape.rotation.z += 0.004 + (index * 0.0015);
-
-        // Float up and down
-        shape.position.y += Math.sin(Date.now() * 0.001 + index) * 0.01;
-      });
-
-      camera.position.x += (mouseX * 2 - camera.position.x) * 0.05;
-      camera.position.y += (mouseY * 2 - camera.position.y) * 0.05;
-      camera.lookAt(scene.position);
-      renderer.render(scene, camera);
-    }
-    animate();
-
-    // Resize handler
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-
-    // Smooth scroll with easing - works on all devices
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href');
-        const targetElement = document.querySelector(targetId);
-
-        if (targetElement) {
-          // Check if device supports smooth scrolling
-          const supportsNativeSmoothScroll = 'scrollBehavior' in document.documentElement.style;
-
-          if (supportsNativeSmoothScroll && !(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent))) {
-            // Use custom smooth scroll for desktop
-            const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
-            const startPosition = window.pageYOffset;
-            const distance = targetPosition - startPosition;
-            const duration = 1200;
-            let start = null;
-
-            function easeInOutCubic(t) {
-              return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
-            }
-
-            function animation(currentTime) {
-              if (start === null) start = currentTime;
-              const timeElapsed = currentTime - start;
-              const progress = Math.min(timeElapsed / duration, 1);
-              const ease = easeInOutCubic(progress);
-
-              window.scrollTo(0, startPosition + distance * ease);
-
-              if (timeElapsed < duration) {
-                requestAnimationFrame(animation);
-              }
-            }
-
-            requestAnimationFrame(animation);
-          } else {
-            // Use native smooth scroll for mobile devices
-            targetElement.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start'
-            });
-          }
-        }
-      });
-    });
-
-    // Prevent scroll issues on mobile
-    let isScrolling = false;
-    window.addEventListener('scroll', () => {
-      window.clearTimeout(isScrolling);
-      isScrolling = setTimeout(() => {
-        isScrolling = false;
-      }, 66);
-    }, { passive: true });
-
-    // Theme toggle
-    const themeToggle = document.getElementById('themeToggle');
-    if (localStorage.getItem('theme') === 'light') {
-      document.body.classList.add('light');
-      themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-    }
-    themeToggle.addEventListener('click', () => {
-      document.body.classList.toggle('light');
-      const isLight = document.body.classList.contains('light');
-      themeToggle.innerHTML = isLight ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-      localStorage.setItem('theme', isLight ? 'light' : 'dark');
-      renderer.setClearColor(isLight ? 0xf0f4f8 : 0x000000, 0);
-    });
-
-    // Mobile menu toggle
-    function toggleMenu() {
-      const hamburger = document.querySelector('.hamburger');
-      const mobileMenu = document.getElementById('mobileMenu');
-      const menuOverlay = document.getElementById('menuOverlay');
-      hamburger.classList.toggle('active');
-      mobileMenu.classList.toggle('active');
-      menuOverlay.classList.toggle('active');
-    }
-
-    // Background music
-    const bgMusic = document.getElementById('bgMusic');
-    const musicToggle = document.getElementById('musicToggle');
-    const clickSound = document.getElementById('clickSound');
-    bgMusic.volume = 0.3;
-
-    function playClick() {
-      clickSound.currentTime = 0;
-      clickSound.play();
-    }
-
-    function playUIClick() {
-      try {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(880, ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.08);
-        gain.gain.setValueAtTime(0.18, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
-        osc.start(ctx.currentTime);
-        osc.stop(ctx.currentTime + 0.12);
-      } catch (e) { }
-    }
-
-    musicToggle.addEventListener('click', () => {
-      playClick();
-      if (bgMusic.paused) {
-        bgMusic.play();
-        musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
-      } else {
-        bgMusic.pause();
-        musicToggle.innerHTML = '<i class="fas fa-play"></i>';
-      }
-    });
-
-    document.querySelectorAll('nav a, .cta, .hamburger, .mobile-menu a, #themeToggle, #musicToggle, .hire-btn, button').forEach(el => {
-      el.addEventListener('click', playClick);
-    });
-
-    // Custom cursor
-    const cursor = document.getElementById('cursor');
-    const cursorCircle = document.getElementById('cursorCircle');
-    let cursorX = 0, cursorY = 0;
-    let circleX = 0, circleY = 0;
-
-    document.addEventListener('mousemove', (e) => {
-      cursorX = e.clientX;
-      cursorY = e.clientY;
-    });
-
-    function animateCursor() {
-      const dx = cursorX - circleX;
-      const dy = cursorY - circleY;
-      circleX += dx * 0.15;
-      circleY += dy * 0.15;
-
-      cursor.style.left = cursorX + 'px';
-      cursor.style.top = cursorY + 'px';
-      cursorCircle.style.left = circleX + 'px';
-      cursorCircle.style.top = circleY + 'px';
-
-      requestAnimationFrame(animateCursor);
-    }
-    animateCursor();
-  </script>
+  <script src="script.js"></script>
 </body>
-
 </html>
