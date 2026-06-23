@@ -4,6 +4,94 @@
 
 'use strict';
 
+/* =========================================================
+   0. PAGE LOADER — 5-second minimum progress bar + water fill
+   ========================================================= */
+(function () {
+  const TOTAL_MS = 5000;
+
+  const loader     = document.getElementById('page-loader');
+  const barFill    = document.getElementById('plBarFill');
+  const barGlow    = document.getElementById('plBarGlow');
+  const percent    = document.getElementById('plPercent');
+  const statusEl   = document.getElementById('plStatus');
+  const nameFill   = document.getElementById('plNameFill');   // fill layer
+  const waterline  = document.getElementById('plWaterline');  // glow line
+
+  if (!loader || !barFill) return;
+
+  const stages = [
+    { at: 10,  label: 'Loading assets…'   },
+    { at: 28,  label: 'Building layout…'  },
+    { at: 48,  label: 'Applying styles…'  },
+    { at: 66,  label: 'Running scripts…'  },
+    { at: 84,  label: 'Almost ready…'     },
+    { at: 100, label: 'Welcome!'           },
+  ];
+
+  let current  = 0;
+  let stageIdx = 0;
+  let rafId;
+  const startTime = performance.now();
+
+  function setProgress(val) {
+    current = Math.min(val, 100);
+    const pct = Math.round(current);
+
+    /* ── Progress bar ── */
+    barFill.style.width  = pct + '%';
+    barGlow.style.left   = `calc(${pct}% - 10px)`;
+    percent.textContent  = pct + '%';
+
+    /* ── Water fill on name ── */
+    if (nameFill) {
+      // clip-path inset from top → (100 - pct)% = water level
+      nameFill.style.clipPath = `inset(${100 - pct}% 0 0 0)`;
+    }
+
+    /* ── Waterline position ── */
+    if (waterline) {
+      if (pct > 1 && pct < 100) {
+        waterline.style.opacity = '1';
+        // top = (100-pct)% of the name wrap height
+        waterline.style.top = `${100 - pct}%`;
+      } else {
+        waterline.style.opacity = '0';
+      }
+    }
+
+    /* ── Stage labels ── */
+    if (stageIdx < stages.length && current >= stages[stageIdx].at) {
+      statusEl.textContent = stages[stageIdx].label;
+      stageIdx++;
+    }
+  }
+
+  // Time-driven tick — reaches ~92% at 4.4 s
+  function tick(now) {
+    const elapsed = now - startTime;
+    const natural = (elapsed / TOTAL_MS) * 92;
+    setProgress(natural);
+    if (current < 92) rafId = requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  function finish() {
+    cancelAnimationFrame(rafId);
+    setProgress(100);
+    setTimeout(() => loader.classList.add('loaded'), 600);
+  }
+
+  const timerDone = new Promise(resolve => setTimeout(resolve, TOTAL_MS));
+  const pageDone  = new Promise(resolve => {
+    if (document.readyState === 'complete') resolve();
+    else window.addEventListener('load', resolve, { once: true });
+  });
+
+  Promise.all([timerDone, pageDone]).then(finish);
+})();
+
+
 /* ---- DOM helpers ---- */
 const $ = (sel, ctx = document) => ctx.querySelector(sel);
 const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
@@ -249,14 +337,37 @@ function showToast(msg, type = 'success') {
 }
 
 /* =========================================================
-   9. SMOOTH SCROLL for anchor links
+   9. SMOOTH SCROLL for anchor links (custom eased)
    ========================================================= */
+function smoothScrollTo(targetEl, duration = 800) {
+  const navH   = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 70;
+  const start  = window.scrollY;
+  const target = targetEl.getBoundingClientRect().top + window.scrollY - navH;
+  const diff   = target - start;
+  let startTime = null;
+
+  function easeInOutExpo(t) {
+    return t === 0 ? 0 : t === 1 ? 1 :
+      t < 0.5 ? Math.pow(2, 20 * t - 10) / 2
+              : (2 - Math.pow(2, -20 * t + 10)) / 2;
+  }
+
+  function step(ts) {
+    if (!startTime) startTime = ts;
+    const elapsed  = ts - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    window.scrollTo(0, start + diff * easeInOutExpo(progress));
+    if (progress < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', (e) => {
     const target = document.querySelector(a.getAttribute('href'));
     if (target) {
       e.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      smoothScrollTo(target, 900);
     }
   });
 });
@@ -294,6 +405,58 @@ $$('.proj-card').forEach(card => {
 });
 
 /* =========================================================
+   12. PARALLAX — hero orbs follow mouse gently
+   ========================================================= */
+const orb1 = document.querySelector('.orb-1');
+const orb2 = document.querySelector('.orb-2');
+const orb3 = document.querySelector('.orb-3');
+
+if (orb1 && orb2 && orb3) {
+  document.addEventListener('mousemove', (e) => {
+    const cx = window.innerWidth  / 2;
+    const cy = window.innerHeight / 2;
+    const dx = (e.clientX - cx) / cx;
+    const dy = (e.clientY - cy) / cy;
+
+    orb1.style.transform = `translate(${dx * 18}px, ${dy * 14}px) scale(1)`;
+    orb2.style.transform = `translate(${dx * -14}px, ${dy * -10}px) scale(1)`;
+    orb3.style.transform = `translate(${dx * 10}px, ${dy * 18}px) scale(1)`;
+  });
+
+  // Smooth transition for orbs
+  [orb1, orb2, orb3].forEach(o => {
+    o.style.transition = 'transform 1.2s cubic-bezier(0.25,0.46,0.45,0.94)';
+  });
+}
+
+/* =========================================================
+   13. SKILL PILLS — staggered scroll reveal
+   ========================================================= */
+const skillRows = $$('.skill-row');
+skillRows.forEach(row => {
+  const pills = [...row.children];
+  pills.forEach((pill, i) => {
+    pill.style.opacity    = '0';
+    pill.style.transform  = 'translateY(20px)';
+    pill.style.transition = `opacity 0.5s ease ${i * 80}ms, transform 0.5s cubic-bezier(.34,1.56,.64,1) ${i * 80}ms`;
+  });
+});
+
+const pillObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      [...entry.target.children].forEach(pill => {
+        pill.style.opacity   = '1';
+        pill.style.transform = 'translateY(0)';
+      });
+      pillObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.2 });
+
+skillRows.forEach(row => pillObserver.observe(row));
+
+/* =========================================================
    INIT — page ready
    ========================================================= */
 document.addEventListener('DOMContentLoaded', () => {
@@ -302,4 +465,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Mark first section as active in nav
   if (navLinks[0]) navLinks[0].classList.add('active');
+
+  // Navbar entrance
+  const navbar = $('#navbar');
+  if (navbar) {
+    navbar.style.opacity    = '0';
+    navbar.style.transform  = 'translateY(-16px)';
+    navbar.style.transition = 'opacity 0.6s ease 0.1s, transform 0.6s cubic-bezier(.16,1,.3,1) 0.1s';
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        navbar.style.opacity   = '1';
+        navbar.style.transform = 'translateY(0)';
+      });
+    });
+  }
 });

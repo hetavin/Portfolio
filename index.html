@@ -14,6 +14,44 @@
 </head>
 <body>
 
+  <!-- PAGE LOADER -->
+  <div id="page-loader" role="status" aria-label="Loading portfolio">
+    <div class="pl-bg">
+      <div class="pl-orb pl-orb-1"></div>
+      <div class="pl-orb pl-orb-2"></div>
+      <div class="pl-grid"></div>
+    </div>
+    <div class="pl-content">
+      <div class="pl-logo">
+        <span class="pl-bracket">&lt;</span>HP<span class="pl-bracket">/&gt;</span>
+      </div>
+      <!-- Water-fill name -->
+      <div class="pl-name-wrap" id="plNameWrap">
+        <!-- Ghost skeleton — always visible as outline -->
+        <h1 class="pl-name pl-name-ghost" aria-hidden="true">
+          <span class="pl-name-first">Hetavin</span>
+          <span class="pl-name-last">Pokiya</span>
+        </h1>
+        <!-- Color fill — rises from bottom like water -->
+        <h1 class="pl-name pl-name-fill" id="plNameFill" aria-label="Hetavin Pokiya">
+          <span class="pl-name-first">Hetavin</span>
+          <span class="pl-name-last">Pokiya</span>
+        </h1>
+        <!-- Glowing water-surface line -->
+        <div class="pl-waterline" id="plWaterline"></div>
+      </div>
+      <p class="pl-tagline">Computer Engineering Student &amp; Developer</p>
+      <div class="pl-bar-wrap">
+        <div class="pl-bar-track">
+          <div class="pl-bar-fill" id="plBarFill"></div>
+          <div class="pl-bar-glow" id="plBarGlow"></div>
+        </div>
+        <div class="pl-percent" id="plPercent">0%</div>
+      </div>
+      <p class="pl-status" id="plStatus">Initialising…</p>
+    </div>
+  </div>
+
   <!-- CURSOR -->
   <div class="cursor" id="cursor"></div>
   <div class="cursor-follower" id="cursorFollower"></div>
@@ -125,12 +163,12 @@
   <section class="section" id="about" aria-labelledby="about-h">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag">Who I Am</span>
-        <h2 class="section-title" id="about-h">About Me</h2>
-        <p class="section-sub">Curious by nature. Builder by choice.</p>
+        <span class="section-tag reveal">Who I Am</span>
+        <h2 class="section-title reveal" id="about-h">About Me</h2>
+        <p class="section-sub reveal">Curious by nature. Builder by choice.</p>
       </div>
       <div class="about-grid">
-        <div class="about-text reveal">
+        <div class="about-text reveal from-left">
           <p class="about-lead">
             I'm a <strong>Computer Engineering student</strong> at LFRP–ITR, Gandhinagar (KSV),
             currently in my <span class="hl">7th semester</span> — passionate about
@@ -160,31 +198,31 @@
             </div>
           </div>
         </div>
-        <div class="strengths-wrap reveal">
+        <div class="strengths-wrap reveal from-right">
           <h3 class="strengths-title">Core Strengths</h3>
           <div class="strengths-grid">
-            <div class="strength-card glass">
+            <div class="strength-card glass reveal scale-in" data-delay="100">
               <div class="str-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
               </div>
               <h4>Quick Learner</h4>
               <p>Picks up new tech and frameworks with minimal guidance.</p>
             </div>
-            <div class="strength-card glass">
+            <div class="strength-card glass reveal scale-in" data-delay="200">
               <div class="str-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
               </div>
               <h4>Problem Solver</h4>
               <p>Approaches challenges analytically with structured steps.</p>
             </div>
-            <div class="strength-card glass">
+            <div class="strength-card glass reveal scale-in" data-delay="300">
               <div class="str-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
               </div>
               <h4>Team Player</h4>
               <p>Communicates clearly in collaborative environments.</p>
             </div>
-            <div class="strength-card glass">
+            <div class="strength-card glass reveal scale-in" data-delay="400">
               <div class="str-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
               </div>
@@ -201,9 +239,9 @@
   <section class="section section-alt" id="skills" aria-labelledby="skills-h">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag">What I Know</span>
-        <h2 class="section-title" id="skills-h">Technical Skills</h2>
-        <p class="section-sub">Technologies I work with every day</p>
+        <span class="section-tag reveal">What I Know</span>
+        <h2 class="section-title reveal" id="skills-h">Technical Skills</h2>
+        <p class="section-sub reveal">Technologies I work with every day</p>
       </div>
       <div class="skills-wrap reveal">
         <div class="skill-cat">
@@ -302,13 +340,13 @@
   <section class="section" id="projects" aria-labelledby="proj-h">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag">What I've Built</span>
-        <h2 class="section-title" id="proj-h">Projects</h2>
-        <p class="section-sub">Real applications, real problems solved</p>
+        <span class="section-tag reveal">What I've Built</span>
+        <h2 class="section-title reveal" id="proj-h">Projects</h2>
+        <p class="section-sub reveal">Real applications, real problems solved</p>
       </div>
       <div class="projects-grid">
 
-        <article class="proj-card glass reveal" aria-label="EduSync project">
+        <article class="proj-card glass reveal from-left" aria-label="EduSync project">
           <div class="proj-top">
             <div class="proj-icon" style="--pc:#6C63FF">
               <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 7h-9"/><path d="M14 17H5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg>
@@ -341,7 +379,7 @@
           </div>
         </article>
 
-        <article class="proj-card glass reveal" aria-label="Iron Hub project">
+        <article class="proj-card glass reveal from-right" data-delay="150" aria-label="Iron Hub project">
           <div class="proj-top">
             <div class="proj-icon" style="--pc:#FF6B6B">
               <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18h8"/><path d="M3 22h18"/><path d="M14 22a7 7 0 1 0 0-14h-1"/><path d="M9 14h2"/><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z"/><path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/></svg>
@@ -382,13 +420,13 @@
   <section class="section section-alt" id="education" aria-labelledby="edu-h">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag">My Journey</span>
-        <h2 class="section-title" id="edu-h">Education</h2>
-        <p class="section-sub">Building a strong foundation</p>
+        <span class="section-tag reveal">My Journey</span>
+        <h2 class="section-title reveal" id="edu-h">Education</h2>
+        <p class="section-sub reveal">Building a strong foundation</p>
       </div>
       <div class="timeline reveal">
 
-        <div class="tl-item">
+        <div class="tl-item reveal from-left" data-delay="100">
           <div class="tl-icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
           </div>
@@ -406,7 +444,7 @@
           </div>
         </div>
 
-        <div class="tl-item">
+        <div class="tl-item reveal from-left" data-delay="250">
           <div class="tl-icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
           </div>
@@ -431,11 +469,11 @@
   <section class="section" id="contact" aria-labelledby="contact-h">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag">Let's Connect</span>
-        <h2 class="section-title" id="contact-h">Get In Touch</h2>
-        <p class="section-sub">Open to internships, collaborations &amp; opportunities</p>
+        <span class="section-tag reveal">Let's Connect</span>
+        <h2 class="section-title reveal" id="contact-h">Get In Touch</h2>
+        <p class="section-sub reveal">Open to internships, collaborations &amp; opportunities</p>
       </div>
-      <div class="contact-grid reveal">
+      <div class="contact-grid reveal from-left">
         <div class="contact-info">
           <p class="contact-intro">
             I'm actively looking for internship opportunities where I can contribute to real products,
