@@ -3,8 +3,9 @@ import hmac
 
 from flask import (
     Blueprint, render_template, request, redirect, url_for,
-    session, flash, send_from_directory, current_app, jsonify,
+    session, flash, send_file, current_app, jsonify,
 )
+from io import BytesIO
 from werkzeug.utils import secure_filename
 
 import db
@@ -89,28 +90,21 @@ def upload():
     if not title:
         title = os.path.splitext(file.filename)[0]
 
-    filename = secure_filename(file.filename)
-    if not filename:
-        filename = "document.pdf"
-    base, ext = os.path.splitext(filename)
-    unique_name = f"{base}_{int(__import__('time').time())}{ext}"
-    save_path = os.path.join(UPLOAD_FOLDER, unique_name)
-    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-    file.save(save_path)
+    file_bytes = file.read()
+    size = len(file_bytes)
+    original_name = file.filename
+    filename = secure_filename(file.filename) or "document.pdf"
 
-    db.add_pdf(title, unique_name, file.filename, os.path.getsize(save_path))
+    pdf_id = db.add_pdf(title, filename, original_name, size, file_bytes)
+    pdf_record = db.get_pdf(pdf_id)
 
     try:
-        pdf_record = db.get_pdf_by_filename(unique_name)
-        if pdf_record:
-            chunks = extract_chunks(save_path)
-            db.save_chunks(pdf_record["id"], chunks)
+        chunks = extract_chunks(file_bytes)
+        db.save_chunks(pdf_id, chunks)
     except Exception as e:
         print("PDF extraction error:", e)
 
     if is_ajax:
-        pdf_record = pdf_record or db.get_pdf_by_filename(unique_name)
-        size = os.path.getsize(save_path)
         return jsonify({
             "id":          pdf_record["id"],
             "title":       title,
@@ -162,10 +156,6 @@ def delete(pdf_id):
     is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     pdf = db.get_pdf(pdf_id)
     if pdf:
-        try:
-            os.remove(os.path.join(UPLOAD_FOLDER, pdf["filename"]))
-        except OSError:
-            pass
         db.delete_pdf(pdf_id)
         if is_ajax:
             return jsonify({"ok": True})
@@ -180,11 +170,16 @@ def delete(pdf_id):
 @admin.route("/admin/pdf/<int:pdf_id>")
 @admin_required
 def serve_pdf(pdf_id):
-    pdf = db.get_pdf(pdf_id)
-    if not pdf:
+    row = db.get_pdf_blob(pdf_id)
+    if not row or not row["file_data"]:
         flash("PDF not found.", "error")
         return redirect(url_for("admin.dashboard"))
-    return send_from_directory(UPLOAD_FOLDER, pdf["filename"])
+    return send_file(
+        BytesIO(row["file_data"]),
+        mimetype="application/pdf",
+        download_name=row["filename"],
+        as_attachment=False,
+    )
 
 
 @admin.route("/admin/logout")

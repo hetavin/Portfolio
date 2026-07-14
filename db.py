@@ -35,12 +35,13 @@ def init_db():
             """)
             cur.execute("""
                 CREATE TABLE IF NOT EXISTS pdfs (
-                    id           INT AUTO_INCREMENT PRIMARY KEY,
-                    title        VARCHAR(255)  NOT NULL,
-                    filename     VARCHAR(255)  NOT NULL,
-                    original_name VARCHAR(255) NOT NULL DEFAULT '',
-                    size         BIGINT        NOT NULL DEFAULT 0,
-                    uploaded_at  DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP
+                    id            INT AUTO_INCREMENT PRIMARY KEY,
+                    title         VARCHAR(255)  NOT NULL,
+                    filename      VARCHAR(255)  NOT NULL,
+                    original_name VARCHAR(255)  NOT NULL DEFAULT '',
+                    size          BIGINT        NOT NULL DEFAULT 0,
+                    file_data     LONGBLOB,
+                    uploaded_at   DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
             """)
             cur.execute("""
@@ -113,21 +114,22 @@ def list_visitors(limit=200):
 
 # ── PDFs ──────────────────────────────────────────────────────────────────────
 
-def add_pdf(title, filename, original_name, size):
+def add_pdf(title, filename, original_name, size, file_data=None):
     conn = get_conn()
     with conn:
         with conn.cursor() as cur:
             cur.execute(
-                "INSERT INTO pdfs (title, filename, original_name, size) VALUES (%s, %s, %s, %s)",
-                (title, filename, original_name, size),
+                "INSERT INTO pdfs (title, filename, original_name, size, file_data) VALUES (%s, %s, %s, %s, %s)",
+                (title, filename, original_name, size, file_data),
             )
+            return cur.lastrowid
 
 
 def list_pdfs():
     conn = get_conn()
     with conn:
         with conn.cursor() as cur:
-            cur.execute("SELECT * FROM pdfs ORDER BY uploaded_at DESC")
+            cur.execute("SELECT id, title, filename, original_name, size, uploaded_at FROM pdfs ORDER BY uploaded_at DESC")
             return cur.fetchall()
 
 
@@ -135,7 +137,15 @@ def get_pdf(pdf_id):
     conn = get_conn()
     with conn:
         with conn.cursor() as cur:
-            cur.execute("SELECT * FROM pdfs WHERE id = %s", (pdf_id,))
+            cur.execute("SELECT id, title, filename, original_name, size, uploaded_at FROM pdfs WHERE id = %s", (pdf_id,))
+            return cur.fetchone()
+
+
+def get_pdf_blob(pdf_id):
+    conn = get_conn()
+    with conn:
+        with conn.cursor() as cur:
+            cur.execute("SELECT file_data, filename FROM pdfs WHERE id = %s", (pdf_id,))
             return cur.fetchone()
 
 
