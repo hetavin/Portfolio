@@ -16,7 +16,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
     rel="stylesheet" />
-  <link rel="stylesheet" href="../static/css/style.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
 </head>
 
 <body>
@@ -70,6 +70,7 @@
         <li><a href="#skills" class="nav-link">Skills</a></li>
         <li><a href="#projects" class="nav-link">Projects</a></li>
         <li><a href="#education" class="nav-link">Education</a></li>
+        <li><a href="#cv" class="nav-link">CV</a></li>
         <li><a href="#contact" class="nav-link">Contact</a></li>
       </ul>
       <a href="#contact" class="nav-cta">Let's Connect</a>
@@ -83,6 +84,7 @@
         <li><a href="#skills" class="mobile-link">Skills</a></li>
         <li><a href="#projects" class="mobile-link">Projects</a></li>
         <li><a href="#education" class="mobile-link">Education</a></li>
+        <li><a href="#cv" class="mobile-link">CV</a></li>
         <li><a href="#contact" class="mobile-link">Contact</a></li>
       </ul>
     </div>
@@ -584,6 +586,51 @@
     </div>
   </section>
 
+  <!-- CV -->
+  <section class="section" id="cv" aria-labelledby="cv-h">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag reveal">Resume</span>
+        <h2 class="section-title reveal" id="cv-h">My CV</h2>
+        <p class="section-sub reveal">Download my resume for a full overview</p>
+      </div>
+      <div class="cv-card glass reveal">
+        <div class="cv-left">
+          <div class="cv-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10 9 9 9 8 9"/>
+            </svg>
+          </div>
+          <div class="cv-info">
+            <h3 class="cv-title">Hetavin Pokiya — Resume</h3>
+            <p class="cv-meta">Computer Engineering Student &middot; Aspiring Developer &middot; ML Enthusiast</p>
+            <div class="cv-tags">
+              <span class="ptag">Python</span>
+              <span class="ptag">Flask</span>
+              <span class="ptag">OpenCV</span>
+              <span class="ptag">MySQL</span>
+              <span class="ptag">Machine Learning</span>
+            </div>
+          </div>
+        </div>
+        <div class="cv-actions">
+          <a href="/uploads/resume_1784010625.pdf" target="_blank" class="btn btn-secondary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            Preview
+          </a>
+          <a href="/uploads/resume_1784010625.pdf" download class="btn btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download CV
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- CONTACT -->
   <section class="section" id="contact" aria-labelledby="contact-h">
     <div class="container">
@@ -764,9 +811,15 @@
 
     <div class="chat-panel" id="chatPanel" aria-hidden="true">
       <div class="chat-header">
-        <div>
-          <p class="chat-title">Chat with me</p>
-          <p class="chat-subtitle">Ask about internships, projects or availability.</p>
+        <div class="chat-header-left">
+          <div class="chat-avatar">
+            <span>HP</span>
+            <span class="chat-avatar-dot"></span>
+          </div>
+          <div>
+            <p class="chat-title">Hetavin's Assistant</p>
+            <p class="chat-subtitle"><span class="chat-online-dot"></span> Online · Ask me anything</p>
+          </div>
         </div>
         <button type="button" class="chat-close" id="chatClose" aria-label="Close chat">×</button>
       </div>
@@ -779,9 +832,9 @@
     </div>
   </div>
 
-  <script src="../static/js/script.js"></script>
-  <!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> -->
-  <script src="../static/js/api.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="{{ url_for('static', filename='js/script.js') }}?v=3"></script>
+  <script src="{{ url_for('static', filename='js/api.js') }}?v=3"></script>
 </body>
 
 </html>

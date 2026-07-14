@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login · Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}" />
+</head>
+<body class="admin-body">
+  <div class="admin-login">
+    <div class="admin-login-card">
+
+      <div class="login-logo">
+        <div class="login-logo-icon">HP</div>
+        <span class="login-logo-text">Portfolio Admin</span>
+      </div>
+
+      <h1>Welcome back</h1>
+      <p class="sub">Sign in to manage your portfolio.</p>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <ul class="flash-list" style="margin-bottom:20px;">
+            {% for cat, msg in messages %}
+              <li class="{{ cat }}">
+                <i class="fa-solid {% if cat == 'success' %}fa-circle-check{% else %}fa-circle-exclamation{% endif %}"></i>
+                {{ msg }}
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+
+      <form method="POST" action="{{ url_for('admin.login') }}">
+        <div class="field">
+          <label for="username"><i class="fa-solid fa-user" style="margin-right:6px;opacity:.6;"></i>Username</label>
+          <input type="text" id="username" name="username" autocomplete="username" placeholder="admin" required />
+        </div>
+        <div class="field">
+          <label for="password"><i class="fa-solid fa-lock" style="margin-right:6px;opacity:.6;"></i>Password</label>
+          <input type="password" id="password" name="password" autocomplete="current-password" placeholder="••••••••" required />
+        </div>
+        <button type="submit" class="btn btn-primary btn-full" style="margin-top:8px; padding:13px;">
+          <i class="fa-solid fa-right-to-bracket"></i> Sign In
+        </button>
+      </form>
+
+      <p style="text-align:center; margin-top:20px; font-size:.78rem; color:var(--text-3);">
+        <a href="{{ url_for('main.home') }}" style="color:var(--text-3); text-decoration:none;">
+          <i class="fa-solid fa-arrow-left" style="margin-right:4px;"></i>Back to portfolio
+        </a>
+      </p>
+
+    </div>
+  </div>
+</body>
+</html>

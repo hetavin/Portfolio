@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard · Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}" />
+</head>
+<body class="admin-body">
+  <div class="admin-shell">
+
+    <!-- Topbar -->
+    <header class="admin-topbar">
+      <div class="brand">
+        <div class="brand-icon">HP</div>
+        Portfolio Admin
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-badge">
+          <span class="topbar-badge-dot"></span>
+          Online
+        </div>
+        <a class="btn btn-ghost btn-sm" href="{{ url_for('main.home') }}" target="_blank">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> View Site
+        </a>
+        <a class="btn btn-danger btn-sm" href="{{ url_for('admin.logout') }}">
+          <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </a>
+      </div>
+    </header>
+
+    <main class="admin-main">
+
+      <!-- Flash messages -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <ul class="flash-list">
+            {% for cat, msg in messages %}
+              <li class="{{ cat }}">
+                <i class="fa-solid {% if cat == 'success' %}fa-circle-check{% else %}fa-circle-exclamation{% endif %}"></i>
+                {{ msg }}
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+
+      <!-- Page title -->
+      <div class="page-title">
+        <div>
+          <h1>Dashboard</h1>
+          <p>Manage your portfolio visitors and documents</p>
+        </div>
+      </div>
+
+      <!-- Stat cards -->
+      <section class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-icon purple"><i class="fa-solid fa-eye"></i></div>
+          <div class="stat-body">
+            <div class="num">{{ stats.total }}</div>
+            <div class="label">Total Visits</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon blue"><i class="fa-solid fa-users"></i></div>
+          <div class="stat-body">
+            <div class="num">{{ stats.unique }}</div>
+            <div class="label">Unique Visitors</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green"><i class="fa-solid fa-calendar-day"></i></div>
+          <div class="stat-body">
+            <div class="num">{{ stats.today }}</div>
+            <div class="label">Visits Today</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon orange"><i class="fa-solid fa-file-pdf"></i></div>
+          <div class="stat-body">
+            <div class="num">{{ stats.pdfs }}</div>
+            <div class="label">PDFs Uploaded</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="cols">
+
+        <!-- PDF Management -->
+        <section class="panel">
+          <div class="panel-header">
+            <h2>
+              <span class="ph-icon"><i class="fa-solid fa-upload"></i></span>
+              Upload PDF
+            </h2>
+          </div>
+          <div class="panel-body">
+            <form id="upload-form" method="POST" action="{{ url_for('admin.upload') }}" enctype="multipart/form-data">
+              <div class="field">
+                <label for="title">Title <span style="color:var(--text-3)">(optional)</span></label>
+                <input type="text" id="title" name="title" placeholder="e.g. Resume 2026" />
+              </div>
+              <div class="field">
+                <label for="pdf">PDF File</label>
+                <input type="file" id="pdf" name="pdf" accept="application/pdf" required />
+                <p class="upload-hint"><i class="fa-solid fa-circle-info"></i> Max file size: 20 MB</p>
+              </div>
+              <button type="submit" id="upload-btn" class="btn btn-primary btn-full">
+                <i class="fa-solid fa-cloud-arrow-up"></i> <span id="upload-btn-text">Upload PDF</span>
+              </button>
+            </form>
+
+            <div class="panel-divider"></div>
+
+            <div class="panel-header" style="padding:0 0 14px; border:none;">
+              <h2>
+                <span class="ph-icon"><i class="fa-solid fa-folder-open"></i></span>
+                Your PDFs
+              </h2>
+              <span id="pdf-count" class="panel-count">{{ pdfs | length }} file{% if pdfs | length != 1 %}s{% endif %}</span>
+            </div>
+
+            <div id="pdf-list-wrap">
+            {% if pdfs %}
+              <div class="table-wrap">
+                <table class="data" id="pdf-table">
+                  <thead>
+                    <tr>
+                      <th>Title</th>
+                      <th>Size</th>
+                      <th>Added</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody id="pdf-tbody">
+                    {% for p in pdfs %}
+                    <tr id="pdf-row-{{ p.id }}">
+                      <td class="td-name">{{ p.title }}</td>
+                      <td class="mono">
+                        {% if p.size >= 1048576 %}{{ (p.size/1048576)|round(2) }} MB
+                        {% else %}{{ (p.size/1024)|round(1) }} KB{% endif %}
+                      </td>
+                      <td class="mono">{{ p.uploaded_at.strftime('%d %b %Y') }}</td>
+                      <td>
+                        <div class="td-actions">
+                          <a class="btn btn-ghost btn-sm" href="{{ url_for('admin.serve_pdf', pdf_id=p.id) }}" target="_blank">
+                            <i class="fa-solid fa-eye"></i>
+                          </a>
+                          <form method="POST" action="{{ url_for('admin.delete', pdf_id=p.id) }}" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Delete this PDF?');">
+                              <i class="fa-solid fa-trash"></i>
+                            </button>
+                          </form>
+                        </div>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            {% else %}
+              <div class="empty-state" id="pdf-empty">
+                <div class="es-icon"><i class="fa-solid fa-file-circle-xmark"></i></div>
+                <p>No PDFs uploaded yet.</p>
+              </div>
+            {% endif %}
+            </div>
+          </div>
+        </section>
+
+        <!-- Visitors -->
+        <section class="panel">
+          <div class="panel-header">
+            <h2>
+              <span class="ph-icon"><i class="fa-solid fa-chart-line"></i></span>
+              Profile Visitors
+            </h2>
+            <span class="panel-count">{{ visitors | length }} unique visitor{% if visitors | length != 1 %}s{% endif %}</span>
+          </div>
+          <div class="panel-body">
+            {% if visitors %}
+              <div class="table-wrap">
+                <table class="data">
+                  <thead>
+                    <tr>
+                      <th>IP Address</th>
+                      <th>Browser / Device</th>
+                      <th>Page</th>
+                      <th>When</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for v in visitors %}
+                    <tr>
+                      <td class="mono">{{ v.ip }}</td>
+                      <td class="td-ua" title="{{ v.user_agent }}">{{ v.user_agent[:50] }}{% if v.user_agent|length > 50 %}…{% endif %}</td>
+                      <td class="mono">{{ v.path }}</td>
+                      <td class="mono">{{ v.visited_at.strftime('%d %b, %H:%M') }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            {% else %}
+              <div class="empty-state">
+                <div class="es-icon"><i class="fa-solid fa-user-slash"></i></div>
+                <p>No visitors recorded yet.</p>
+              </div>
+            {% endif %}
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+</body>
+
+<script>
+(function () {
+  const form      = document.getElementById('upload-form');
+  const btn       = document.getElementById('upload-btn');
+  const btnText   = document.getElementById('upload-btn-text');
+  const pdfCount  = document.getElementById('pdf-count');
+  const pdfWrap   = document.getElementById('pdf-list-wrap');
+
+  // ── helpers ──────────────────────────────────────────────────────────────
+  function updateCount(n) {
+    pdfCount.textContent = n + ' file' + (n !== 1 ? 's' : '');
+  }
+
+  function ensureTable() {
+    let table = document.getElementById('pdf-table');
+    if (!table) {
+      pdfWrap.innerHTML = `
+        <div class="table-wrap">
+          <table class="data" id="pdf-table">
+            <thead><tr><th>Title</th><th>Size</th><th>Added</th><th></th></tr></thead>
+            <tbody id="pdf-tbody"></tbody>
+          </table>
+        </div>`;
+    }
+    return document.getElementById('pdf-tbody');
+  }
+
+  function buildRow(p) {
+    const tr = document.createElement('tr');
+    tr.id = 'pdf-row-' + p.id;
+    tr.innerHTML = `
+      <td class="td-name">${p.title}</td>
+      <td class="mono">${p.size_label}</td>
+      <td class="mono">${p.uploaded_at}</td>
+      <td>
+        <div class="td-actions">
+          <a class="btn btn-ghost btn-sm" href="/admin/pdf/${p.id}" target="_blank"><i class="fa-solid fa-eye"></i></a>
+          <form method="POST" action="/admin/delete/${p.id}" style="display:inline;">
+            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Delete this PDF?');"><i class="fa-solid fa-trash"></i></button>
+          </form>
+        </div>
+      </td>`;
+    return tr;
+  }
+
+  function showToast(msg, type) {
+    const li = document.createElement('li');
+    li.className = type;
+    li.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation'}"></i> ${msg}`;
+    let list = document.querySelector('.flash-list');
+    if (!list) {
+      list = document.createElement('ul');
+      list.className = 'flash-list';
+      document.querySelector('.admin-main').prepend(list);
+    }
+    list.appendChild(li);
+    setTimeout(() => li.remove(), 4000);
+  }
+
+  // ── AJAX upload ──────────────────────────────────────────────────────────
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    btn.disabled = true;
+    btnText.textContent = 'Uploading…';
+
+    try {
+      const res  = await fetch(form.action, {
+        method: 'POST',
+        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+        body: new FormData(form),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        showToast(data.error || 'Upload failed.', 'error');
+      } else {
+        const tbody = ensureTable();
+        tbody.prepend(buildRow(data));
+        updateCount(tbody.rows.length);
+        form.reset();
+        showToast('PDF uploaded successfully.', 'success');
+      }
+    } catch {
+      showToast('Network error. Please try again.', 'error');
+    } finally {
+      btn.disabled = false;
+      btnText.textContent = 'Upload PDF';
+    }
+  });
+
+  // ── Cross-device polling (every 5 s) ─────────────────────────────────────
+  setInterval(async () => {
+    try {
+      const res  = await fetch('/admin/api/pdfs');
+      if (!res.ok) return;
+      const pdfs = await res.json();
+
+      const tbody    = document.getElementById('pdf-tbody');
+      const existing = tbody
+        ? new Set([...tbody.querySelectorAll('tr')].map(r => r.id))
+        : new Set();
+
+      let added = false;
+      pdfs.forEach(p => {
+        if (!existing.has('pdf-row-' + p.id)) {
+          ensureTable().prepend(buildRow(p));
+          added = true;
+        }
+      });
+
+      if (added) updateCount(document.getElementById('pdf-tbody').rows.length);
+    } catch { /* silent */ }
+  }, 5000);
+}());
+</script>
+</html>

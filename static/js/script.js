@@ -67,12 +67,12 @@
     }
   }
 
-  // Time-driven tick — reaches ~92% at 4.4 s
+  // Time-driven tick — reaches ~99% at 4.4 s
   function tick(now) {
     const elapsed = now - startTime;
-    const natural = (elapsed / TOTAL_MS) * 92;
+    const natural = (elapsed / TOTAL_MS) * 99;
     setProgress(natural);
-    if (current < 92) rafId = requestAnimationFrame(tick);
+    if (current < 99) rafId = requestAnimationFrame(tick);
   }
   requestAnimationFrame(tick);
 
