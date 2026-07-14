@@ -6,3 +6,4 @@ groq
 PyPDF2
 user-agents
 gunicorn
+requests
