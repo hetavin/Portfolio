@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 
 from flask import Flask
 from Routes.routes import main
@@ -13,6 +14,13 @@ app.config["UPLOAD_FOLDER"] = os.path.join(
     os.path.dirname(os.path.abspath(__file__)), "uploads"
 )
 app.config["MAX_CONTENT_LENGTH"] = 20 * 1024 * 1024
+
+
+@app.template_filter("localtime")
+def localtime_filter(dt, tz_offset):
+    """Format a datetime that is already stored in the visitor's local time."""
+    return dt.strftime("%d %b %Y, %H:%M")
+
 
 app.register_blueprint(main)
 app.register_blueprint(admin)

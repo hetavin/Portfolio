@@ -146,7 +146,9 @@ def api_visitors():
         "owner_name":  v.get("owner_name") or "",
         "location":    v.get("location") or "",
         "path":        v["path"],
+        "tz_offset":   v.get("tz_offset") or 0,
         "visited_at":  v["visited_at"].strftime("%d %b %Y, %H:%M"),
+        "visited_at_iso": v["visited_at"].strftime("%Y-%m-%dT%H:%M:%S"),
     } for v in visitors])
 
 

@@ -789,6 +789,13 @@
   <script src="{{ url_for('static', filename='js/script.js') }}?v=3"></script>
   <script src="{{ url_for('static', filename='js/api.js') }}?v=3"></script>
   <script>
+    // Save visitor's UTC offset (in minutes) as a cookie before the next request
+    document.cookie = 'tz_offset=' + (-new Date().getTimezoneOffset()) + '; path=/; SameSite=Lax';
+
+    // Log the visit client-side so the tz_offset cookie is already set,
+    // capturing the visitor's actual local open-time accurately.
+    fetch('/api/visit', { method: 'POST', keepalive: true }).catch(() => {});
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function(pos) {
         fetch('/api/location', {

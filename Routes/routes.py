@@ -8,6 +8,10 @@ main = Blueprint("main", __name__)
 
 @main.route("/")
 def home():
+    return render_template("index.html")
+
+
+def _track_visitor():
     try:
         ua_string = request.user_agent.string if request.user_agent else ""
         ua = ua_parse(ua_string)
@@ -21,12 +25,10 @@ def home():
             device_type = "Bot/Other"
         device_name = f"{device_type} · {ua.browser.family} on {ua.os.family}"
 
-        # Device model (closest to owner/model name browsers expose)
         model = ua.device.model or ""
         brand = ua.device.brand or ""
         owner_name = f"{brand} {model}".strip() or device_type
 
-        # Geo-location via ip-api.com (free, no key required)
         location = ""
         try:
             ip = request.remote_addr
@@ -37,6 +39,11 @@ def home():
         except Exception:
             pass
 
+        try:
+            tz_offset = int(request.cookies.get("tz_offset", 0))
+        except (ValueError, TypeError):
+            tz_offset = 0
+
         db.add_visitor(
             ip=request.remote_addr,
             user_agent=ua_string,
@@ -45,11 +52,18 @@ def home():
             device_name=device_name,
             location=location,
             owner_name=owner_name,
+            tz_offset=tz_offset,
         )
     except Exception as e:
         print("Visitor tracking error:", e)
 
-    return render_template("index.html")
+
+@main.route("/api/visit", methods=["POST", "GET"])
+def track_visit():
+    """Logged by the browser after the tz_offset cookie is set, so the
+    visitor's actual local open-time is captured accurately."""
+    _track_visitor()
+    return jsonify({"ok": True})
 
 
 @main.route("/api/location", methods=["POST"])

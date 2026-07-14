@@ -30,6 +30,7 @@ def init_db():
                 location    VARCHAR(255)  DEFAULT '',
                 path        VARCHAR(255)  NOT NULL DEFAULT '/',
                 referrer    VARCHAR(500)  DEFAULT '',
+                tz_offset   SMALLINT      NOT NULL DEFAULT 0,
                 visited_at  DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
             """)
@@ -56,13 +57,17 @@ def init_db():
 
 # ── Visitors ──────────────────────────────────────────────────────────────────
 
-def add_visitor(ip, user_agent, path, referrer="", device_name="", location="", owner_name=""):
+def add_visitor(ip, user_agent, path, referrer="", device_name="", location="", owner_name="", tz_offset=0):
+    from datetime import datetime, timezone, timedelta
+    utc_now = datetime.now(timezone.utc).replace(tzinfo=None)
+    # Store the visitor's ACTUAL local time (UTC shifted by their timezone offset)
+    local_now = utc_now + timedelta(minutes=int(tz_offset or 0))
     conn = get_conn()
     with conn:
         with conn.cursor() as cur:
             cur.execute(
-                "INSERT INTO visitors (ip, user_agent, device_name, owner_name, location, path, referrer) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-                (ip, user_agent, device_name, owner_name, location, path, referrer),
+                "INSERT INTO visitors (ip, user_agent, device_name, owner_name, location, path, referrer, tz_offset, visited_at) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                (ip, user_agent, device_name, owner_name, location, path, referrer, tz_offset, local_now),
             )
 
 

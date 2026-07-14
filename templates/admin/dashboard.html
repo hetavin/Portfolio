@@ -197,7 +197,7 @@
                   </div>
                   <div class="vc-title-block">
                     <span class="vc-device">{{ v.device_name or 'Unknown Device' }}</span>
-                    <span class="vc-time"><i class="fa-regular fa-clock"></i> {{ v.visited_at.strftime('%d %b %Y, %H:%M') }}</span>
+                    <span class="vc-time"><i class="fa-regular fa-clock"></i> {{ v.visited_at | localtime(v.tz_offset) }}</span>
                   </div>
                 </div>
 
@@ -280,6 +280,14 @@
     return 'fa-desktop';
   }
 
+  // Format an ISO string that is already in the visitor's local time
+  function toLocalTime(iso) {
+    const d = new Date(iso);
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const pad = n => String(n).padStart(2, '0');
+    return `${pad(d.getDate())} ${months[d.getMonth()]} ${d.getFullYear()}, ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  }
+
   // ── Visitor card builder ──────────────────────────────────────────────────
   function buildVisitorCard(v) {
     const div = document.createElement('div');
@@ -290,7 +298,7 @@
         <div class="vc-avatar"><i class="fa-solid ${deviceIcon(v.device_name)}"></i></div>
         <div class="vc-title-block">
           <span class="vc-device">${v.device_name || 'Unknown Device'}</span>
-          <span class="vc-time"><i class="fa-regular fa-clock"></i> ${v.visited_at}</span>
+          <span class="vc-time"><i class="fa-regular fa-clock"></i> ${toLocalTime(v.visited_at_iso)}</span>
         </div>
       </div>
       <div class="vc-details">
