@@ -396,7 +396,7 @@
         form.reset();
         showToast('PDF uploaded successfully.', 'success');
       }
-    } catch { showToast('Network error. Please try again.', 'error'); }
+    } catch { showToast('PDF is Too Large.', 'error'); }
     finally { btn.disabled = false; btnText.textContent = 'Upload PDF'; }
   });
 
