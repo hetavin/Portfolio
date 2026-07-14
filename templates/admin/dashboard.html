@@ -374,31 +374,70 @@
   });
 
   // ── AJAX upload ───────────────────────────────────────────────────────────
-  form.addEventListener('submit', async (e) => {
+ form.addEventListener("submit", async (e) => {
     e.preventDefault();
+
     btn.disabled = true;
-    btnText.textContent = 'Uploading…';
+    btnText.textContent = "Uploading...";
+
     try {
-      const res  = await fetch(form.action, {
-        method: 'POST',
-        headers: { 'X-Requested-With': 'XMLHttpRequest' },
-        body: new FormData(form),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        showToast(data.error || 'Upload failed.', 'error');
-      } else {
+        const response = await fetch(form.action, {
+            method: "POST",
+            headers: {
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            body: new FormData(form)
+        });
+
+        let data = {};
+
+        // Safely parse JSON
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+            data = await response.json();
+        } else {
+            const text = await response.text();
+            console.error("Server returned:", text);
+            throw new Error("Server did not return JSON.");
+        }
+
+        console.log("Response:", data);
+
+        if (!response.ok) {
+            throw new Error(data.error || "Upload failed.");
+        }
+
+        // Validate response
+        if (!data.id) {
+            throw new Error("Server did not return PDF ID.");
+        }
+
         const tbody = ensureTable();
+        if (!tbody) {
+            throw new Error("PDF table not found.");
+        }
+
         const row = buildPdfRow(data);
+
         tbody.prepend(row);
-        knownPdfIds.add('pdf-row-' + data.id);
-        pdfCount.textContent = tbody.rows.length + ' file' + (tbody.rows.length !== 1 ? 's' : '');
+
+        knownPdfIds.add(`pdf-row-${data.id}`);
+
+        pdfCount.textContent =
+            `${tbody.rows.length} file${tbody.rows.length !== 1 ? "s" : ""}`;
+
         form.reset();
-        showToast('PDF uploaded successfully.', 'success');
-      }
-    } catch { showToast('Network error. Please try again.', 'error'); }
-    finally { btn.disabled = false; btnText.textContent = 'Upload PDF'; }
-  });
+
+        showToast(data.message || "PDF uploaded successfully.", "success");
+
+    } catch (err) {
+        console.error("Upload Error:", err);
+        showToast(err.message || "Network error.", "error");
+    } finally {
+        btn.disabled = false;
+        btnText.textContent = "Upload PDF";
+    }
+});
 
   // ── Live polling (every 5 s) ──────────────────────────────────────────────
   async function poll() {
