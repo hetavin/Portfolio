@@ -25,6 +25,9 @@ def init_db():
                     id          INT AUTO_INCREMENT PRIMARY KEY,
                     ip          VARCHAR(45)   NOT NULL DEFAULT '',
                     user_agent  TEXT,
+                    device_name VARCHAR(150)  DEFAULT '',
+                    owner_name  VARCHAR(150)  DEFAULT '',
+                    location    VARCHAR(255)  DEFAULT '',
                     path        VARCHAR(255)  NOT NULL DEFAULT '/',
                     referrer    VARCHAR(500)  DEFAULT '',
                     visited_at  DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -52,13 +55,23 @@ def init_db():
 
 # ── Visitors ──────────────────────────────────────────────────────────────────
 
-def add_visitor(ip, user_agent, path, referrer=""):
+def add_visitor(ip, user_agent, path, referrer="", device_name="", location="", owner_name=""):
     conn = get_conn()
     with conn:
         with conn.cursor() as cur:
             cur.execute(
-                "INSERT INTO visitors (ip, user_agent, path, referrer) VALUES (%s, %s, %s, %s)",
-                (ip, user_agent, path, referrer),
+                "INSERT INTO visitors (ip, user_agent, device_name, owner_name, location, path, referrer) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                (ip, user_agent, device_name, owner_name, location, path, referrer),
+            )
+
+
+def update_visitor_location(ip, location):
+    conn = get_conn()
+    with conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                "UPDATE visitors SET location=%s WHERE ip=%s ORDER BY visited_at DESC LIMIT 1",
+                (location, ip),
             )
 
 

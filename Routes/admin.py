@@ -135,9 +135,31 @@ def api_pdfs():
     } for p in pdfs])
 
 
+@admin.route("/admin/api/stats")
+@admin_required
+def api_stats():
+    return jsonify(db.visitor_stats())
+
+
+@admin.route("/admin/api/visitors")
+@admin_required
+def api_visitors():
+    visitors = db.list_visitors(200)
+    return jsonify([{
+        "id":          v["id"],
+        "ip":          v["ip"],
+        "device_name": v.get("device_name") or "",
+        "owner_name":  v.get("owner_name") or "",
+        "location":    v.get("location") or "",
+        "path":        v["path"],
+        "visited_at":  v["visited_at"].strftime("%d %b %Y, %H:%M"),
+    } for v in visitors])
+
+
 @admin.route("/admin/delete/<int:pdf_id>", methods=["POST"])
 @admin_required
 def delete(pdf_id):
+    is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
     pdf = db.get_pdf(pdf_id)
     if pdf:
         try:
@@ -145,8 +167,12 @@ def delete(pdf_id):
         except OSError:
             pass
         db.delete_pdf(pdf_id)
+        if is_ajax:
+            return jsonify({"ok": True})
         flash("PDF deleted.", "success")
     else:
+        if is_ajax:
+            return jsonify({"error": "Not found"}), 404
         flash("PDF not found.", "error")
     return redirect(url_for("admin.dashboard"))
 

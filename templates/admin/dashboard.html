@@ -62,28 +62,28 @@
         <div class="stat-card">
           <div class="stat-icon purple"><i class="fa-solid fa-eye"></i></div>
           <div class="stat-body">
-            <div class="num">{{ stats.total }}</div>
+            <div class="num" id="stat-total">{{ stats.total }}</div>
             <div class="label">Total Visits</div>
           </div>
         </div>
         <div class="stat-card">
           <div class="stat-icon blue"><i class="fa-solid fa-users"></i></div>
           <div class="stat-body">
-            <div class="num">{{ stats.unique }}</div>
+            <div class="num" id="stat-unique">{{ stats.unique }}</div>
             <div class="label">Unique Visitors</div>
           </div>
         </div>
         <div class="stat-card">
           <div class="stat-icon green"><i class="fa-solid fa-calendar-day"></i></div>
           <div class="stat-body">
-            <div class="num">{{ stats.today }}</div>
+            <div class="num" id="stat-today">{{ stats.today }}</div>
             <div class="label">Visits Today</div>
           </div>
         </div>
         <div class="stat-card">
           <div class="stat-icon orange"><i class="fa-solid fa-file-pdf"></i></div>
           <div class="stat-body">
-            <div class="num">{{ stats.pdfs }}</div>
+            <div class="num" id="stat-pdfs">{{ stats.pdfs }}</div>
             <div class="label">PDFs Uploaded</div>
           </div>
         </div>
@@ -151,11 +151,9 @@
                           <a class="btn btn-ghost btn-sm" href="{{ url_for('admin.serve_pdf', pdf_id=p.id) }}" target="_blank">
                             <i class="fa-solid fa-eye"></i>
                           </a>
-                          <form method="POST" action="{{ url_for('admin.delete', pdf_id=p.id) }}" style="display:inline;">
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Delete this PDF?');">
-                              <i class="fa-solid fa-trash"></i>
-                            </button>
-                          </form>
+                          <button class="btn btn-danger btn-sm" data-delete="{{ p.id }}">
+                            <i class="fa-solid fa-trash"></i>
+                          </button>
                         </div>
                       </td>
                     </tr>
@@ -180,32 +178,50 @@
               <span class="ph-icon"><i class="fa-solid fa-chart-line"></i></span>
               Profile Visitors
             </h2>
-            <span class="panel-count">{{ visitors | length }} unique visitor{% if visitors | length != 1 %}s{% endif %}</span>
+            <span class="panel-count" id="visitor-count">{{ visitors | length }} unique visitor{% if visitors | length != 1 %}s{% endif %}</span>
           </div>
-          <div class="panel-body">
+          <div class="panel-body visitor-list" id="visitor-list">
             {% if visitors %}
-              <div class="table-wrap">
-                <table class="data">
-                  <thead>
-                    <tr>
-                      <th>IP Address</th>
-                      <th>Browser / Device</th>
-                      <th>Page</th>
-                      <th>When</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for v in visitors %}
-                    <tr>
-                      <td class="mono">{{ v.ip }}</td>
-                      <td class="td-ua" title="{{ v.user_agent }}">{{ v.user_agent[:50] }}{% if v.user_agent|length > 50 %}…{% endif %}</td>
-                      <td class="mono">{{ v.path }}</td>
-                      <td class="mono">{{ v.visited_at.strftime('%d %b, %H:%M') }}</td>
-                    </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
+              {% for v in visitors %}
+              <div class="visitor-card" data-vid="{{ v.id }}">
+
+                <div class="vc-header">
+                  <div class="vc-avatar">
+                    {% if 'Mobile' in (v.device_name or '') %}
+                      <i class="fa-solid fa-mobile-screen-button"></i>
+                    {% elif 'Tablet' in (v.device_name or '') %}
+                      <i class="fa-solid fa-tablet-screen-button"></i>
+                    {% else %}
+                      <i class="fa-solid fa-desktop"></i>
+                    {% endif %}
+                  </div>
+                  <div class="vc-title-block">
+                    <span class="vc-device">{{ v.device_name or 'Unknown Device' }}</span>
+                    <span class="vc-time"><i class="fa-regular fa-clock"></i> {{ v.visited_at.strftime('%d %b %Y, %H:%M') }}</span>
+                  </div>
+                </div>
+
+                <div class="vc-details">
+                  <div class="vc-detail-item">
+                    <span class="vc-detail-label"><i class="fa-solid fa-network-wired"></i> IP Address</span>
+                    <span class="vc-detail-value mono">{{ v.ip }}</span>
+                  </div>
+                  <div class="vc-detail-item">
+                    <span class="vc-detail-label"><i class="fa-solid fa-microchip"></i> Model</span>
+                    <span class="vc-detail-value">{{ v.owner_name or '—' }}</span>
+                  </div>
+                  <div class="vc-detail-item">
+                    <span class="vc-detail-label"><i class="fa-solid fa-location-dot"></i> Location</span>
+                    <span class="vc-detail-value location-val">{{ v.location or 'Unknown' }}</span>
+                  </div>
+                  <div class="vc-detail-item">
+                    <span class="vc-detail-label"><i class="fa-solid fa-file"></i> Page</span>
+                    <span class="vc-detail-value mono">{{ v.path }}</span>
+                  </div>
+                </div>
+
               </div>
+              {% endfor %}
             {% else %}
               <div class="empty-state">
                 <div class="es-icon"><i class="fa-solid fa-user-slash"></i></div>
@@ -222,49 +238,24 @@
 
 <script>
 (function () {
-  const form      = document.getElementById('upload-form');
-  const btn       = document.getElementById('upload-btn');
-  const btnText   = document.getElementById('upload-btn-text');
-  const pdfCount  = document.getElementById('pdf-count');
-  const pdfWrap   = document.getElementById('pdf-list-wrap');
+  // ── State ─────────────────────────────────────────────────────────────────
+  const knownPdfIds      = new Set([...document.querySelectorAll('[id^="pdf-row-"]')].map(r => r.id));
+  const knownVisitorIds  = new Set([...document.querySelectorAll('[data-vid]')].map(c => c.dataset.vid));
 
-  // ── helpers ──────────────────────────────────────────────────────────────
-  function updateCount(n) {
-    pdfCount.textContent = n + ' file' + (n !== 1 ? 's' : '');
-  }
+  // ── DOM refs ──────────────────────────────────────────────────────────────
+  const form     = document.getElementById('upload-form');
+  const btn      = document.getElementById('upload-btn');
+  const btnText  = document.getElementById('upload-btn-text');
+  const pdfCount = document.getElementById('pdf-count');
+  const pdfWrap  = document.getElementById('pdf-list-wrap');
+  const visitorList   = document.getElementById('visitor-list');
+  const visitorCount  = document.getElementById('visitor-count');
+  const statTotal     = document.getElementById('stat-total');
+  const statUnique    = document.getElementById('stat-unique');
+  const statToday     = document.getElementById('stat-today');
+  const statPdfs      = document.getElementById('stat-pdfs');
 
-  function ensureTable() {
-    let table = document.getElementById('pdf-table');
-    if (!table) {
-      pdfWrap.innerHTML = `
-        <div class="table-wrap">
-          <table class="data" id="pdf-table">
-            <thead><tr><th>Title</th><th>Size</th><th>Added</th><th></th></tr></thead>
-            <tbody id="pdf-tbody"></tbody>
-          </table>
-        </div>`;
-    }
-    return document.getElementById('pdf-tbody');
-  }
-
-  function buildRow(p) {
-    const tr = document.createElement('tr');
-    tr.id = 'pdf-row-' + p.id;
-    tr.innerHTML = `
-      <td class="td-name">${p.title}</td>
-      <td class="mono">${p.size_label}</td>
-      <td class="mono">${p.uploaded_at}</td>
-      <td>
-        <div class="td-actions">
-          <a class="btn btn-ghost btn-sm" href="/admin/pdf/${p.id}" target="_blank"><i class="fa-solid fa-eye"></i></a>
-          <form method="POST" action="/admin/delete/${p.id}" style="display:inline;">
-            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Delete this PDF?');"><i class="fa-solid fa-trash"></i></button>
-          </form>
-        </div>
-      </td>`;
-    return tr;
-  }
-
+  // ── Helpers ───────────────────────────────────────────────────────────────
   function showToast(msg, type) {
     const li = document.createElement('li');
     li.className = type;
@@ -279,12 +270,106 @@
     setTimeout(() => li.remove(), 4000);
   }
 
-  // ── AJAX upload ──────────────────────────────────────────────────────────
+  function animateNum(el, newVal) {
+    if (el && el.textContent !== String(newVal)) el.textContent = newVal;
+  }
+
+  function deviceIcon(name) {
+    if (name.includes('Mobile'))  return 'fa-mobile-screen-button';
+    if (name.includes('Tablet'))  return 'fa-tablet-screen-button';
+    return 'fa-desktop';
+  }
+
+  // ── Visitor card builder ──────────────────────────────────────────────────
+  function buildVisitorCard(v) {
+    const div = document.createElement('div');
+    div.className = 'visitor-card visitor-new';
+    div.dataset.vid = v.id;
+    div.innerHTML = `
+      <div class="vc-header">
+        <div class="vc-avatar"><i class="fa-solid ${deviceIcon(v.device_name)}"></i></div>
+        <div class="vc-title-block">
+          <span class="vc-device">${v.device_name || 'Unknown Device'}</span>
+          <span class="vc-time"><i class="fa-regular fa-clock"></i> ${v.visited_at}</span>
+        </div>
+      </div>
+      <div class="vc-details">
+        <div class="vc-detail-item">
+          <span class="vc-detail-label"><i class="fa-solid fa-network-wired"></i> IP Address</span>
+          <span class="vc-detail-value mono">${v.ip}</span>
+        </div>
+        <div class="vc-detail-item">
+          <span class="vc-detail-label"><i class="fa-solid fa-microchip"></i> Model</span>
+          <span class="vc-detail-value">${v.owner_name || '—'}</span>
+        </div>
+        <div class="vc-detail-item">
+          <span class="vc-detail-label"><i class="fa-solid fa-location-dot"></i> Location</span>
+          <span class="vc-detail-value location-val">${v.location || 'Unknown'}</span>
+        </div>
+        <div class="vc-detail-item">
+          <span class="vc-detail-label"><i class="fa-solid fa-file"></i> Page</span>
+          <span class="vc-detail-value mono">${v.path}</span>
+        </div>
+      </div>`;
+    return div;
+  }
+
+  // ── PDF row builder ───────────────────────────────────────────────────────
+  function ensureTable() {
+    if (!document.getElementById('pdf-table')) {
+      pdfWrap.innerHTML = `
+        <div class="table-wrap">
+          <table class="data" id="pdf-table">
+            <thead><tr><th>Title</th><th>Size</th><th>Added</th><th></th></tr></thead>
+            <tbody id="pdf-tbody"></tbody>
+          </table>
+        </div>`;
+    }
+    return document.getElementById('pdf-tbody');
+  }
+
+  function buildPdfRow(p) {
+    const tr = document.createElement('tr');
+    tr.id = 'pdf-row-' + p.id;
+    tr.innerHTML = `
+      <td class="td-name">${p.title}</td>
+      <td class="mono">${p.size_label}</td>
+      <td class="mono">${p.uploaded_at}</td>
+      <td><div class="td-actions">
+        <a class="btn btn-ghost btn-sm" href="/admin/pdf/${p.id}" target="_blank"><i class="fa-solid fa-eye"></i></a>
+        <button class="btn btn-danger btn-sm" data-delete="${p.id}"><i class="fa-solid fa-trash"></i></button>
+      </div></td>`;
+    return tr;
+  }
+
+  // ── AJAX PDF delete (event delegation) ───────────────────────────────────
+  document.addEventListener('click', async (e) => {
+    const btn = e.target.closest('[data-delete]');
+    if (!btn) return;
+    if (!confirm('Delete this PDF?')) return;
+    const id = btn.dataset.delete;
+    const res = await fetch(`/admin/delete/${id}`, {
+      method: 'POST',
+      headers: { 'X-Requested-With': 'XMLHttpRequest' },
+    });
+    if (res.ok) {
+      document.getElementById('pdf-row-' + id)?.remove();
+      knownPdfIds.delete('pdf-row-' + id);
+      const tbody = document.getElementById('pdf-tbody');
+      const n = tbody ? tbody.rows.length : 0;
+      pdfCount.textContent = n + ' file' + (n !== 1 ? 's' : '');
+      if (n === 0) pdfWrap.innerHTML = `<div class="empty-state" id="pdf-empty"><div class="es-icon"><i class="fa-solid fa-file-circle-xmark"></i></div><p>No PDFs uploaded yet.</p></div>`;
+      showToast('PDF deleted.', 'success');
+    } else {
+      showToast('Delete failed.', 'error');
+    }
+  });
+
+  // ── AJAX upload ───────────────────────────────────────────────────────────
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     btn.disabled = true;
     btnText.textContent = 'Uploading…';
-
     try {
       const res  = await fetch(form.action, {
         method: 'POST',
@@ -292,47 +377,71 @@
         body: new FormData(form),
       });
       const data = await res.json();
-
       if (!res.ok) {
         showToast(data.error || 'Upload failed.', 'error');
       } else {
         const tbody = ensureTable();
-        tbody.prepend(buildRow(data));
-        updateCount(tbody.rows.length);
+        const row = buildPdfRow(data);
+        tbody.prepend(row);
+        knownPdfIds.add('pdf-row-' + data.id);
+        pdfCount.textContent = tbody.rows.length + ' file' + (tbody.rows.length !== 1 ? 's' : '');
         form.reset();
         showToast('PDF uploaded successfully.', 'success');
       }
-    } catch {
-      showToast('Network error. Please try again.', 'error');
-    } finally {
-      btn.disabled = false;
-      btnText.textContent = 'Upload PDF';
-    }
+    } catch { showToast('Network error. Please try again.', 'error'); }
+    finally { btn.disabled = false; btnText.textContent = 'Upload PDF'; }
   });
 
-  // ── Cross-device polling (every 5 s) ─────────────────────────────────────
-  setInterval(async () => {
+  // ── Live polling (every 5 s) ──────────────────────────────────────────────
+  async function poll() {
     try {
-      const res  = await fetch('/admin/api/pdfs');
-      if (!res.ok) return;
-      const pdfs = await res.json();
+      const [statsRes, visitorsRes, pdfsRes] = await Promise.all([
+        fetch('/admin/api/stats'),
+        fetch('/admin/api/visitors'),
+        fetch('/admin/api/pdfs'),
+      ]);
+      if (!statsRes.ok || !visitorsRes.ok || !pdfsRes.ok) return;
 
-      const tbody    = document.getElementById('pdf-tbody');
-      const existing = tbody
-        ? new Set([...tbody.querySelectorAll('tr')].map(r => r.id))
-        : new Set();
+      const [stats, visitors, pdfs] = await Promise.all([
+        statsRes.json(), visitorsRes.json(), pdfsRes.json(),
+      ]);
 
-      let added = false;
-      pdfs.forEach(p => {
-        if (!existing.has('pdf-row-' + p.id)) {
-          ensureTable().prepend(buildRow(p));
-          added = true;
+      // Update stat counters
+      animateNum(statTotal,  stats.total);
+      animateNum(statUnique, stats.unique);
+      animateNum(statToday,  stats.today);
+      animateNum(statPdfs,   stats.pdfs);
+
+      // Prepend new visitor cards
+      let newVisitors = 0;
+      visitors.forEach(v => {
+        if (!knownVisitorIds.has(String(v.id))) {
+          const empty = visitorList.querySelector('.empty-state');
+          if (empty) empty.remove();
+          visitorList.prepend(buildVisitorCard(v));
+          knownVisitorIds.add(String(v.id));
+          newVisitors++;
+          setTimeout(() => visitorList.querySelector('[data-vid="'+v.id+'"]')?.classList.remove('visitor-new'), 1000);
         }
       });
+      if (newVisitors) {
+        visitorCount.textContent = knownVisitorIds.size + ' unique visitor' + (knownVisitorIds.size !== 1 ? 's' : '');
+        showToast(`${newVisitors} new visitor${newVisitors > 1 ? 's' : ''}!`, 'success');
+      }
 
-      if (added) updateCount(document.getElementById('pdf-tbody').rows.length);
+      // Prepend new PDF rows
+      pdfs.forEach(p => {
+        if (!knownPdfIds.has('pdf-row-' + p.id)) {
+          const tbody = ensureTable();
+          tbody.prepend(buildPdfRow(p));
+          knownPdfIds.add('pdf-row-' + p.id);
+          pdfCount.textContent = tbody.rows.length + ' file' + (tbody.rows.length !== 1 ? 's' : '');
+        }
+      });
     } catch { /* silent */ }
-  }, 5000);
+  }
+
+  setInterval(poll, 5000);
 }());
 </script>
 </html>

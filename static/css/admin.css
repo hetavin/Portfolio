@@ -565,6 +565,130 @@ table.data tr:hover td { background: rgba(255,255,255,.025); }
 }
 
 /* =========================================================
+   VISITOR CARDS
+   ========================================================= */
+.visitor-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 620px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.visitor-card {
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.visitor-card:hover {
+  border-color: rgba(108,99,255,.35);
+  background: rgba(108,99,255,.04);
+}
+
+.visitor-new {
+  animation: slideIn 0.4s ease;
+  border-color: rgba(108,99,255,.5);
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Card header: avatar + device + time ── */
+.vc-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.vc-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(108,99,255,.15);
+  color: #a78bfa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.vc-title-block {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.vc-device {
+  font-size: .88rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vc-time {
+  font-size: .72rem;
+  color: var(--text-3);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ── Detail grid ── */
+.vc-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.vc-detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.vc-detail-label {
+  font-size: .67rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--text-3);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.vc-detail-label i { color: #a78bfa; font-size: .65rem; }
+
+.vc-detail-value {
+  font-size: .82rem;
+  color: var(--text);
+  word-break: break-word;
+}
+
+.vc-detail-value.mono {
+  font-family: ui-monospace, 'JetBrains Mono', monospace;
+  font-size: .78rem;
+  color: var(--text-2);
+}
+
+.vc-detail-value.location-val { color: #67e8f9; }
+
+/* =========================================================
    RESPONSIVE
    ========================================================= */
 @media (max-width: 960px) {
