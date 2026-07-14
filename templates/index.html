@@ -1,0 +1,787 @@
+<!-- <!DOCTYPE html> -->
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Hetavin Pokiya – Computer Engineering Student, Aspiring Software Developer & ML Engineer. Portfolio showcasing projects in Python, Flask, OpenCV, and web technologies." />
+  <meta name="keywords"
+    content="Hetavin Pokiya, portfolio, software developer, machine learning, Python, Flask, OpenCV, web developer" />
+  <meta name="author" content="Hetavin Pokiya" />
+  <title>Hetavin Pokiya | Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="../static/css/style.css" />
+</head>
+
+<body>
+
+  <!-- PAGE LOADER -->
+  <div id="page-loader" role="status" aria-label="Loading portfolio">
+    <div class="pl-bg">
+      <div class="pl-orb pl-orb-1"></div>
+      <div class="pl-orb pl-orb-2"></div>
+      <div class="pl-grid"></div>
+    </div>
+    <div class="pl-content">
+      <div class="pl-logo">
+        <span class="pl-bracket">&lt;</span>HP<span class="pl-bracket">/&gt;</span>
+      </div>
+      <!-- Water-fill name -->
+      <div class="pl-name-wrap" id="plNameWrap">
+        <!-- Ghost skeleton — always visible as outline -->
+        <h1 class="pl-name pl-name-ghost" aria-hidden="true">
+          <span class="pl-name-first">Hetavin</span>
+          <span class="pl-name-last">Pokiya</span>
+        </h1>
+        <!-- Color fill — rises from bottom like water -->
+        <h1 class="pl-name pl-name-fill" id="plNameFill" aria-label="Hetavin Pokiya">
+          <span class="pl-name-first">Hetavin</span>
+          <span class="pl-name-last">Pokiya</span>
+        </h1>
+        <!-- Glowing water-surface line -->
+        <div class="pl-waterline" id="plWaterline"></div>
+      </div>
+      <p class="pl-tagline">Computer Engineering Student &amp; Developer</p>
+      <div class="pl-bar-wrap">
+        <div class="pl-bar-track">
+          <div class="pl-bar-fill" id="plBarFill"></div>
+          <div class="pl-bar-glow" id="plBarGlow"></div>
+        </div>
+        <div class="pl-percent" id="plPercent">0%</div>
+      </div>
+      <p class="pl-status" id="plStatus">Initialising…</p>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-container">
+      <a href="#hero" class="nav-logo" aria-label="Hetavin Pokiya Home">
+        <span class="logo-bracket">&lt;</span>HP<span class="logo-bracket">/&gt;</span>
+      </a>
+      <ul class="nav-links" id="navLinks" role="list">
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#skills" class="nav-link">Skills</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#education" class="nav-link">Education</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+      <a href="#contact" class="nav-cta">Let's Connect</a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle mobile menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+      <ul role="list">
+        <li><a href="#about" class="mobile-link">About</a></li>
+        <li><a href="#skills" class="mobile-link">Skills</a></li>
+        <li><a href="#projects" class="mobile-link">Projects</a></li>
+        <li><a href="#education" class="mobile-link">Education</a></li>
+        <li><a href="#contact" class="mobile-link">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="hero" aria-label="Hero section">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+      <div class="hero-grid"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Available for Internships
+      </div>
+      <h1 class="hero-title">
+        <span class="hero-greeting">Hello, I'm</span>
+        <span class="hero-name">Hetavin <span class="name-accent">Pokiya</span></span>
+      </h1>
+      <p class="hero-typewriter" id="typewriter" aria-live="polite"></p>
+      <p class="hero-desc">
+        A passionate Computer Engineering student building real-world applications with Python, Flask,
+        and computer vision — turning ideas into clean, functional software.
+      </p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary" id="heroViewWork">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+            <circle cx="12" cy="12" r="3" />
+          </svg>
+          View My Work
+        </a>
+        <a href="#contact" class="btn btn-secondary" id="heroContact">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+          </svg>
+          Get In Touch
+        </a>
+      </div>
+      <div class="hero-stats" role="list">
+        <div class="stat-item" role="listitem">
+          <span class="stat-num" data-target="2">0</span><span class="stat-suf">+</span>
+          <span class="stat-lbl">Projects</span>
+        </div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat-item" role="listitem">
+          <span class="stat-num" data-target="5">0</span><span class="stat-suf">+</span>
+          <span class="stat-lbl">Technologies</span>
+        </div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat-item" role="listitem">
+          <span class="stat-num" data-target="3">0</span><span class="stat-suf"></span>
+          <span class="stat-lbl">Languages</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="code-card glass">
+        <div class="code-header">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="code-filename">hetavin.py</span>
+        </div>
+        <pre class="code-body"><code><span class="ck">class</span> <span class="cc">Developer</span>:
+  <span class="ck">def</span> <span class="cf">__init__</span>(self):
+    self.name = <span class="cs">"Hetavin Pokiya"</span>
+    self.role = <span class="cs">"CS Student"</span>
+    self.stack = [
+      <span class="cs">"Python"</span>, <span class="cs">"Flask"</span>,
+      <span class="cs">"OpenCV"</span>, <span class="cs">"MySQL"</span>,
+    ]
+    self.open_to = <span class="cs">"Internships"</span>
+
+  <span class="ck">def</span> <span class="cf">build</span>(self, idea):
+    <span class="ck">return</span> idea + <span class="cs">" → Product"</span></code></pre>
+      </div>
+    </div>
+    <a href="#about" class="scroll-hint" aria-label="Scroll down to About">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9" />
+      </svg>
+    </a>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section" id="about" aria-labelledby="about-h">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag reveal">Who I Am</span>
+        <h2 class="section-title reveal" id="about-h">About Me</h2>
+        <p class="section-sub reveal">Curious by nature. Builder by choice.</p>
+      </div>
+      <div class="about-grid">
+        <div class="about-text reveal from-left">
+          <p class="about-lead">
+            I'm a <strong>Computer Engineering student</strong> at LFRP–ITR, Gandhinagar (KSV),
+            currently in my <span class="hl">7th semester</span> — passionate about
+            <span class="hl">software development</span> and <span class="hl">machine learning</span>.
+          </p>
+          <p class="about-body">
+            My journey spans real-time face recognition systems and full-stack gym management apps.
+            I believe in learning by doing — every project sharpens my engineering instincts and
+            prepares me for real-world challenges.
+          </p>
+          <p class="about-body">
+            Actively seeking internship opportunities to contribute to impactful products and grow
+            in a collaborative, technology-driven environment.
+          </p>
+          <div class="about-personal">
+            <div class="pi">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true">
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+              Ahmedabad, Gujarat, India
+            </div>
+            <div class="pi">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+              </svg>
+              Born November 23, 2005
+            </div>
+            <div class="pi">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>
+              English &middot; Hindi &middot; Gujarati
+            </div>
+          </div>
+        </div>
+        <div class="strengths-wrap reveal from-right">
+          <h3 class="strengths-title">Core Strengths</h3>
+          <div class="strengths-grid">
+            <div class="strength-card glass reveal scale-in" data-delay="100">
+              <div class="str-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  aria-hidden="true">
+                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                </svg>
+              </div>
+              <h4>Quick Learner</h4>
+              <p>Picks up new tech and frameworks with minimal guidance.</p>
+            </div>
+            <div class="strength-card glass reveal scale-in" data-delay="200">
+              <div class="str-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  aria-hidden="true">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="m9 12 2 2 4-4" />
+                </svg>
+              </div>
+              <h4>Problem Solver</h4>
+              <p>Approaches challenges analytically with structured steps.</p>
+            </div>
+            <div class="strength-card glass reveal scale-in" data-delay="300">
+              <div class="str-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  aria-hidden="true">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                </svg>
+              </div>
+              <h4>Team Player</h4>
+              <p>Communicates clearly in collaborative environments.</p>
+            </div>
+            <div class="strength-card glass reveal scale-in" data-delay="400">
+              <div class="str-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  aria-hidden="true">
+                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                </svg>
+              </div>
+              <h4>Hard Working</h4>
+              <p>Consistent and committed to delivering quality results.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="section section-alt" id="skills" aria-labelledby="skills-h">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag reveal">What I Know</span>
+        <h2 class="section-title reveal" id="skills-h">Technical Skills</h2>
+        <p class="section-sub reveal">Technologies I work with every day</p>
+      </div>
+      <div class="skills-wrap reveal">
+        <div class="skill-cat">
+          <h3 class="skill-cat-h">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="16 18 22 12 16 6" />
+              <polyline points="8 6 2 12 8 18" />
+            </svg>
+            Programming Languages
+          </h3>
+          <div class="skill-row">
+            <div class="skill-pill" style="--ac:#3776AB">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python"
+                width="22" height="22" loading="lazy" />
+              Python
+            </div>
+            <div class="skill-pill" style="--ac:#A8B9CC">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" alt="C" width="22"
+                height="22" loading="lazy" />
+              C
+            </div>
+            <div class="skill-pill" style="--ac:#F7DF1E">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
+                alt="JavaScript" width="22" height="22" loading="lazy" />
+              JavaScript
+            </div>
+          </div>
+        </div>
+        <div class="skill-cat">
+          <h3 class="skill-cat-h">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2" y="3" width="20" height="14" rx="2" />
+              <line x1="8" y1="21" x2="16" y2="21" />
+              <line x1="12" y1="17" x2="12" y2="21" />
+            </svg>
+            Web Technologies
+          </h3>
+          <div class="skill-row">
+            <div class="skill-pill" style="--ac:#E34F26">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5"
+                width="22" height="22" loading="lazy" />
+              HTML5
+            </div>
+            <div class="skill-pill" style="--ac:#1572B6">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3" width="22"
+                height="22" loading="lazy" />
+              CSS3
+            </div>
+            <div class="skill-pill" style="--ac:#7952B3">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg"
+                alt="Bootstrap" width="22" height="22" loading="lazy" />
+              Bootstrap
+            </div>
+            <div class="skill-pill" style="--ac:#888">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg" alt="Flask"
+                width="22" height="22" loading="lazy" style="filter:invert(1) brightness(2)" />
+              Flask
+            </div>
+          </div>
+        </div>
+        <div class="skill-cat">
+          <h3 class="skill-cat-h">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="3" />
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+              <path d="M4.93 4.93a10 10 0 0 0 0 14.14" />
+            </svg>
+            Machine Learning / CV
+          </h3>
+          <div class="skill-row">
+            <div class="skill-pill" style="--ac:#5C3EE8">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/opencv/opencv-original.svg" alt="OpenCV"
+                width="22" height="22" loading="lazy" />
+              OpenCV
+            </div>
+            <div class="skill-pill" style="--ac:#013243">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg" alt="NumPy"
+                width="22" height="22" loading="lazy" />
+              NumPy
+            </div>
+            <div class="skill-pill" style="--ac:#150458">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg" alt="Pandas"
+                width="22" height="22" loading="lazy" />
+              Pandas
+            </div>
+          </div>
+        </div>
+        <div class="skill-cat">
+          <h3 class="skill-cat-h">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <ellipse cx="12" cy="5" rx="9" ry="3" />
+              <path d="M3 5v14a9 3 0 0 0 18 0V5" />
+              <path d="M3 12a9 3 0 0 0 18 0" />
+            </svg>
+            Database &amp; Tools
+          </h3>
+          <div class="skill-row">
+            <div class="skill-pill" style="--ac:#4479A1">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL"
+                width="22" height="22" loading="lazy" />
+              MySQL
+            </div>
+            <div class="skill-pill" style="--ac:#007ACC">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="VS Code"
+                width="22" height="22" loading="lazy" />
+              VS Code
+            </div>
+            <div class="skill-pill" style="--ac:#F05032">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" width="22"
+                height="22" loading="lazy" />
+              Git
+            </div>
+            <div class="skill-pill" style="--ac:#6e7681">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub"
+                width="22" height="22" loading="lazy" />
+              GitHub
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="section" id="projects" aria-labelledby="proj-h">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag reveal">What I've Built</span>
+        <h2 class="section-title reveal" id="proj-h">Projects</h2>
+        <p class="section-sub reveal">Real applications, real problems solved</p>
+      </div>
+      <div class="projects-grid">
+
+        <article class="proj-card glass reveal from-left" aria-label="EduSync project">
+          <div class="proj-top">
+            <div class="proj-icon" style="--pc:#6C63FF">
+              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true">
+                <path d="M20 7h-9" />
+                <path d="M14 17H5" />
+                <circle cx="17" cy="17" r="3" />
+                <circle cx="7" cy="7" r="3" />
+              </svg>
+            </div>
+            <a href="https://github.com/hetavin/EduSync" class="proj-gh" aria-label="EduSync GitHub" target="_blank">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true">
+                <path
+                  d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+                <path d="M9 18c-4.51 2-5-2-7-2" />
+              </svg>
+            </a>
+          </div>
+          <h3 class="proj-title">EduSync</h3>
+          <p class="proj-sub">Face Recognition System</p>
+          <p class="proj-desc">
+            A real-time face recognition system using Python and OpenCV that detects and identifies
+            individuals via live webcam. Includes a Flask admin dashboard for student registration,
+            facial data management, and MySQL-backed profile &amp; session storage.
+          </p>
+          <ul class="proj-features">
+            <li>Real-time webcam detection &amp; identification</li>
+            <li>Flask admin dashboard with clean UI</li>
+            <li>MySQL – facial encodings &amp; session logs</li>
+            <li>Future: full attendance management system</li>
+          </ul>
+          <div class="proj-tags">
+            <span class="ptag">Python</span>
+            <span class="ptag">OpenCV</span>
+            <span class="ptag">Flask</span>
+            <span class="ptag">MySQL</span>
+            <span class="ptag">SCRFD</span>
+          </div>
+          <div class="proj-status">
+            <span class="sdot active"></span> In Development
+          </div>
+        </article>
+
+        <article class="proj-card glass reveal from-right" data-delay="150" aria-label="Iron Hub project">
+          <div class="proj-top">
+            <div class="proj-icon" style="--pc:#FF6B6B">
+              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true">
+                <path d="M6 18h8" />
+                <path d="M3 22h18" />
+                <path d="M14 22a7 7 0 1 0 0-14h-1" />
+                <path d="M9 14h2" />
+                <path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z" />
+                <path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3" />
+              </svg>
+            </div>
+            <a href="https://github.com/hetavin/Iron-Hub" class="proj-gh" aria-label="Iron Hub GitHub" target="_blank">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true">
+                <path
+                  d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+                <path d="M9 18c-4.51 2-5-2-7-2" />
+              </svg>
+            </a>
+          </div>
+          <h3 class="proj-title">Iron Hub</h3>
+          <p class="proj-sub">Gym Management System</p>
+          <p class="proj-desc">
+            A full-stack gym management web app built with Python, Flask, and MySQL — handling member
+            registration, subscription plans, and fee payment tracking with a Bootstrap-powered
+            admin dashboard for complete gym administration.
+          </p>
+          <ul class="proj-features">
+            <li>Member registration &amp; subscription plans</li>
+            <li>Trainer assignment &amp; daily check-ins</li>
+            <li>Automated renewal reminders module</li>
+            <li>Payment history &amp; progress logs</li>
+          </ul>
+          <div class="proj-tags">
+            <span class="ptag">Python</span>
+            <span class="ptag">Flask</span>
+            <span class="ptag">MySQL</span>
+            <span class="ptag">Bootstrap</span>
+          </div>
+          <div class="proj-status">
+            <span class="sdot building"></span> Building
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section class="section section-alt" id="education" aria-labelledby="edu-h">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag reveal">My Journey</span>
+        <h2 class="section-title reveal" id="edu-h">Education</h2>
+        <p class="section-sub reveal">Building a strong foundation</p>
+      </div>
+      <div class="timeline reveal">
+
+        <div class="tl-item reveal from-left" data-delay="100">
+          <div class="tl-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+              <path d="M6 12v5c3 3 9 3 12 0v-5" />
+            </svg>
+          </div>
+          <div class="tl-content glass">
+            <div class="tl-year">2023 – Present</div>
+            <h3 class="tl-title">B.E. in Computer Engineering</h3>
+            <p class="tl-org">LFRP – ITR, Gandhinagar</p>
+            <p class="tl-detail">Kadi Sarva Vishwavidhyalaya (KSV) &middot; 7th Semester</p>
+            <div class="tl-tags">
+              <span class="ptag">Data Structures</span>
+              <span class="ptag">Algorithms</span>
+              <span class="ptag">DBMS</span>
+              <span class="ptag">OS</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tl-item reveal from-left" data-delay="250">
+          <div class="tl-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 20h9" />
+              <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+            </svg>
+          </div>
+          <div class="tl-content glass">
+            <div class="tl-year">Completed 2023</div>
+            <h3 class="tl-title">Higher Secondary (12th – Science)</h3>
+            <p class="tl-org">Alpha Vidhya Sankul, Junagadh</p>
+            <p class="tl-detail">GSEB Board &middot; Science Stream</p>
+            <div class="tl-tags">
+              <span class="ptag">Physics</span>
+              <span class="ptag">Chemistry</span>
+              <span class="ptag">Mathematics</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section" id="contact" aria-labelledby="contact-h">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag reveal">Let's Connect</span>
+        <h2 class="section-title reveal" id="contact-h">Get In Touch</h2>
+        <p class="section-sub reveal">Open to internships, collaborations &amp; opportunities</p>
+      </div>
+      <div class="contact-grid reveal from-left">
+        <div class="contact-info">
+          <p class="contact-intro">
+            I'm actively looking for internship opportunities where I can contribute to real products,
+            sharpen my engineering skills, and grow in a collaborative environment.
+          </p>
+          <div class="contact-items">
+            <a href="tel:+919773293841" class="ci" id="ciPhone">
+              <div class="ci-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  aria-hidden="true">
+                  <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 1.2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.74a16 16 0 0 0 6.29 6.29l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+                </svg>
+              </div>
+              <div>
+                <span class="ci-label">Phone</span>
+                <span class="ci-value">+91 97732 93841</span>
+              </div>
+            </a>
+            <a href="https://www.linkedin.com/in/hetavin-pokiya-66352b2b4/" target="_blank" rel="noopener noreferrer"
+              class="ci" id="ciLinkedIn">
+              <div class="ci-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  aria-hidden="true">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                  <rect x="2" y="9" width="4" height="12" />
+                  <circle cx="4" cy="4" r="2" />
+                </svg>
+              </div>
+              <div>
+                <span class="ci-label">LinkedIn</span>
+                <span class="ci-value">linkedin.com/in/hetavin-pokiya-66352b2b4</span>
+              </div>
+            </a>
+            <a href="https://github.com/hetavin" target="_blank" rel="noopener noreferrer" class="ci" id="ciGitHub">
+              <div class="ci-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  aria-hidden="true">
+                  <path
+                    d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+                  <path d="M9 18c-4.51 2-5-2-7-2" />
+                </svg>
+              </div>
+              <div>
+                <span class="ci-label">GitHub</span>
+                <span class="ci-value">github.com/hetavin</span>
+              </div>
+            </a>
+            <div class="ci" id="ciLocation">
+              <div class="ci-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  aria-hidden="true">
+                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+              </div>
+              <div>
+                <span class="ci-label">Location</span>
+                <span class="ci-value">Nikol, Ahmedabad – 382350</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <form class="contact-form glass" id="contactForm" novalidate aria-label="Contact form">
+          <h3 class="form-title">Send a Message</h3>
+          <div class="fg">
+            <label for="fname" class="fl">Your Name <span aria-label="required">*</span></label>
+            <input type="text" id="fname" name="name" class="fi" placeholder="John Doe" required autocomplete="name" />
+          </div>
+          <div class="fg">
+            <label for="femail" class="fl">Email Address <span aria-label="required">*</span></label>
+            <input type="email" id="femail" name="email" class="fi" placeholder="john@example.com" required
+              autocomplete="email" />
+          </div>
+          <div class="fg">
+            <label for="fsubject" class="fl">Subject</label>
+            <input type="text" id="fsubject" name="subject" class="fi" placeholder="Internship opportunity..." />
+          </div>
+          <div class="fg">
+            <label for="fmsg" class="fl">Message <span aria-label="required">*</span></label>
+            <textarea id="fmsg" name="message" class="fi ftxt" placeholder="Hi Hetavin, I'd like to..." rows="4"
+              required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full" id="submitBtn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="22" y1="2" x2="11" y2="13" />
+              <polygon points="22 2 15 22 11 13 2 9 22 2" />
+            </svg>
+            Send Message
+          </button>
+          <p class="form-note" role="note">This will open your mail client with a pre-filled message.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="#hero" class="nav-logo" aria-label="Back to top"><span class="logo-bracket">&lt;</span>HP<span
+              class="logo-bracket">/&gt;</span></a>
+          <p>Computer Engineering Student &amp; Aspiring Developer</p>
+        </div>
+        <nav class="footer-nav" aria-label="Footer navigation">
+          <a href="#about">About</a>
+          <a href="#skills">Skills</a>
+          <a href="#projects">Projects</a>
+          <a href="#education">Education</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <div class="footer-social">
+          <a href="https://github.com/hetavin" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path
+                d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+              <path d="M9 18c-4.51 2-5-2-7-2" />
+            </svg>
+          </a>
+          <a href="https://www.linkedin.com/in/hetavin-pokiya-66352b2b4/" target="_blank" rel="noopener noreferrer"
+            aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+              <rect x="2" y="9" width="4" height="12" />
+              <circle cx="4" cy="4" r="2" />
+            </svg>
+          </a>
+          <a href="tel:+919773293841" aria-label="Phone">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 1.2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.74a16 16 0 0 0 6.29 6.29l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+            </svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Hetavin Pokiya &middot; Crafted with passion in Ahmedabad, India</p>
+        <a href="#hero" class="back-top" aria-label="Back to top">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="18 15 12 9 6 15" />
+          </svg>
+          Back to Top
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="chat-widget" aria-live="polite">
+    <button type="button" class="chat-toggle" id="chatToggle" aria-label="Open chat" aria-expanded="false">
+      <span class="chat-toggle-icon" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+          <path d="M7 8h10M7 12h8M7 16h6" />
+        </svg>
+      </span>
+      <span class="chat-toggle-label">Chat</span>
+    </button>
+
+    <div class="chat-panel" id="chatPanel" aria-hidden="true">
+      <div class="chat-header">
+        <div>
+          <p class="chat-title">Chat with me</p>
+          <p class="chat-subtitle">Ask about internships, projects or availability.</p>
+        </div>
+        <button type="button" class="chat-close" id="chatClose" aria-label="Close chat">×</button>
+      </div>
+      <div class="chat-messages" id="chatMessages" role="log" aria-live="polite"></div>
+      <form class="chat-form" id="chatForm">
+        <label for="chatInput" class="sr-only">Type your message</label>
+        <input id="chatInput" name="chat" type="text" autocomplete="off" placeholder="Type your message..." required />
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="../static/js/script.js"></script>
+  <!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> -->
+  <script src="../static/js/api.js"></script>
+</body>
+
+</html>
