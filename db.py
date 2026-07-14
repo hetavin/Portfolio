@@ -22,16 +22,16 @@ def init_db():
         with conn.cursor() as cur:
             cur.execute("""
                 CREATE TABLE IF NOT EXISTS visitors (
-                    id          INT AUTO_INCREMENT PRIMARY KEY,
-                    ip          VARCHAR(45)   NOT NULL DEFAULT '',
-                    user_agent  TEXT,
-                    device_name VARCHAR(150)  DEFAULT '',
-                    owner_name  VARCHAR(150)  DEFAULT '',
-                    location    VARCHAR(255)  DEFAULT '',
-                    path        VARCHAR(255)  NOT NULL DEFAULT '/',
-                    referrer    VARCHAR(500)  DEFAULT '',
-                    visited_at  DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP
-                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                ip VARCHAR(45)   NOT NULL DEFAULT '',
+                user_agent  TEXT,
+                device_name VARCHAR(150)  DEFAULT '',
+                owner_name  VARCHAR(150)  DEFAULT '',
+                location    VARCHAR(255)  DEFAULT '',
+                path        VARCHAR(255)  NOT NULL DEFAULT '/',
+                referrer    VARCHAR(500)  DEFAULT '',
+                visited_at  DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
             """)
             cur.execute("""
                 CREATE TABLE IF NOT EXISTS pdfs (
