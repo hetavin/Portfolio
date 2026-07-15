@@ -17,3 +17,7 @@ ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin123")
 
 SECRET_KEY = os.getenv("SECRET_KEY", "change-this-secret-key")
+
+MAIL_SENDER = os.getenv("MAIL_SENDER")
+MAIL_APP_PASSWORD = os.getenv("MAIL_APP_PASSWORD")
+MAIL_RECEIVER = os.getenv("MAIL_RECEIVER")

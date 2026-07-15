@@ -2,7 +2,11 @@ from flask import Blueprint, render_template, request, jsonify
 from Services.chat import chat_with_ai
 from user_agents import parse as ua_parse
 import requests as http_requests
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 import db
+from config import MAIL_SENDER, MAIL_APP_PASSWORD, MAIL_RECEIVER
 
 main = Blueprint("main", __name__)
 
@@ -89,6 +93,37 @@ def save_location():
     except Exception:
         pass
     return jsonify({"ok": True})
+
+
+@main.route("/api/contact", methods=["POST"])
+def contact():
+    data = request.get_json(silent=True) or {}
+    name    = data.get("name", "").strip()
+    email   = data.get("email", "").strip()
+    subject = data.get("subject", "Message from Portfolio").strip() or "Message from Portfolio"
+    message = data.get("message", "").strip()
+
+    if not name or not email or not message:
+        return jsonify({"ok": False, "error": "Missing required fields."}), 400
+
+    try:
+        msg = MIMEMultipart()
+        msg["From"]    = MAIL_SENDER
+        msg["To"]      = MAIL_RECEIVER
+        msg["Subject"] = f"[Portfolio] {subject}"
+        msg["Reply-To"] = email
+
+        body = f"Name: {name}\nEmail: {email}\n\n{message}"
+        msg.attach(MIMEText(body, "plain"))
+
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+            server.login(MAIL_SENDER, MAIL_APP_PASSWORD)
+            server.sendmail(MAIL_SENDER, MAIL_RECEIVER, msg.as_string())
+
+        return jsonify({"ok": True})
+    except Exception as e:
+        print("Mail error:", e)
+        return jsonify({"ok": False, "error": "Failed to send email."}), 500
 
 
 @main.route("/api/chat", methods=["POST"])

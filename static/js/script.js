@@ -248,23 +248,16 @@ contactForm?.addEventListener('submit', (e) => {
   const subject = $('#fsubject').value.trim() || 'Message from Portfolio';
   const message = $('#fmsg').value.trim();
 
-  // Simple validation
   if (!name) { showToast('Please enter your name.', 'error'); $('#fname').focus(); return; }
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     showToast('Please enter a valid email.', 'error'); $('#femail').focus(); return;
   }
   if (!message) { showToast('Please write a message.', 'error'); $('#fmsg').focus(); return; }
 
-  // Build mailto
-  const body = `Hi Hetavin,\n\n${message}\n\n---\nFrom: ${name}\nEmail: ${email}`;
-  const mailto = `mailto:hetavinpokiya@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-  // Button loading state
   const originalHTML = submitBtn.innerHTML;
   submitBtn.innerHTML = '<span style="display:inline-block;width:18px;height:18px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite"></span> Sending...';
   submitBtn.disabled = true;
 
-  // Inject spin keyframes once
   if (!document.getElementById('spin-style')) {
     const s = document.createElement('style');
     s.id = 'spin-style';
@@ -272,13 +265,25 @@ contactForm?.addEventListener('submit', (e) => {
     document.head.appendChild(s);
   }
 
-  setTimeout(() => {
-    window.location.href = mailto;
-    submitBtn.innerHTML = originalHTML;
-    submitBtn.disabled = false;
-    contactForm.reset();
-    showToast('✓ Mail client opened!', 'success');
-  }, 600);
+  fetch('/api/contact', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, email, subject, message })
+  })
+    .then(r => r.json())
+    .then(data => {
+      if (data.ok) {
+        contactForm.reset();
+        showToast('✓ Message sent successfully!', 'success');
+      } else {
+        showToast('✗ Failed to send. Please try again.', 'error');
+      }
+    })
+    .catch(() => showToast('✗ Network error. Please try again.', 'error'))
+    .finally(() => {
+      submitBtn.innerHTML = originalHTML;
+      submitBtn.disabled = false;
+    });
 });
 
 /* =========================================================
